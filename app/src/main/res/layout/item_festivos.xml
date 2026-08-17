@@ -9,14 +9,14 @@
     android:layout_marginBottom="6dp"
     app:cardCornerRadius="14dp"
     app:cardElevation="2dp"
-    app:cardBackgroundColor="#FFFFFF">
+    app:cardBackgroundColor="@color/bg_fecha_active">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:padding="16dp"
+        android:padding="8dp"
         android:background="?android:attr/selectableItemBackground">
 
         <!-- Contenedor del Icono/Emoji con un fondo circular suave opcional -->

@@ -46,7 +46,7 @@ class FestivosAdapter(
             with(binding){
                 tvItemTipo.text = contexto.getString(festivo.tipo.toStringRes())
 
-                tvItemFecha.text = utils.fromLocalDatetoFechaLarga(festivo.fecha)
+                tvItemFecha.text = utils.fromLocalDateToFechaLarga(festivo.fecha)
 
                 val colorRes = when(festivo.tipo){
                     TipoFestivo.VACACIONES -> R.color.card_vacaciones

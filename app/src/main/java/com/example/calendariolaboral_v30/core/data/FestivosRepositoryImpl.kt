@@ -22,4 +22,8 @@ class FestivosRepositoryImpl (
     override suspend fun setFestivo(id: Int, dato: DatosFestivos): Boolean {
         return dbHelper.setFestivo(id, dato)
     }
+
+    override suspend fun delFestivos(dato: DatosFestivos): Boolean {
+        return dbHelper.delFestivo(dato)
+    }
 }

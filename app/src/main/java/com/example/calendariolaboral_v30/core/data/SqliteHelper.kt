@@ -62,7 +62,7 @@ class miSqliteHelper(miContexto: Context): SQLiteOpenHelper(
             while (!cursor.isAfterLast){
                 val idDb = cursor.getInt(colId)
                 val strFecha = cursor.getString(colFecha)
-                val fecha = utils.fromFechaCOrtaToLocalDate(strFecha)
+                val fecha = utils.fromFechaCortaToLocalDate(strFecha)
 
                 if(fecha == dato.fecha){
                     _id = idDb
@@ -90,7 +90,7 @@ class miSqliteHelper(miContexto: Context): SQLiteOpenHelper(
                 val strTipo = cursor.getString(colTipo)
                 val _id = cursor.getInt(colId)
 
-                val fecha = utils.fromFechaCOrtaToLocalDate(strFecha)
+                val fecha = utils.fromFechaCortaToLocalDate(strFecha)
                 val tipo = TipoFestivo.valueOf(strTipo)
 
                 lista.add(DatosFestivos(
@@ -109,7 +109,7 @@ class miSqliteHelper(miContexto: Context): SQLiteOpenHelper(
 
     fun setFestivo(id: Int, dato: DatosFestivos): Boolean {
         val db: SQLiteDatabase = writableDatabase
-        val strFecha = Utils().fromLocalDatetoFechaCorta(dato.fecha)
+        val strFecha = Utils().fromLocalDateToFechaCorta(dato.fecha)
         val strTipo = dato.tipo.toString()
         val valores = ContentValues().apply {
             put("fecha", strFecha)
@@ -125,6 +125,24 @@ class miSqliteHelper(miContexto: Context): SQLiteOpenHelper(
         }
         catch (e: Exception){
             false
+        }
+    }
+
+    fun delFestivo(dato: DatosFestivos): Boolean{
+        val db = writableDatabase
+        val where = "_id = ?"
+        val arg = arrayOf(dato.id.toString())
+
+        return try {
+            val filasAfectadas = db.delete("festivos", where, arg)
+            filasAfectadas > 0
+        }
+        catch (e: Exception){
+            e.printStackTrace()
+            false
+        }
+        finally {
+            db.close()
         }
     }
 

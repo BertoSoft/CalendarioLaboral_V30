@@ -4,6 +4,7 @@ package com.example.calendariolaboral_v30.di
 import android.content.Context
 import com.example.calendariolaboral_v30.core.data.miSqliteHelper
 import com.example.calendariolaboral_v30.core.data.FestivosRepositoryImpl
+import com.example.calendariolaboral_v30.core.utils.Utils
 import com.example.calendariolaboral_v30.modulos.festivos.domain.repository.FestivosRepository
 import com.example.calendariolaboral_v30.modulos.festivos.domain.usecase.FestivosUseCase
 
@@ -19,5 +20,9 @@ class AppContainer(private val context: Context) {
 
     val festivosUseCase: FestivosUseCase by lazy {
         FestivosUseCase(festivosRepository)
+    }
+
+    val utils: Utils by lazy {
+        Utils()
     }
 }

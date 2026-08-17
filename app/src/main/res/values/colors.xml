@@ -3,14 +3,14 @@
 
 <resources>
     <!-- Identidad Cálida de Calendario Laboral -->
-    <color name="bg_app">#FDFBF7</color>          <!-- Fondo general caluroso -->
+    <color name="bg_app">#E0C7BE</color>          <!-- Fondo general caluroso -->
     <color name="app_primary">#B45309</color>     <!-- Botones principales (Ámbar Quemado) -->
     <color name="text_main">#451A03</color>       <!-- Texto principal (Marrón Profundo) -->
-    <color name="text_disabled">#A19587</color>   <!-- Texto desactivado (Gris Tierra) -->
+    <color name="text_disabled">#F9F6F3</color>   <!-- Texto desactivado (Gris Tierra) -->
 
     <!-- Bloque de selección de fecha -->
-    <color name="bg_fecha_active">#FEF3C7</color>      <!-- Fondo fecha activo (Cálido) -->
-    <color name="bg_fecha_disabled">#F5F2EB</color>    <!-- Fondo fecha inactivo (Arena) -->
+    <color name="bg_fecha_active">#BFB7B4</color>      <!-- Fondo fecha activo (Cálido) -->
+    <color name="bg_fecha_disabled">#9D9B95</color>    <!-- Fondo fecha inactivo (Arena) -->
     <color name="bg_btn_active">#E64410</color>      <!-- Fondo button activo (Cálido) -->
     <color name="bg_btn_disabled">#96907F</color>    <!-- Fondo buttom inactivo (Arena) -->
 

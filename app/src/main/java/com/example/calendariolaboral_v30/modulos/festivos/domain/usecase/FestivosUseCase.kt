@@ -18,4 +18,8 @@ class FestivosUseCase(private val repository: FestivosRepository) {
     suspend fun setFestivoUseCase(dato: DatosFestivos): Boolean{
         return repository.setFestivo(existeFestivoUseCase(dato), dato)
     }
+
+    suspend fun  delFestivoUseCase(dato: DatosFestivos): Boolean{
+        return repository.delFestivos(dato)
+    }
 }

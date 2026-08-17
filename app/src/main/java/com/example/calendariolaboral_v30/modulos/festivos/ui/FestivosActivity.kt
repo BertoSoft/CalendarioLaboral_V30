@@ -37,7 +37,7 @@ class FestivosActivity : AppCompatActivity() {
         val app = application as com.example.calendariolaboral_v30.MiAplicacion
         FestivosViewModel.Factory(
             useCase = app.appContainer.festivosUseCase,
-            utils = utils // Aprovecha el objeto 'utils' que ya declaraste arriba en la actividad
+            utils = app.appContainer.utils
         )
     }
 
@@ -49,12 +49,16 @@ class FestivosActivity : AppCompatActivity() {
         initUi()
         initListeners()
         initObservers()
-
     }
 
     private fun initListeners() = with(binding){
         ivNuevo.setOnClickListener {
-           mostrarCalendario { setModoEdicion(it) }
+            mostrarCalendario { setModoEdicion(it) }
+        }
+        ivEliminar.setOnClickListener {
+            val strFecha = binding.tvFecha.text.toString()
+            val strTipo = binding.spFestivo.selectedItem.toString()
+            viewModel.delFestivo(strFecha, strTipo)
         }
         spAnio.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(
@@ -64,6 +68,7 @@ class FestivosActivity : AppCompatActivity() {
                 p3: Long
             ) {
                 val ano = p0?.getItemAtPosition(p2).toString()
+                viewModel.setModoEdicion(false)
                 viewModel.getAllFestivos(ano)
             }
 
@@ -85,9 +90,12 @@ class FestivosActivity : AppCompatActivity() {
             }
         }
         btnGuardar.setOnClickListener {
-            val fecha = utils.fromFechaCOrtaToLocalDate(binding.tvFecha.text.toString())
-            val tipoFestivo = binding.spFestivo.selectedItem.toString().toTipoFestivo()
-            viewModel.setFestivo(fecha, tipoFestivo)
+            val strfecha = binding.tvFecha.text.toString()
+            val strTipo = binding.spFestivo.selectedItem.toString()
+            viewModel.setFestivo(strfecha, strTipo)
+        }
+        tvFecha.setOnClickListener {
+            mostrarCalendario { setModoEdicion(it) }
         }
     }
 
@@ -164,21 +172,22 @@ class FestivosActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.itemFestivoPulsado.observe(this){ festivo ->
-            val strFecha = utils.fromLocalDatetoFechaLarga(festivo.fecha)
-            val strTipo = festivo.tipo.toStringRes()
-            setModoEdicion(true)
-            binding.tvFecha.text = strFecha
-            var indice = 0
-            when(festivo.tipo.toString()){
-                "NACIONAL"          -> indice = 0
-                "AUTONOMICO"        -> indice = 1
-                "LOCAL"             -> indice = 2
-                "EXCESO DE JORNADA" -> indice = 3
-                "VACACIONES"        -> indice = 4
-                "CONVENIO"          -> indice = 5
+        viewModel.isEdicionEstadoUi.observe(this){ isEdicion ->
+            setModoEdicion(isEdicion)
+        }
+
+        viewModel.itemFestivoPulsadoEstadoUi.observe(this){ estado ->
+            with(binding){
+                if(estado != null) {
+                    tvFecha.text = estado.strFechaLarga
+                    spFestivo.setSelection(estado.indice)
+                    cardEliminarBoton.isVisible = estado.isFestivoPulsado
+                }
+                else{
+                    binding.tvFecha.text = getString(R.string.texto_elegir_fecha)
+                    binding.cardEliminarBoton.isVisible = false
+                }
             }
-            binding.spFestivo.setSelection(indice)
         }
     }
 
@@ -208,8 +217,11 @@ class FestivosActivity : AppCompatActivity() {
             this,
             {_, anoSeleccion, mesSeleccion, diaSeleccion ->
                         val mesCorregido = mesSeleccion + 1
-                        val fechaFormateada = utils.fromLocalDatetoFechaCorta(LocalDate.of(anoSeleccion, mesCorregido, diaSeleccion))
-                        binding.tvFecha.text = fechaFormateada
+                        viewModel.setFechaSelecionada(
+                            diaSeleccion,
+                            mesCorregido,
+                            anoSeleccion
+                        )
                         isAceptar(true)
             },
             anoActual,

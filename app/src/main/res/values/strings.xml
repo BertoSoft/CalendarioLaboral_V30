@@ -2,10 +2,15 @@
     <string name="app_name">CalendarioLaboral_V30</string>
 
     <!-- Valores de string, para enum TiposFestivos -->
-<string name="tipo_nacional">Nacional</string>
-<string name="tipo_autonomico">Autonomico</string>
-<string name="tipo_local">Local</string>
-<string name="tipo_exceso">Exceso de jornada</string>
-<string name="tipo_vacaciones">Vacaciones</string>
-<string name="tipo_convenio">Convenio</string>
+    <string name="tipo_nacional">Nacional</string>
+    <string name="tipo_autonomico">Autonomico</string>
+    <string name="tipo_local">Local</string>
+    <string name="tipo_exceso">Exceso de jornada</string>
+    <string name="tipo_vacaciones">Vacaciones</string>
+    <string name="tipo_convenio">Convenio</string>
+
+    <!-- Texto inicial de Festivos.tvFecha -->
+    <string name="texto_elegir_fecha">Pulsar aquí para elegir fecha 📅</string>
+
+
 </resources>
