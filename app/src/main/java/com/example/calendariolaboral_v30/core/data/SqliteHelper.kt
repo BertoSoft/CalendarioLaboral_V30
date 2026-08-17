@@ -107,6 +107,17 @@ class miSqliteHelper(miContexto: Context): SQLiteOpenHelper(
     fun setFestivo(id: Int, dato: DatosFestivos){
         if(id < 0){
             //Insert
+
+
+
+
+
+
+
+
+
+
+
         }
         else{
             //Update
