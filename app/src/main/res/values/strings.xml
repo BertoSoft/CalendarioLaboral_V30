@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">CalendarioLaboral_V30</string>
+
+    <!-- Valores de string, para enum TiposFestivos -->
+<string name="tipo_nacional">Nacional</string>
+<string name="tipo_autonomico">Autonómico</string>
+<string name="tipo_local">Local</string>
+<string name="tipo_exceso">Exceso de jornada</string>
+<string name="tipo_vacaciones">Vacaciones</string>
+<string name="tipo_convenio">Convenio</string>
+</resources>

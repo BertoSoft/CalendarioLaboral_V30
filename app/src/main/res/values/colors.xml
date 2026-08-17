@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<resources>
+    <!-- Identidad Cálida de Calendario Laboral -->
+    <color name="bg_app">#FDFBF7</color>          <!-- Fondo general caluroso -->
+    <color name="app_primary">#B45309</color>     <!-- Botones principales (Ámbar Quemado) -->
+    <color name="text_main">#451A03</color>       <!-- Texto principal (Marrón Profundo) -->
+    <color name="text_disabled">#A19587</color>   <!-- Texto desactivado (Gris Tierra) -->
+
+    <!-- Bloque de selección de fecha -->
+    <color name="bg_fecha_active">#FEF3C7</color>      <!-- Fondo fecha activo (Cálido) -->
+    <color name="bg_fecha_disabled">#F5F2EB</color>    <!-- Fondo fecha inactivo (Arena) -->
+    <color name="bg_btn_active">#E64410</color>      <!-- Fondo button activo (Cálido) -->
+    <color name="bg_btn_disabled">#96907F</color>    <!-- Fondo buttom inactivo (Arena) -->
+
+    <!-- Colores corporativos para las tarjetas e iconos del listado -->
+    <color name="card_excesos">#2563EB</color>      <!-- Azul -->
+    <color name="card_vacaciones">#059669</color>    <!-- Verde -->
+    <color name="card_festivos">#EA580C</color>      <!-- Naranja -->
+    <color name="card_backup">#7C3AED</color>        <!-- Morado -->
+    <color name="card_calendario">#1E1B4B</color>    <!-- Azul Oscuro -->
+    <color name="app_accent">#3B82F6</color>         <!-- Azul Claro -->
+</resources>
