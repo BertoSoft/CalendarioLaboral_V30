@@ -7,7 +7,8 @@ import com.example.calendariolaboral_v30.modulos.festivos.domain.repository.Fest
 class FestivosUseCase(private val repository: FestivosRepository) {
 
     suspend fun getAllFestivosUseCase(strAno: String): List<DatosFestivos> {
-        return repository.getAllFestivos(strAno)
+        val lista: List<DatosFestivos> = repository.getAllFestivos(strAno)
+        return lista.sortedBy { it.fecha }
     }
 
     suspend fun existeFestivoUseCase(dato: DatosFestivos): Int{
