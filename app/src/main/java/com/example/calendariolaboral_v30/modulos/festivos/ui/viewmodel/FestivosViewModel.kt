@@ -29,16 +29,16 @@ class FestivosViewModel (
     private val _isEdicion = MutableLiveData<Boolean>()
     val isEdicion: LiveData<Boolean> get() = _isEdicion
 
-    private val _itemFestivoPulsado = MutableLiveData<LocalDate>()
-    val itemFestivoPulsado: LiveData<LocalDate> get() = _itemFestivoPulsado
+    private val _itemFestivoPulsado = MutableLiveData<DatosFestivos>()
+    val itemFestivoPulsado: LiveData<DatosFestivos> get() = _itemFestivoPulsado
 
 
     fun setModoEdicion(isEdicion: Boolean){
         _isEdicion.value = isEdicion
     }
 
-    fun itemFestivoPulsado(fecha: LocalDate) {
-        _itemFestivoPulsado.value = fecha
+    fun itemFestivoPulsado(festivo: DatosFestivos) {
+        _itemFestivoPulsado.value = festivo
     }
 
     //####################################################################
@@ -75,8 +75,10 @@ class FestivosViewModel (
                     fecha,
                     tipoFestivo
                 )
-                festivosUseCase.setFestivoUseCase(dato)
-                getAllFestivos(fecha.year.toString())
+                val todoOk = festivosUseCase.setFestivoUseCase(dato)
+                if(todoOk){
+                    getAllFestivos(fecha.year.toString())
+                }
             }
             catch (e: Exception){
                 _msgError.value = "Error al guardar: ${e.localizedMessage}"

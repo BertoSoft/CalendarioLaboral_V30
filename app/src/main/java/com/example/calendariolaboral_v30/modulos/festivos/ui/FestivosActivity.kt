@@ -28,7 +28,7 @@ class FestivosActivity : AppCompatActivity() {
     private val utils = Utils()
     private lateinit var binding: ActivityFestivosBinding
     private val miAdapter = FestivosAdapter{ itemPulsado ->
-        viewModel.itemFestivoPulsado(itemPulsado.fecha)
+        viewModel.itemFestivoPulsado(itemPulsado)
         viewModel.setModoEdicion(true)
     }
 
@@ -162,6 +162,23 @@ class FestivosActivity : AppCompatActivity() {
             else{
                 // aqui invisible
             }
+        }
+
+        viewModel.itemFestivoPulsado.observe(this){ festivo ->
+            val strFecha = utils.fromLocalDatetoFechaLarga(festivo.fecha)
+            val strTipo = festivo.tipo.toStringRes()
+            setModoEdicion(true)
+            binding.tvFecha.text = strFecha
+            var indice = 0
+            when(festivo.tipo.toString()){
+                "NACIONAL"          -> indice = 0
+                "AUTONOMICO"        -> indice = 1
+                "LOCAL"             -> indice = 2
+                "EXCESO DE JORNADA" -> indice = 3
+                "VACACIONES"        -> indice = 4
+                "CONVENIO"          -> indice = 5
+            }
+            binding.spFestivo.setSelection(indice)
         }
     }
 

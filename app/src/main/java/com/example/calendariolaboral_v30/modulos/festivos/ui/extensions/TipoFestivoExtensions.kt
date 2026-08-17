@@ -17,8 +17,9 @@ fun TipoFestivo.toStringRes(): Int = when(this){
 
 fun String.toTipoFestivo(): TipoFestivo {
     return try {
-        // valueOf busca la coincidencia exacta con el nombre del código (ej: "NACIONAL")
-        TipoFestivo.valueOf(this.uppercase().trim())
+        var str = this.uppercase().trim()
+        if(str == "EXCESO DE JORNADA") str = "EXCESO_JORNADA"
+        TipoFestivo.valueOf(str)
     } catch (e: IllegalArgumentException) {
         // En caso de que el texto no coincida con ningún enum, devuelve uno por defecto
         TipoFestivo.NACIONAL

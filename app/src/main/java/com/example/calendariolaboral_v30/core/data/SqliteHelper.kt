@@ -1,12 +1,15 @@
 package com.example.calendariolaboral_v30.core.data
 
+import android.content.ContentValues
 import android.content.Context
+import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import androidx.core.graphics.createBitmap
+import androidx.core.content.contentValuesOf
 import com.example.calendariolaboral_v30.core.utils.Utils
 import com.example.calendariolaboral_v30.modulos.festivos.domain.model.DatosFestivos
 import com.example.calendariolaboral_v30.modulos.festivos.domain.model.TipoFestivo
+import kotlin.toString
 
 class miSqliteHelper(miContexto: Context): SQLiteOpenHelper(
     miContexto,
@@ -104,26 +107,30 @@ class miSqliteHelper(miContexto: Context): SQLiteOpenHelper(
         }
     }
 
-    fun setFestivo(id: Int, dato: DatosFestivos){
-        if(id < 0){
-            //Insert
-
-
-
-
-
-
-
-
-
-
-
+    fun setFestivo(id: Int, dato: DatosFestivos): Boolean {
+        val db: SQLiteDatabase = writableDatabase
+        val strFecha = Utils().fromLocalDatetoFechaCorta(dato.fecha)
+        val strTipo = dato.tipo.toString()
+        val valores = ContentValues().apply {
+            put("fecha", strFecha)
+            put("tipo_festivo", strTipo)
         }
-        else{
-            //Update
+        return try {
+            if(id < 0){
+                db.insert("festivos", null, valores) != -1L
+            }
+            else{
+                db.update("festivos", valores, "_id = ?", arrayOf(id.toString())) > 0
+            }
+        }
+        catch (e: Exception){
+            false
         }
     }
 
+    //######################################################################
+    // Nombre de la Base De Datos y Version
+    //###################################################################3
     companion object {
         private const val DATABASE_NAME = "calendario.db"
         private const val DATABASE_VERSION = 1
