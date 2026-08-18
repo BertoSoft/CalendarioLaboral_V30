@@ -107,7 +107,7 @@ class miSqliteHelper(miContexto: Context): SQLiteOpenHelper(
         }
     }
 
-    fun setFestivo(id: Int, dato: DatosFestivos): Boolean {
+    fun setFestivo(dato: DatosFestivos): Boolean {
         val db: SQLiteDatabase = writableDatabase
         val strFecha = Utils().fromLocalDateToFechaCorta(dato.fecha)
         val strTipo = dato.tipo.toString()
@@ -116,11 +116,11 @@ class miSqliteHelper(miContexto: Context): SQLiteOpenHelper(
             put("tipo_festivo", strTipo)
         }
         return try {
-            if(id < 0){
+            if(dato.id < 0){
                 db.insert("festivos", null, valores) != -1L
             }
             else{
-                db.update("festivos", valores, "_id = ?", arrayOf(id.toString())) > 0
+                db.update("festivos", valores, "_id = ?", arrayOf(dato.id.toString())) > 0
             }
         }
         catch (e: Exception){

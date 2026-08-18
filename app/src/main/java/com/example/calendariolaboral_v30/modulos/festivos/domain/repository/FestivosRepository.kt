@@ -6,6 +6,6 @@ import com.example.calendariolaboral_v30.modulos.festivos.domain.model.DatosFest
 interface FestivosRepository {
     suspend fun getAllFestivos(strAno: String): List<DatosFestivos>
     suspend fun existeFestivo(dato: DatosFestivos): Int
-    suspend fun setFestivo(id: Int, dato: DatosFestivos): Boolean
+    suspend fun setFestivo(dato: DatosFestivos): Boolean
     suspend fun  delFestivos(dato: DatosFestivos): Boolean
 }
