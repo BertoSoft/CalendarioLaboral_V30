@@ -2,6 +2,7 @@ package com.example.calendariolaboral_v30.modulos.festivos.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -45,7 +46,6 @@ class FestivosAdapter(
         fun render(festivo: DatosFestivos){
             with(binding){
                 tvItemTipo.text = contexto.getString(festivo.tipo.toStringRes())
-
                 tvItemFecha.text = utils.fromLocalDateToFechaLarga(festivo.fecha)
 
                 val colorRes = when(festivo.tipo){
@@ -56,9 +56,7 @@ class FestivosAdapter(
                     TipoFestivo.LOCAL -> R.color.card_backup
                     TipoFestivo.CONVENIO -> R.color.card_calendario
                 }
-                ivItemIcono.setColorFilter(
-                    androidx.core.content.ContextCompat.getColor(contexto, colorRes)
-                )
+                cardItem.setCardBackgroundColor(ContextCompat.getColor(contexto, colorRes))
 
                 root.setOnClickListener {
                     onItemPulsado(festivo)

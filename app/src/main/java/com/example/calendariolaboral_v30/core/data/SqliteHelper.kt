@@ -51,7 +51,7 @@ class miSqliteHelper(miContexto: Context): SQLiteOpenHelper(
     // Funciones de miSqliteHelper
     //##################################################################
     fun existeFestivo(dato: DatosFestivos): Int{
-        var _id = -1
+        var id = -1
         val db: SQLiteDatabase = readableDatabase
         val cursor = db.rawQuery("SELECT * FROM festivos", null)
         val utils = Utils();
@@ -60,19 +60,19 @@ class miSqliteHelper(miContexto: Context): SQLiteOpenHelper(
             val colId = cursor.getColumnIndex("_id")
             val colFecha = cursor.getColumnIndex("fecha")
             while (!cursor.isAfterLast){
-                val idDb = cursor.getInt(colId)
+                val _id = cursor.getInt(colId)
                 val strFecha = cursor.getString(colFecha)
                 val fecha = utils.fromFechaCortaToLocalDate(strFecha)
 
                 if(fecha == dato.fecha){
-                    _id = idDb
+                    id = _id
                     break
                 }
                 cursor.moveToNext()
             }
         }
         cursor.close()
-        return  _id
+        return  id
     }
 
     fun getALlFestivos(strAno: String): List<DatosFestivos>{
