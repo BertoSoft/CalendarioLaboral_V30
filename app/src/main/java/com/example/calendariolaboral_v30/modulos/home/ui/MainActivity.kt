@@ -9,6 +9,7 @@ import com.example.calendariolaboral_v30.databinding.ActivityMainBinding
 import com.example.calendariolaboral_v30.modulos.festivos.ui.FestivosActivity
 import com.example.calendariolaboral_v30.modulos.home.domain.model.DatosMenu
 import com.example.calendariolaboral_v30.modulos.home.ui.viewmodel.MainViewModel
+import com.example.calendariolaboral_v30.modulos.vacaciones.Vacaciones
 
 class MainActivity : AppCompatActivity() {
 
@@ -57,6 +58,11 @@ class MainActivity : AppCompatActivity() {
                 when (it) {
                     DatosMenu.FESTIVOS -> {
                         val intent = Intent(this, FestivosActivity::class.java)
+                        startActivity(intent)
+                    }
+
+                    DatosMenu.VACACIONES ->{
+                        val intent = Intent(this, Vacaciones::class.java)
                         startActivity(intent)
                     }
                     else -> {
