@@ -1,5 +1,6 @@
 package com.example.calendariolaboral_v30.modulos.festivos.ui.extensions
 
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.example.calendariolaboral_v30.R
 import com.example.calendariolaboral_v30.modulos.festivos.domain.model.TipoFestivo
@@ -11,8 +12,16 @@ fun TipoFestivo.toStringRes(): Int = when(this){
     TipoFestivo.AUTONOMICO -> R.string.tipo_autonomico
     TipoFestivo.LOCAL -> R.string.tipo_local
     TipoFestivo.EXCESO_JORNADA -> R.string.tipo_exceso
-    TipoFestivo.VACACIONES -> R.string.tipo_vacaciones
     TipoFestivo.CONVENIO -> R.string.tipo_convenio
+}
+
+@DrawableRes
+fun TipoFestivo.toImagen(): Int = when(this){
+    TipoFestivo.NACIONAL -> R.drawable.spain
+    TipoFestivo.AUTONOMICO -> R.drawable.galicia
+    TipoFestivo.LOCAL -> R.drawable.santiago
+    TipoFestivo.EXCESO_JORNADA -> R.drawable.logo
+    TipoFestivo.CONVENIO -> R.drawable.cig
 }
 
 fun String.toTipoFestivo(): TipoFestivo {

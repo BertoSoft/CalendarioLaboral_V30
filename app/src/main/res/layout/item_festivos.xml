@@ -23,17 +23,18 @@
         <!-- Contenedor del Icono/Emoji con un fondo circular suave opcional -->
         <ImageView
             android:id="@+id/ivItemIcono"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_marginEnd="16dp"
-            android:padding="6dp"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
             android:src="@drawable/ic_eliminar"
-            app:tint="@color/text_main"
             android:importantForAccessibility="no" />
         <!-- bloque de textos alineado verticalmente ocupando el espacio restante -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
@@ -50,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Viernes, 25 de diciembre de 2026"
-                android:textColor="#64748B"
+                android:textColor="@color/text_disabled"
                 android:textSize="13sp"
                 android:layout_marginTop="4dp" />
         </LinearLayout>

@@ -3,6 +3,17 @@
     <style name="Base.Theme.CalendarioLaboral_V30" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+
+
+        <!-- 🌟 Cambia aquí el color de fondo de la barra de cobertura -->
+        <item name="android:statusBarColor">@color/app_primary</item>
+
+        <!-- Controla si los iconos (hora/cobertura) se ven claros u oscuros -->
+        <!-- Usa "true" si tu fondo es blanco/claro (iconos oscuros) o "false" si tu fondo es oscuro (iconos blancos) -->
+        <item name="android:windowLightStatusBar">false</item>
+
+
     </style>
 
     <style name="Theme.CalendarioLaboral_V30" parent="Base.Theme.CalendarioLaboral_V30" />

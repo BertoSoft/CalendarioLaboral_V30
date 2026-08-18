@@ -12,6 +12,5 @@ enum class TipoFestivo {
     AUTONOMICO,
     LOCAL,
     EXCESO_JORNADA,
-    VACACIONES,
     CONVENIO
 }

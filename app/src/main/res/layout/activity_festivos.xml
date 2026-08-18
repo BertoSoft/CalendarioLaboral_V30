@@ -43,7 +43,7 @@
         <!-- TARJETA CONTENEDORA PARA EL LISTADO (RECYCLERVIEW) -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="260dp"
+            android:layout_height="320dp"
             android:layout_marginBottom="20dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp"
@@ -61,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="24dp">
+            android:layout_marginBottom="12dp">
 
             <!-- Botón Redondo Eliminar -->
             <androidx.cardview.widget.CardView
@@ -114,14 +114,14 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/bg_fecha_disabled"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginBottom="10dp" />
 
         <!-- SECTOR SELECCIÓN DE FECHA PREMIUM -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cardFechaContenedor"
             android:layout_width="match_parent"
             android:layout_height="54dp"
-            android:layout_marginBottom="28dp"
+            android:layout_marginBottom="14dp"
             app:cardCornerRadius="14dp"
             app:cardElevation="0dp"
             app:cardBackgroundColor="@color/bg_fecha_disabled"> <!-- Fondo inicial Arena -->
@@ -152,7 +152,7 @@
             android:id="@+id/spFestivo"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="15dp"
             android:background="@android:drawable/btn_dropdown" />
 
         <!-- BOTÓN FINAL DE GUARDAR -->

@@ -11,6 +11,7 @@ import com.example.calendariolaboral_v30.core.utils.Utils
 import com.example.calendariolaboral_v30.databinding.ItemFestivosBinding
 import com.example.calendariolaboral_v30.modulos.festivos.domain.model.DatosFestivos
 import com.example.calendariolaboral_v30.modulos.festivos.domain.model.TipoFestivo
+import com.example.calendariolaboral_v30.modulos.festivos.ui.extensions.toImagen
 import com.example.calendariolaboral_v30.modulos.festivos.ui.extensions.toStringRes
 
 class FestivosAdapter(
@@ -47,9 +48,9 @@ class FestivosAdapter(
             with(binding){
                 tvItemTipo.text = contexto.getString(festivo.tipo.toStringRes())
                 tvItemFecha.text = utils.fromLocalDateToFechaLarga(festivo.fecha)
+                ivItemIcono.setImageResource(festivo.tipo.toImagen())
 
                 val colorRes = when(festivo.tipo){
-                    TipoFestivo.VACACIONES -> R.color.card_vacaciones
                     TipoFestivo.NACIONAL -> R.color.card_festivos
                     TipoFestivo.EXCESO_JORNADA -> R.color.card_excesos
                     TipoFestivo.AUTONOMICO -> R.color.app_accent
