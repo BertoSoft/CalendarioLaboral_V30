@@ -81,6 +81,7 @@ class FestivosViewModel (
                 val todoOk = festivosUseCase.setFestivoUseCase(dato)
                 if(todoOk){
                     getAllFestivos(fecha.year.toString())
+                    setModoEdicion(false)
                 }
             }
             catch (e: Exception){

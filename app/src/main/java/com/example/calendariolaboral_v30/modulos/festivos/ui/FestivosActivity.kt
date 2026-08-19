@@ -29,7 +29,6 @@ class FestivosActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFestivosBinding
     private val miAdapter = FestivosAdapter{ itemPulsado ->
         viewModel.itemFestivoPulsado(itemPulsado)
-        viewModel.setModoEdicion(true)
     }
 
     // 🟢 POR ESTA NUEVA LÍNEA CONECTADA AL APPCONTAINER:
@@ -81,13 +80,13 @@ class FestivosActivity : AppCompatActivity() {
 
             }
         }
+        tvFecha.setOnClickListener {
+            mostrarCalendario { setModoEdicion(it) }
+        }
         btnGuardar.setOnClickListener {
             val strfecha = binding.tvFecha.text.toString()
             val strTipo = binding.spFestivo.selectedItem.toString()
             viewModel.setFestivo(strfecha, strTipo)
-        }
-        tvFecha.setOnClickListener {
-            mostrarCalendario { setModoEdicion(it) }
         }
     }
 
@@ -170,8 +169,8 @@ class FestivosActivity : AppCompatActivity() {
         viewModel.itemFestivoPulsadoEstadoUi.observe(this){ estado ->
             with(binding){
                 if(estado != null) {
-                    tvFecha.text = estado.strFechaLarga
-                    spFestivo.setSelection(estado.indice)
+
+                    // Aqui ira el codigo que borrara el registro
                 }
                 else{
                     binding.tvFecha.text = getString(R.string.texto_elegir_fecha)
@@ -183,16 +182,10 @@ class FestivosActivity : AppCompatActivity() {
     private fun setModoEdicion(isEdicion: Boolean) = with(binding){
         spFestivo.isEnabled = isEdicion
         btnGuardar.isEnabled = isEdicion
-        tvFecha.isEnabled = isEdicion
-
         if (isEdicion) {
-            tvFecha.setTextColor(getColor(R.color.text_main))
-            cardFechaContenedor.setCardBackgroundColor(getColor(R.color.bg_card_surface))
             btnGuardar.setBackgroundColor(getColor(R.color.bg_card_surface))
 
         } else {
-            tvFecha.setTextColor(getColor(R.color.text_disabled))
-            cardFechaContenedor.setCardBackgroundColor(getColor(R.color.bg_fecha_disabled))
             btnGuardar.setBackgroundColor(getColor(R.color.bg_btn_disabled))
         }
     }
