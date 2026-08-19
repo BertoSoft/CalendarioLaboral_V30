@@ -23,16 +23,16 @@
         <!-- Contenedor del Icono/Emoji con un fondo circular suave opcional -->
         <ImageView
             android:id="@+id/ivItemIcono"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginEnd="16dp"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
-            android:src="@drawable/ic_eliminar"
+            android:src="@drawable/calendar_svgrepo_com"
             android:importantForAccessibility="no" />
         <!-- bloque de textos alineado verticalmente ocupando el espacio restante -->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
@@ -51,10 +51,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Viernes, 25 de diciembre de 2026"
-                android:textColor="@color/text_disabled"
+                android:textColor="#000000"
                 android:textSize="13sp"
                 android:layout_marginTop="4dp" />
         </LinearLayout>
+
+        <!-- Botón de Papelera Estilizado y Minimalista -->
+        <ImageButton
+            android:id="@+id/ivDelete"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_eliminar"
+            android:tint="#D4A373"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Eliminar festivo" />
+
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

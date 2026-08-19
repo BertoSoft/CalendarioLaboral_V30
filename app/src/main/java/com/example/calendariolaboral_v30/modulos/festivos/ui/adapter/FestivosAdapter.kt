@@ -15,6 +15,7 @@ import com.example.calendariolaboral_v30.modulos.festivos.ui.extensions.toImagen
 import com.example.calendariolaboral_v30.modulos.festivos.ui.extensions.toStringRes
 
 class FestivosAdapter(
+    private val onItemDeletePulsado: (DatosFestivos) -> Unit,
     private val onItemPulsado: (DatosFestivos) -> Unit
 ): ListAdapter<DatosFestivos, FestivosAdapter.FestivoViewHolder> (FestivoDiffCallBack) {
 
@@ -59,8 +60,11 @@ class FestivosAdapter(
                 }
                 cardItem.setCardBackgroundColor(ContextCompat.getColor(contexto, colorRes))
 
-                root.setOnClickListener {
+                cardItem.setOnClickListener {
                     onItemPulsado(festivo)
+                }
+                ivDelete.setOnClickListener {
+                    onItemDeletePulsado(festivo)
                 }
             }
         }

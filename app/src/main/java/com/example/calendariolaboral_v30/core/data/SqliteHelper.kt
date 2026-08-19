@@ -2,14 +2,11 @@ package com.example.calendariolaboral_v30.core.data
 
 import android.content.ContentValues
 import android.content.Context
-import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import androidx.core.content.contentValuesOf
 import com.example.calendariolaboral_v30.core.utils.Utils
 import com.example.calendariolaboral_v30.modulos.festivos.domain.model.DatosFestivos
 import com.example.calendariolaboral_v30.modulos.festivos.domain.model.TipoFestivo
-import kotlin.toString
 
 class miSqliteHelper(miContexto: Context): SQLiteOpenHelper(
     miContexto,
