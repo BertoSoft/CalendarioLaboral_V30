@@ -51,11 +51,11 @@ class FestivosAdapter(
                 ivItemIcono.setImageResource(festivo.tipo.toImagen())
 
                 val colorRes = when(festivo.tipo){
-                    TipoFestivo.NACIONAL -> R.color.card_festivos
-                    TipoFestivo.EXCESO_JORNADA -> R.color.card_excesos
-                    TipoFestivo.AUTONOMICO -> R.color.app_accent
-                    TipoFestivo.LOCAL -> R.color.card_backup
-                    TipoFestivo.CONVENIO -> R.color.card_calendario
+                    TipoFestivo.NACIONAL -> R.color.nacionel
+                    TipoFestivo.EXCESO_JORNADA -> R.color.exceso_jornada
+                    TipoFestivo.AUTONOMICO -> R.color.autonomico
+                    TipoFestivo.LOCAL -> R.color.local
+                    TipoFestivo.CONVENIO -> R.color.convenio
                 }
                 cardItem.setCardBackgroundColor(ContextCompat.getColor(contexto, colorRes))
 

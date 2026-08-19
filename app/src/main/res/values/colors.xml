@@ -2,23 +2,32 @@
 
 
 <resources>
-    <!-- Identidad Cálida de Calendario Laboral -->
-    <color name="bg_app">#E0C7BE</color>          <!-- Fondo general caluroso -->
-    <color name="app_primary">#B45309</color>     <!-- Botones principales (Ámbar Quemado) -->
-    <color name="text_main">#451A03</color>       <!-- Texto principal (Marrón Profundo) -->
-    <color name="text_disabled">#F9F6F3</color>   <!-- Texto desactivado (Gris Tierra) -->
+    <!-- Fondo General Neutro Oscuro Elegante -->
+    <color name="bg_app">#3A0599</color>       <!-- Slate 900 -->
+    <color name="bg_card_surface">#1E293B</color> <!-- Slate 800 (Para tarjetas interiores) -->
 
-    <!-- Bloque de selección de fecha -->
-    <color name="bg_fecha_active">#BFB7B4</color>      <!-- Fondo fecha activo (Cálido) -->
-    <color name="bg_fecha_disabled">#9D9B95</color>    <!-- Fondo fecha inactivo (Arena) -->
-    <color name="bg_btn_active">#E64410</color>      <!-- Fondo button activo (Cálido) -->
-    <color name="bg_btn_disabled">#96907F</color>    <!-- Fondo buttom inactivo (Arena) -->
+    <!-- Colores de Acento y Marca -->
+    <color name="app_primary">#6366F1</color>    <!-- Indigo 500 -->
+    <color name="app_accent">#818CF8</color>     <!-- Indigo 400 -->
+    <color name="color_accent_orange">#F97316</color> <!-- Naranja controlado (para festivos) -->
 
-    <!-- Colores corporativos para las tarjetas e iconos del listado -->
-    <color name="card_excesos">#2563EB</color>      <!-- Azul -->
-    <color name="card_vacaciones">#059669</color>    <!-- Verde -->
-    <color name="card_festivos">#EA580C</color>      <!-- Naranja -->
-    <color name="card_backup">#7C3AED</color>        <!-- Morado -->
-    <color name="card_calendario">#1E1B4B</color>    <!-- Azul Oscuro -->
-    <color name="app_accent">#3B82F6</color>         <!-- Azul Claro -->
+    <!-- Textos -->
+    <color name="text_main">#F8FAFC</color>      <!-- Slate 50 -->
+    <color name="text_secondary">#94A3B8</color> <!-- Slate 400 -->
+    <color name="text_disabled">#64748B</color>  <!-- Slate 500 -->
+
+    <!-- Estados y Botones -->
+    <color name="bg_fecha_disabled">#334155</color> <!-- Slate 700 -->
+    <color name="bg_btn_disabled">#475569</color>   <!-- Slate 600 -->
+    <color name="color_danger">#EF4444</color>      <!-- Rojo Moderno Alerta -->
+    <color name="bg_fecha_active">#6366F1</color>  <!-- Indigo moderno unificado -->
+
+    <!-- Colores de TipoFestivos -->
+    <color name="nacionel">#F0420C</color> <!-- nacional -->
+    <color name="autonomico">#126DEF</color>   <!-- autonomico -->
+    <color name="local">#E09B35</color>      <!-- local -->
+    <color name="exceso_jornada">#43EB4A</color> <!-- exceso de jornada -->
+    <color name="convenio">#C238D9</color>   <!-- convenio -->
+
+
 </resources>

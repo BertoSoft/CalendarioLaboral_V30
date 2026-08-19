@@ -52,14 +52,6 @@ class FestivosActivity : AppCompatActivity() {
     }
 
     private fun initListeners() = with(binding){
-        ivNuevo.setOnClickListener {
-            mostrarCalendario { setModoEdicion(it) }
-        }
-        ivEliminar.setOnClickListener {
-            val strFecha = binding.tvFecha.text.toString()
-            val strTipo = binding.spFestivo.selectedItem.toString()
-            viewModel.delFestivo(strFecha, strTipo)
-        }
         spAnio.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(
                 p0: AdapterView<*>?,
@@ -103,7 +95,6 @@ class FestivosActivity : AppCompatActivity() {
         initSp()
         initRecyclerView()
         setModoEdicion(false)
-        binding.cardEliminarBoton.isVisible = false
     }
 
     private fun initRecyclerView() {
@@ -181,11 +172,9 @@ class FestivosActivity : AppCompatActivity() {
                 if(estado != null) {
                     tvFecha.text = estado.strFechaLarga
                     spFestivo.setSelection(estado.indice)
-                    cardEliminarBoton.isVisible = estado.isFestivoPulsado
                 }
                 else{
                     binding.tvFecha.text = getString(R.string.texto_elegir_fecha)
-                    binding.cardEliminarBoton.isVisible = false
                 }
             }
         }
@@ -198,8 +187,8 @@ class FestivosActivity : AppCompatActivity() {
 
         if (isEdicion) {
             tvFecha.setTextColor(getColor(R.color.text_main))
-            cardFechaContenedor.setCardBackgroundColor(getColor(R.color.bg_fecha_active))
-            btnGuardar.setBackgroundColor(getColor(R.color.bg_btn_active))
+            cardFechaContenedor.setCardBackgroundColor(getColor(R.color.bg_card_surface))
+            btnGuardar.setBackgroundColor(getColor(R.color.bg_card_surface))
 
         } else {
             tvFecha.setTextColor(getColor(R.color.text_disabled))

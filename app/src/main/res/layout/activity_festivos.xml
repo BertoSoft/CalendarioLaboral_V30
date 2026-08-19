@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:importantForAccessibility="no"
-    android:background="@color/bg_app"> <!-- Fondo general caluroso -->
+    android:background="@color/bg_app">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,13 +14,27 @@
         android:orientation="vertical"
         android:padding="24dp">
 
+        <!-- Botón Atrás Estilizado -->
+        <TextView
+            android:id="@+id/btnAtrasFestivos"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:text="⬅️"
+            android:textSize="35dp"
+            android:gravity="center"
+            android:textColor="@color/text_main"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="Volver al panel principal" />
+
         <!-- CABECERA: TÍTULO Y FILTRO DE AÑO -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="20dp">
 
             <TextView
@@ -30,7 +44,7 @@
                 android:layout_weight="1"
                 android:text="Festivos del año:"
                 android:textColor="@color/text_main"
-                android:textSize="18sp"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <Spinner
@@ -40,14 +54,14 @@
                 android:background="@android:drawable/btn_dropdown" />
         </LinearLayout>
 
-        <!-- TARJETA CONTENEDORA PARA EL LISTADO (RECYCLERVIEW) -->
+        <!-- TARJETA CONTENEDORA PARA EL RECYCLERVIEW -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="320dp"
             android:layout_marginBottom="20dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp"
-            app:cardBackgroundColor="@color/bg_app"> <!-- Mantenemos blanco puro para legibilidad del listado -->
+            app:cardBackgroundColor="@color/bg_app">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvFestivos"
@@ -55,86 +69,31 @@
                 android:layout_height="match_parent"
                 android:padding="8dp" />
         </androidx.cardview.widget.CardView>
-
-        <!-- FILA DE BOTONES DE ACCIÓN (ELIMINAR Y NUEVO) -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="12dp">
-
-            <!-- Botón Redondo Eliminar -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardEliminarBoton"
-                android:layout_width="52dp"
-                android:layout_height="52dp"
-                android:layout_marginEnd="24dp"
-                app:cardCornerRadius="26dp"
-                app:cardElevation="4dp"
-                app:cardBackgroundColor="#F00C0C"> <!-- Rojo de advertencia estándar para destrucción -->
-                <ImageView
-                    android:id="@+id/ivEliminar"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="14dp"
-                    android:contentDescription="Eliminar"
-                    android:src="@android:drawable/ic_menu_delete"
-                    app:tint="#FFFFFF"
-                    android:background="?android:attr/selectableItemBackground" />
-            </androidx.cardview.widget.CardView>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
-
-            <!-- Botón Redondo Nuevo -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardNuevoBoton"
-                android:layout_width="52dp"
-                android:layout_height="52dp"
-                android:layout_marginStart="24dp"
-                app:cardCornerRadius="26dp"
-                app:cardElevation="4dp"
-                app:cardBackgroundColor="#6C27E8"> <!-- Color Primario (Ámbar Quemado) -->
-                <ImageView
-                    android:id="@+id/ivNuevo"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="14dp"
-                    android:contentDescription="Nuevo"
-                    android:src="@android:drawable/ic_input_add"
-                    app:tint="#FFFFFF"
-                    android:background="?android:attr/selectableItemBackground" />
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
-
-        <!-- Divisor sutil adaptado a la calidez -->
+        <!-- Divisor sutil -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/bg_fecha_disabled"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="16dp" />
 
-        <!-- SECTOR SELECCIÓN DE FECHA PREMIUM -->
+        <!-- SECTOR SELECCIÓN DE FECHA -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cardFechaContenedor"
             android:layout_width="match_parent"
             android:layout_height="54dp"
-            android:layout_marginBottom="14dp"
-            app:cardCornerRadius="14dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="16dp"
             app:cardElevation="0dp"
-            app:cardBackgroundColor="@color/bg_fecha_disabled"> <!-- Fondo inicial Arena -->
+            app:cardBackgroundColor="@color/bg_fecha_disabled">
             <TextView
                 android:id="@+id/tvFecha"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="@string/texto_elegir_fecha"
-                android:textColor="@color/text_disabled"
+                android:text="Seleccionar Fecha 📅"
+                android:textColor="@color/text_main"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                android:enabled="false"
                 android:background="?android:attr/selectableItemBackground" />
         </androidx.cardview.widget.CardView>
 
@@ -143,7 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tipo de jornada:"
-            android:textColor="@color/text_disabled"
+            android:textColor="@color/text_secondary"
             android:textSize="12sp"
             android:textStyle="bold"
             android:layout_marginBottom="6dp" />
@@ -152,7 +111,7 @@
             android:id="@+id/spFestivo"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="20dp"
             android:background="@android:drawable/btn_dropdown" />
 
         <!-- BOTÓN FINAL DE GUARDAR -->
@@ -161,11 +120,11 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:text="Añadir Registro"
-            android:backgroundTint="@color/bg_btn_disabled"
-            android:textColor="#FFFFFF"
+            android:backgroundTint="@color/app_primary"
+            android:textColor="@color/text_main"
             android:textStyle="bold"
             android:textSize="16sp"
-            app:cornerRadius="14dp" />
+            app:cornerRadius="16dp" />
 
     </LinearLayout>
 </ScrollView>

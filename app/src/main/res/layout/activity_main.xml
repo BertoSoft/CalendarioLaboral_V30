@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:importantForAccessibility="no"
     android:background="@color/bg_app">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,7 +23,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="PANEL DE CONTRO"
+                android:text="PANEL DE CONTROL"
                 android:textColor="@color/app_accent"
                 android:textSize="12sp"
                 android:textStyle="bold"
@@ -53,7 +54,7 @@
                 android:layout_height="145dp"
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
-                app:cardCornerRadius="20dp"
+                app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
                 app:cardBackgroundColor="#2563EB">
                 <LinearLayout
@@ -73,7 +74,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="6"
                         android:text="Exceso de\nJornadas"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/text_main"
                         android:textSize="15sp"
                         android:textStyle="bold"
                         android:gravity="start|bottom" />
@@ -87,7 +88,7 @@
                 android:layout_height="145dp"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
-                app:cardCornerRadius="20dp"
+                app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
                 app:cardBackgroundColor="#059669">
                 <LinearLayout
@@ -107,14 +108,13 @@
                         android:layout_height="0dp"
                         android:layout_weight="6"
                         android:text="Mis\nVacaciones"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/text_main"
                         android:textSize="15sp"
                         android:textStyle="bold"
                         android:gravity="start|bottom" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
-
         <!-- FILA 2: FESTIVOS Y BACKUP -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -130,9 +130,9 @@
                 android:layout_height="145dp"
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
-                app:cardCornerRadius="20dp"
+                app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
-                app:cardBackgroundColor="#EA580C">
+                app:cardBackgroundColor="@color/color_accent_orange">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -150,7 +150,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="6"
                         android:text="Días\nFestivos"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/text_main"
                         android:textSize="15sp"
                         android:textStyle="bold"
                         android:gravity="start|bottom" />
@@ -164,7 +164,7 @@
                 android:layout_height="145dp"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
-                app:cardCornerRadius="20dp"
+                app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
                 app:cardBackgroundColor="#7C3AED">
                 <LinearLayout
@@ -184,7 +184,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="6"
                         android:text="Copia de\nSeguridad"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/text_main"
                         android:textSize="15sp"
                         android:textStyle="bold"
                         android:gravity="start|bottom" />
@@ -197,7 +197,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="VISTA GLOBAL"
-            android:textColor="#64748B"
+            android:textColor="@color/text_secondary"
             android:textSize="12sp"
             android:textStyle="bold"
             android:layout_marginBottom="12dp"
@@ -209,9 +209,9 @@
             android:layout_width="match_parent"
             android:layout_height="110dp"
             android:layout_marginBottom="24dp"
-            app:cardCornerRadius="24dp"
+            app:cardCornerRadius="16dp"
             app:cardElevation="4dp"
-            app:cardBackgroundColor="#1E1B4B">
+            app:cardBackgroundColor="@color/bg_card_surface">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -232,14 +232,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Calendario de Colores"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/text_main"
                         android:textSize="18sp"
                         android:textStyle="bold" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Ver todos los días unificados"
-                        android:textColor="#94A3B8"
+                        android:textColor="@color/text_secondary"
                         android:textSize="13sp"
                         android:layout_marginTop="2dp" />
                 </LinearLayout>
@@ -254,7 +254,7 @@
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="1dp"
-            app:cardBackgroundColor="#FF2200">
+            app:cardBackgroundColor="@color/color_danger">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -270,7 +270,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Cerrar Aplicación Seguro"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/text_main"
                     android:textSize="16sp"
                     android:textStyle="bold" />
             </LinearLayout>
