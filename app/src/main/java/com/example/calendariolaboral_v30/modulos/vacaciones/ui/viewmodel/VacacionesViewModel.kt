@@ -9,10 +9,10 @@ import com.example.calendariolaboral_v30.modulos.vacaciones.domain.usecase.Vacac
 import java.time.format.DateTimeFormatter
 
 data class VacacionesUiState(
-    val strFechaInicio: String,
-    val strFechaFin: String,
-    val isFechaFinHabilitada: Boolean,
-    val isBtnGuardarHabilitado: Boolean,
+    val strFechaInicio: String = "",
+    val strFechaFin: String = "",
+    val isFechaFinHabilitada: Boolean = false,
+    val isBtnGuardarHabilitado: Boolean = false,
     val msgError: String? = null
 )
 
@@ -21,7 +21,7 @@ class VacacionesViewModel(
     private val utils: Utils
 ): ViewModel() {
 
-    private val _estado = MutableLiveData<VacacionesUiState>()
+    private val _estado = MutableLiveData<VacacionesUiState>(VacacionesUiState())
     val estado: LiveData<VacacionesUiState> get() = _estado
 
     private val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
@@ -31,8 +31,9 @@ class VacacionesViewModel(
     // Funciones
     //######################################################################3
     fun onFechaInicioSeleccionada(strFechaInicio: String){
+        val estadoOld = _estado.value ?: VacacionesUiState()
         if(strFechaInicio.isBlank()){
-            _estado.value = _estado.value?.copy(
+            _estado.value = estadoOld.copy(
                 strFechaInicio = "",
                 strFechaFin =  "",
                 isFechaFinHabilitada = false,
@@ -41,12 +42,12 @@ class VacacionesViewModel(
             )
         }
         else{
-            _estado.value = _estado.value?.copy(
+            _estado.value = estadoOld.copy(
                 strFechaInicio = strFechaInicio,
                 strFechaFin =  "",
                 isFechaFinHabilitada = true,
                 isBtnGuardarHabilitado = false,
-                msgError = "Debes de seleccionar una fecha de inicio..."
+                msgError = null
             )
         }
     }

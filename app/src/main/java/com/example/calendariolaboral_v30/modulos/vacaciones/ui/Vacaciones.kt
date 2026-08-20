@@ -42,8 +42,6 @@ class Vacaciones : AppCompatActivity() {
         initSp()
         initListeners()
         initObserves()
-        binding.cardFechaFinContenedor.isEnabled = false
-        binding.btnGuardarVacaciones.isEnabled = false
     }
 
     private fun initObserves() {
