@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import com.example.calendariolaboral_v30.core.utils.Utils
 import com.example.calendariolaboral_v30.modulos.festivos.domain.model.DatosFestivos
 import com.example.calendariolaboral_v30.modulos.festivos.domain.model.TipoFestivo
+import com.example.calendariolaboral_v30.modulos.vacaciones.domain.model.DatosVacaciones
 
 class miSqliteHelper(miContexto: Context): SQLiteOpenHelper(
     miContexto,
@@ -141,6 +142,12 @@ class miSqliteHelper(miContexto: Context): SQLiteOpenHelper(
         finally {
             db.close()
         }
+    }
+
+    fun getAllVacaciones(): List<DatosVacaciones>{
+        val lista = mutableListOf<DatosVacaciones>()
+
+        return lista
     }
 
     //######################################################################

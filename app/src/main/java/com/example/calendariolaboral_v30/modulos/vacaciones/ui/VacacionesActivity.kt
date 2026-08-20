@@ -1,7 +1,6 @@
 package com.example.calendariolaboral_v30.modulos.vacaciones.ui
 
 import android.app.DatePickerDialog
-import android.graphics.Color
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
@@ -9,15 +8,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.calendariolaboral_v30.R
 import com.example.calendariolaboral_v30.databinding.ActivityVacacionesBinding
+import com.example.calendariolaboral_v30.modulos.vacaciones.ui.adapter.VacacionesAdapter
 import com.example.calendariolaboral_v30.modulos.vacaciones.ui.viewmodel.VacacionesUiState
 import com.example.calendariolaboral_v30.modulos.vacaciones.ui.viewmodel.VacacionesViewModel
 import java.time.LocalDate
 
-class Vacaciones : AppCompatActivity() {
+class VacacionesActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityVacacionesBinding
-    //private val utils = Utils()
-
+    private val miAdapter = VacacionesAdapter(
+        onItemPulsado = { registro ->
+            viewModel.onItemPulsado(registro)
+        }
+    )
     // 🟢 POR ESTA NUEVA LÍNEA CONECTADA AL APPCONTAINER:
     private val viewModel: VacacionesViewModel by viewModels {
         val app = application as com.example.calendariolaboral_v30.MiAplicacion
@@ -45,7 +48,7 @@ class Vacaciones : AppCompatActivity() {
 
     private fun initRecyclerView() {
         with(binding.rvVacaciones){
-            layoutManager = LinearLayoutManager(this@Vacaciones)
+            layoutManager = LinearLayoutManager(this@VacacionesActivity)
             adapter = miAdapter
             setHasFixedSize(true)
         }
@@ -66,11 +69,13 @@ class Vacaciones : AppCompatActivity() {
                    viewModel.onFechaInicioSeleccionada(ano, mes, dia)
                }
             }
-
             cardFechaFinContenedor.setOnClickListener {
                 mostrarCalendario(2, "Selecciona una fecha para el final ..."){ ano, mes, dia ->
                     viewModel.onFechaFinalSeleccionada(ano, mes, dia)
                 }
+            }
+            btnAtras.setOnClickListener {
+                finish()
             }
 
         }
@@ -129,7 +134,7 @@ class Vacaciones : AppCompatActivity() {
         // 4. Gestionar los mensajes de error de negocio si existen
         estado.msgError?.let { mensaje ->
             android.widget.Toast.makeText(
-                this@Vacaciones,
+                this@VacacionesActivity,
                 mensaje,
                 android.widget.Toast.LENGTH_SHORT
             ).show()

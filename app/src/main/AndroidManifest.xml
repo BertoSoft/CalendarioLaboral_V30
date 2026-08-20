@@ -27,7 +27,7 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".modulos.vacaciones.ui.Vacaciones"
+            android:name=".modulos.vacaciones.ui.VacacionesActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>

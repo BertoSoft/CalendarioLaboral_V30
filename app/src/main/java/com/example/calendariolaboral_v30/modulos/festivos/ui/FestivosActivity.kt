@@ -63,8 +63,7 @@ class FestivosActivity : AppCompatActivity() {
                 p3: Long
             ) {
                 val ano = p0?.getItemAtPosition(p2).toString()
-                viewModel.setModoEdicion(false)
-                viewModel.getAllFestivos(ano)
+
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -85,7 +84,9 @@ class FestivosActivity : AppCompatActivity() {
             }
         }
         tvFecha.setOnClickListener {
-            mostrarCalendario { setModoEdicion(it) }
+            mostrarCalendario("Selecciona una fecha festiva...") { ano, mes, dia ->
+                viewModel.onFechaSeleccionada(ano, mes, dia)
+            }
         }
         btnGuardar.setOnClickListener {
             val tipo = TipoFestivo.entries[spFestivo.selectedItemPosition]
@@ -104,7 +105,6 @@ class FestivosActivity : AppCompatActivity() {
     private fun initUi() {
         initSp()
         initRecyclerView()
-        setModoEdicion(false)
     }
 
     private fun initRecyclerView() {
@@ -174,7 +174,6 @@ class FestivosActivity : AppCompatActivity() {
         }
 
         viewModel.isEdicionEstadoUi.observe(this){ isEdicion ->
-            setModoEdicion(isEdicion)
         }
 
         viewModel.itemPulsadoEstadoUi.observe(this){ estadoFestivo ->
@@ -205,18 +204,9 @@ class FestivosActivity : AppCompatActivity() {
         }
     }
 
-    private fun setModoEdicion(isEdicion: Boolean) = with(binding){
-        spFestivo.isEnabled = isEdicion
-        btnGuardar.isEnabled = isEdicion
-        if (isEdicion) {
-            btnGuardar.setBackgroundColor(getColor(R.color.bg_card_surface))
 
-        } else {
-            btnGuardar.setBackgroundColor(getColor(R.color.bg_btn_disabled))
-        }
-    }
 
-    private fun mostrarCalendario(isAceptar: (Boolean) -> Unit){
+    private fun mostrarCalendario(strTitulo: String, onFechaSeleccionada: (Int, Int, Int) -> Unit ){
         val anoActual = Calendar.getInstance().get(Calendar.YEAR)
         val mesActual = Calendar.getInstance().get(Calendar.MONTH)
         val diaActual = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
@@ -224,11 +214,8 @@ class FestivosActivity : AppCompatActivity() {
         val datePicker = DatePickerDialog(
             this,
             {_, anoSeleccion, mesSeleccion, diaSeleccion ->
-                        val mesCorregido = mesSeleccion + 1
-                        val fecha = LocalDate.of(anoSeleccion, mesCorregido, diaSeleccion)
-                        val strFecha = utils.fromLocalDateToFechaLarga(fecha)
-                        binding.tvFecha.text = strFecha
-                        isAceptar(true)
+                onFechaSeleccionada(anoSeleccion, mesSeleccion, diaSeleccion
+                )
             },
             anoActual,
             mesActual,
@@ -236,9 +223,10 @@ class FestivosActivity : AppCompatActivity() {
         )
 
         datePicker.setOnCancelListener {
-            isAceptar(false)
+            onFechaSeleccionada(-1, -1, -1)
         }
 
+        datePicker.setTitle(strTitulo)
         datePicker.show()
     }
 

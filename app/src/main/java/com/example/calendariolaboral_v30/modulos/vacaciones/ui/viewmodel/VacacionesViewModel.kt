@@ -5,9 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.VIEW_MODEL_STORE_OWNER_KEY
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.example.calendariolaboral_v30.core.utils.Utils
 import com.example.calendariolaboral_v30.modulos.vacaciones.domain.model.DatosVacaciones
 import com.example.calendariolaboral_v30.modulos.vacaciones.domain.usecase.VacacionesUseCase
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -95,29 +97,36 @@ class VacacionesViewModel(
             )
         }
         else{
-            val todoOk = vacacionesUsecase.isFechasValidas(DatosVacaciones(
-                -1,
-                estadoOld.strFechaInicio,
-                strFechaFinal
-            ))
-            if(todoOk){
-                _estado.value = estadoOld.copy(
-                    strFechaFinal = strFechaFinal,
-                    isBtnGuardarHabilitado = true,
-                    isMostrarCalendario = false,
-                    msgError = null
-                )
+            viewModelScope.launch {
+                val todoOk = vacacionesUsecase.isFechasValidas(DatosVacaciones(
+                    -1,
+                    estadoOld.strFechaInicio,
+                    strFechaFinal
+                ))
+                if(todoOk){
+                    _estado.value = estadoOld.copy(
+                        strFechaFinal = strFechaFinal,
+                        isBtnGuardarHabilitado = true,
+                        isMostrarCalendario = false,
+                        msgError = null
+                    )
+                }
+                else{
+                    _estado.value = estadoOld.copy(
+                        strFechaFinal = "",
+                        isBtnGuardarHabilitado = false,
+                        isMostrarCalendario = false,
+                        msgError = "La fecha final debe ser posterior a la de inicio..."
+                    )
+                }
             }
-            else{
-                _estado.value = estadoOld.copy(
-                    strFechaFinal = "",
-                    isBtnGuardarHabilitado = false,
-                    isMostrarCalendario = false,
-                    msgError = "La fecha final debe ser posterior a la de inicio..."
-                )
-            }
+
         }
 
+
+    }
+
+    fun onItemPulsado(registro: DatosVacaciones){
 
     }
 

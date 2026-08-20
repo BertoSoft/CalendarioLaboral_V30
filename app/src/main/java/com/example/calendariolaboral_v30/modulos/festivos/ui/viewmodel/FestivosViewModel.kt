@@ -11,9 +11,12 @@ import com.example.calendariolaboral_v30.modulos.festivos.domain.usecase.Festivo
 import com.example.calendariolaboral_v30.modulos.festivos.ui.extensions.toTipoFestivo
 import kotlinx.coroutines.launch
 
-data class DatosFestivoPulsado(
-    val festivo: DatosFestivos,
-    val isDelete: Boolean = false
+data class FestivosUiEstado(
+    val strFecha: String = "",
+    val strTipo: String = "",
+    val isSpTipoActivo: Boolean = false,
+    val isBtnGuardarActivo: Boolean = false,
+    val msgError: String? = null
     )
 
 class FestivosViewModel (
@@ -21,113 +24,23 @@ class FestivosViewModel (
     private val utils: Utils
 ) : ViewModel() {
 
-    private val _listaFestivos = MutableLiveData<List<DatosFestivos>>()
-    val listaFestivos: LiveData<List<DatosFestivos>> get() = _listaFestivos
-
-    private val _msgError = MutableLiveData<String?>()
-    val msgError: LiveData<String?> get() = _msgError
-
-    private val _isCargando = MutableLiveData<Boolean>()
-    val isCargando: LiveData<Boolean> get() = _isCargando
-
-    private val _isEdicionEstadoUi = MutableLiveData<Boolean>()
-    val isEdicionEstadoUi: LiveData<Boolean> get() = _isEdicionEstadoUi
-
-    private val _itemPulsadoEstadoUi = MutableLiveData<DatosFestivoPulsado?>()
-    val itemPulsadoEstadoUi: LiveData<DatosFestivoPulsado?> get() = _itemPulsadoEstadoUi
-
-    private val _itemDeletePulsadoEstadoUi = MutableLiveData<DatosFestivoPulsado?>()
-    val itemDeletePulsadoEstadoUi: LiveData<DatosFestivoPulsado?> get() = _itemDeletePulsadoEstadoUi
+    private val _estado = MutableLiveData<FestivosUiEstado>()
+    val estado: LiveData<FestivosUiEstado?> get() = _estado
 
     //####################################################################
     // Funciones
     //################################################################3333
-    fun getAllFestivos(strAno: String){
-        _isCargando.value = true
-        _itemPulsadoEstadoUi.value = null
-        _itemDeletePulsadoEstadoUi.value = null
 
-        viewModelScope.launch {
-            try {
-                val lista = festivosUseCase.getAllFestivosUseCase(strAno)
-                if(lista.isEmpty()){
-                    _listaFestivos.value = lista
-                }
-                else {
-                    _listaFestivos.value = lista
-                }
-            }
-            catch (e: Exception){
-                _msgError.value = "Error al cargar los datos: ${e.localizedMessage}"
-            }
-            finally {
-                _isCargando.value = false
-            }
+    fun clearError() {
+        val estadoOld = _estado.value ?: return
+        if(estadoOld.msgError != null){
+            _estado.value = estadoOld.copy(msgError = null)
         }
     }
 
-    fun setFestivo(festivo: DatosFestivos){
-        _isCargando.value = true
-        viewModelScope.launch {
-            try {
-                val todoOk = festivosUseCase.setFestivoUseCase(festivo)
-                if(todoOk){
-                    getAllFestivos(festivo.fecha.year.toString())
-                    setModoEdicion(false)
-                }
-            }
-            catch (e: Exception){
-                _msgError.value = "Error al guardar: ${e.localizedMessage}"
-            }
-            finally {
-                _isCargando.value = false
-            }
-        }
+    fun onFechaSeleccionada(ano: Int, mes: Int, dia: Int) {
+        TODO("Not yet implemented")
     }
-
-    fun setModoEdicion(isEdicion: Boolean){
-        _isEdicionEstadoUi.value = isEdicion
-    }
-
-    fun onItemPulsado(festivo: DatosFestivos){
-        setModoEdicion(true)
-        _itemPulsadoEstadoUi.value = DatosFestivoPulsado(festivo = festivo)
-    }
-
-    fun onItemDeletePulsado(festivo: DatosFestivos){
-        _isCargando.value = true
-        viewModelScope.launch {
-            try {
-                val todoOk = festivosUseCase.delFestivoUseCase(festivo)
-                if(todoOk){
-                    _itemPulsadoEstadoUi.value = null
-                    _isEdicionEstadoUi.value = false
-                    getAllFestivos(festivo.fecha.year.toString())
-                    setModoEdicion(false)
-
-                    // Se emite el evento solo tras confirmar el éxito real en el hilo/proceso
-                    _itemDeletePulsadoEstadoUi.value = DatosFestivoPulsado(festivo = festivo, isDelete = true)
-                } else {
-                    _msgError.value = "No se pudo eliminar el día festivo."
-                }
-            }
-            catch (e: Exception){
-                _msgError.value = "No se pudo eliminar el registro"
-            }
-            finally {
-                _isCargando.value = false
-            }
-        }
-    }
-
-    fun clearDeleteObsever() {
-        _itemDeletePulsadoEstadoUi.value = null
-    }
-
-    fun clearErrorObserver() {
-        _msgError.value = null
-    }
-    // ... Todo tu código interno actual se queda exactamente igual ...
 
     // 🛠️ AGREGA ESTE BLOQUE AL FINAL DEL ARCHIVO (DENTRO DE LA CLASE)
     class Factory(

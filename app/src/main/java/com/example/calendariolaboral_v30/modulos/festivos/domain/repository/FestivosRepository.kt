@@ -7,5 +7,5 @@ interface FestivosRepository {
     suspend fun getAllFestivos(strAno: String): List<DatosFestivos>
     suspend fun existeFestivo(dato: DatosFestivos): Int
     suspend fun setFestivo(dato: DatosFestivos): Boolean
-    suspend fun  delFestivos(dato: DatosFestivos): Boolean
+    suspend fun delFestivos(dato: DatosFestivos): Boolean
 }

@@ -85,16 +85,17 @@
             app:cardCornerRadius="16dp"
             app:cardElevation="0dp"
             app:cardBackgroundColor="@color/bg_fecha_disabled">
+
             <TextView
                 android:id="@+id/tvFecha"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground"
                 android:gravity="center"
                 android:text="Seleccionar Fecha 📅"
                 android:textColor="@color/text_main"
                 android:textSize="15sp"
-                android:textStyle="bold"
-                android:background="?android:attr/selectableItemBackground" />
+                android:textStyle="bold" />
         </androidx.cardview.widget.CardView>
 
         <!-- DESPLEGABLE TIPO DE FESTIVO -->
