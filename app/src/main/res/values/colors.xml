@@ -19,6 +19,7 @@
     <!-- Estados y Botones -->
     <color name="bg_fecha_disabled">#334155</color> <!-- Slate 700 -->
     <color name="bg_btn_disabled">#475569</color>   <!-- Slate 600 -->
+    <color name="bg_btn_active">#3378DB</color>   <!-- Slate 600 -->
     <color name="color_danger">#EF4444</color>      <!-- Rojo Moderno Alerta -->
     <color name="bg_fecha_active">#6366F1</color>  <!-- Indigo moderno unificado -->
 

@@ -7,6 +7,7 @@ import com.example.calendariolaboral_v30.core.data.FestivosRepositoryImpl
 import com.example.calendariolaboral_v30.core.utils.Utils
 import com.example.calendariolaboral_v30.modulos.festivos.domain.repository.FestivosRepository
 import com.example.calendariolaboral_v30.modulos.festivos.domain.usecase.FestivosUseCase
+import com.example.calendariolaboral_v30.modulos.vacaciones.domain.usecase.VacacionesUseCase
 
 class AppContainer(private val context: Context) {
 
@@ -20,6 +21,10 @@ class AppContainer(private val context: Context) {
 
     val festivosUseCase: FestivosUseCase by lazy {
         FestivosUseCase(festivosRepository)
+    }
+
+    val vacacionesUseCase: VacacionesUseCase by lazy {
+        VacacionesUseCase()
     }
 
     val utils: Utils by lazy {

@@ -128,15 +128,12 @@
                 android:layout_marginEnd="8dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
-                app:cardBackgroundColor="@color/bg_fecha_disabled">
+                app:cardBackgroundColor="@color/bg_fecha_active">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:gravity="center"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?android:attr/selectableItemBackground">
+                    android:gravity="center">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -169,10 +166,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:gravity="center"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?android:attr/selectableItemBackground">
+                    android:gravity="center">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -211,7 +205,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:text="Guardar Registro"
-            android:backgroundTint="@color/app_primary"
+            android:backgroundTint="@color/bg_btn_disabled"
             android:textColor="@color/text_main"
             android:textStyle="bold"
             android:textSize="16sp"

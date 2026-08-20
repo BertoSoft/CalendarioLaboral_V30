@@ -9,7 +9,7 @@ import com.example.calendariolaboral_v30.databinding.ActivityMainBinding
 import com.example.calendariolaboral_v30.modulos.festivos.ui.FestivosActivity
 import com.example.calendariolaboral_v30.modulos.home.domain.model.DatosMenu
 import com.example.calendariolaboral_v30.modulos.home.ui.viewmodel.MainViewModel
-import com.example.calendariolaboral_v30.modulos.vacaciones.Vacaciones
+import com.example.calendariolaboral_v30.modulos.vacaciones.ui.Vacaciones
 
 class MainActivity : AppCompatActivity() {
 
