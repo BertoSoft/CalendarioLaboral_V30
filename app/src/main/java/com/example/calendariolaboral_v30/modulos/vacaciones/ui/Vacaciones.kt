@@ -6,10 +6,9 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.calendariolaboral_v30.R
-import com.example.calendariolaboral_v30.core.utils.Utils
 import com.example.calendariolaboral_v30.databinding.ActivityVacacionesBinding
-import com.example.calendariolaboral_v30.databinding.ItemFestivosBinding
 import com.example.calendariolaboral_v30.modulos.vacaciones.ui.viewmodel.VacacionesUiState
 import com.example.calendariolaboral_v30.modulos.vacaciones.ui.viewmodel.VacacionesViewModel
 import java.time.LocalDate
@@ -17,7 +16,7 @@ import java.time.LocalDate
 class Vacaciones : AppCompatActivity() {
 
     lateinit var binding: ActivityVacacionesBinding
-    private val utils = Utils()
+    //private val utils = Utils()
 
     // 🟢 POR ESTA NUEVA LÍNEA CONECTADA AL APPCONTAINER:
     private val viewModel: VacacionesViewModel by viewModels {
@@ -35,13 +34,21 @@ class Vacaciones : AppCompatActivity() {
         setContentView(binding.root)
 
         initUi()
-
     }
 
     private fun initUi() {
         initSp()
+        initRecyclerView()
         initListeners()
         initObserves()
+    }
+
+    private fun initRecyclerView() {
+        with(binding.rvVacaciones){
+            layoutManager = LinearLayoutManager(this@Vacaciones)
+            adapter = miAdapter
+            setHasFixedSize(true)
+        }
     }
 
     private fun initObserves() {
@@ -55,15 +62,14 @@ class Vacaciones : AppCompatActivity() {
     private fun initListeners() =
         with(binding){
             cardFechaInicioContenedor.setOnClickListener {
-                mostrarCalendario(1,"Fecha de inicio de las vacaciones"){ isAceptar ->
-                    if(isAceptar){
-                        cardFechaFinContenedor.isEnabled = true
-                        mostrarCalendario(2,"Fecha de final de las vacaciones"){ isAceptar ->
-                            if(isAceptar){
-                                btnGuardarVacaciones.isEnabled = true
-                            }
-                        }
-                    }
+               mostrarCalendario(1, "Selecciona una fecha de inicio..."){ ano, mes, dia ->
+                   viewModel.onFechaInicioSeleccionada(ano, mes, dia)
+               }
+            }
+
+            cardFechaFinContenedor.setOnClickListener {
+                mostrarCalendario(2, "Selecciona una fecha para el final ..."){ ano, mes, dia ->
+                    viewModel.onFechaFinalSeleccionada(ano, mes, dia)
                 }
             }
 
@@ -85,19 +91,40 @@ class Vacaciones : AppCompatActivity() {
     }
 
     fun setTarjetaFinalHabilitada(isFechaFinHabilitada: Boolean) {
-
+        with(binding){
+            cardFechaFinContenedor.isEnabled = isFechaFinHabilitada
+            if(isFechaFinHabilitada){
+                cardFechaFinContenedor.setCardBackgroundColor(getColor(R.color.bg_fecha_active))
+            }
+            else{
+                cardFechaFinContenedor.setCardBackgroundColor((getColor(R.color.bg_fecha_disabled)))
+            }
+        }
     }
 
     fun dibujaUi(estado: VacacionesUiState) = with(binding) {
         // 1. Pintar los textos en la pantalla de forma segura
         tvFechaInicio.text = estado.strFechaInicio.ifBlank { "-- / -- / ----" }
-        tvFechaFin.text = estado.strFechaFin.ifBlank { "-- / -- / ----" }
+        tvFechaFin.text = estado.strFechaFinal.ifBlank { "-- / -- / ----" }
 
         // 2. Controlar la interactividad de la tarjeta final sin romper las esquinas
         setTarjetaFinalHabilitada(estado.isFechaFinHabilitada)
 
+        // 2.5 Si la fechaFinal esta habilitada y su valor es "", lanzamos mostrarcalendario
+        if(estado.isMostrarCalendario){
+            mostrarCalendario(2, "Selecciona una fecha para el final ..."){ ano, mes, dia ->
+                viewModel.onFechaFinalSeleccionada(ano, mes, dia)
+            }
+        }
+
         // 3. Controlar el estado del botón guardar
         btnGuardarVacaciones.isEnabled = estado.isBtnGuardarHabilitado
+        if(btnGuardarVacaciones.isEnabled){
+            btnGuardarVacaciones.setBackgroundColor(getColor(R.color.bg_btn_active))
+        }
+        else{
+            btnGuardarVacaciones.setBackgroundColor(getColor(R.color.bg_btn_disabled))
+        }
 
         // 4. Gestionar los mensajes de error de negocio si existen
         estado.msgError?.let { mensaje ->
@@ -106,11 +133,11 @@ class Vacaciones : AppCompatActivity() {
                 mensaje,
                 android.widget.Toast.LENGTH_SHORT
             ).show()
-            // Opcional: puedes llamar a un método en el VM para limpiar el error una vez mostrado
+            viewModel.clearError()
         }
     }
 
-    fun mostrarCalendario(indice: Int, strTitulo: String, isAceptar: (Boolean) -> Unit) {
+    fun mostrarCalendario(indice: Int, strTitulo: String, onFechaSeleccionada: (Int, Int, Int) -> Unit) {
         val anoActual = LocalDate.now().year
         val mesActual = LocalDate.now().monthValue
         val diaActual = LocalDate.now().dayOfMonth
@@ -119,16 +146,7 @@ class Vacaciones : AppCompatActivity() {
             this,
             { _, anoSeleccion, mesSeleccion, diaSeleccion ->
 
-                val mesCorregido = mesSeleccion + 1
-                val fecha = LocalDate.of(anoSeleccion, mesCorregido, diaSeleccion)
-                val strFecha = utils.fromLocalDateToFechaCorta(fecha)
-                if(indice == 1){
-                    viewModel.onFechaInicioSeleccionada(strFecha)
-                }
-                else{
-                    viewModel.onFechaFinalSeleccionada(strFecha)
-                }
-                isAceptar(true)
+                onFechaSeleccionada(anoSeleccion, mesSeleccion, diaSeleccion)
             },
             anoActual,
             mesActual,
@@ -136,7 +154,7 @@ class Vacaciones : AppCompatActivity() {
         )
 
         miDatePicker.setOnCancelListener {
-            isAceptar(false)
+            onFechaSeleccionada(-1, -1, -1)
         }
         miDatePicker.setTitle(strTitulo)
         miDatePicker.show()
