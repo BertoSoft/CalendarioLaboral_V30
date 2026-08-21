@@ -40,7 +40,6 @@ class FestivosActivity : AppCompatActivity() {
         val app = application as com.example.calendariolaboral_v30.MiAplicacion
         FestivosViewModel.Factory(
             useCase = app.appContainer.festivosUseCase,
-            utils = app.appContainer.utils
         )
     }
 
@@ -51,7 +50,7 @@ class FestivosActivity : AppCompatActivity() {
 
         initUi()
         initListeners()
-        initObservers()
+        initObserves()
     }
 
     private fun initListeners() = with(binding){
@@ -113,7 +112,6 @@ class FestivosActivity : AppCompatActivity() {
     private fun initSp() {
         initSpAno()
         initSpFestivos()
-        initObserves()
     }
 
     private fun initObserves() {
@@ -157,13 +155,13 @@ class FestivosActivity : AppCompatActivity() {
         binding.spFestivo.adapter = arrayAdapter
     }
 
-    private fun initObservers() {
-
-    }
-
     private fun dibujaUi(estado: FestivosUiEstado) = with(binding){
         //1.- Texto Fecha y color
-        tvFecha.text = estado.strFechaLarga.ifBlank { "Seleccionar Fecha 📅" }
+        var strFechaLarga: String = ""
+        if(estado.fecha != null){
+            strFechaLarga = utils.fromLocalDateToFechaLarga(estado.fecha)
+        }
+        tvFecha.text = strFechaLarga.ifBlank { "Seleccionar Fecha 📅" }
 
         //2.- SpFestivos
         spFestivo.isEnabled = (estado.isSpTipoActivo)

@@ -10,8 +10,7 @@ import com.example.calendariolaboral_v30.modulos.festivos.domain.usecase.Festivo
 import java.time.LocalDate
 
 data class FestivosUiEstado(
-    val strFechaCorta: String = "",
-    val strFechaLarga: String = "",
+    val fecha: LocalDate? = null,
     val strTipo: String = "",
     val isSpTipoActivo: Boolean = false,
     val isBtnGuardarActivo: Boolean = false,
@@ -20,7 +19,6 @@ data class FestivosUiEstado(
 
 class FestivosViewModel (
     private val festivosUseCase: FestivosUseCase ,
-    private val utils: Utils
 ) : ViewModel() {
 
     private val _estado = MutableLiveData<FestivosUiEstado>(FestivosUiEstado())
@@ -40,20 +38,15 @@ class FestivosViewModel (
 
     fun tvFechaClick(ano: Int, mes: Int, dia: Int) {
         if(ano < 0)return
+        var isSPAndBtnActivo = false
 
         val fecha = LocalDate.of(ano, mes, dia)
-        var strFechaCorta = ""
-        var strFechaLarga = ""
-        var isSPAndBtnActivo = false
         if(fecha != null){
-            strFechaCorta = utils.fromLocalDateToFechaCorta(fecha)
-            strFechaLarga = utils.fromLocalDateToFechaLarga(fecha)
             isSPAndBtnActivo = true
         }
         val estadoOld = _estado.value ?: FestivosUiEstado()
         _estado.value = estadoOld.copy(
-            strFechaCorta = strFechaCorta,
-            strFechaLarga = strFechaLarga,
+            fecha = fecha,
             isSpTipoActivo = isSPAndBtnActivo,
             isBtnGuardarActivo = isSPAndBtnActivo
         )
@@ -64,7 +57,7 @@ class FestivosViewModel (
         val estadoOld = _estado.value ?: FestivosUiEstado()
         var isBtnActivo = false
 
-        if(!estadoOld.strFechaCorta.isBlank())isBtnActivo = true
+        if(estadoOld.fecha != null)isBtnActivo = true
 
         _estado.value = estadoOld.copy(
             strTipo = tipoFestivo,
@@ -82,12 +75,11 @@ class FestivosViewModel (
     // 🛠️ AGREGA ESTE BLOQUE AL FINAL DEL ARCHIVO (DENTRO DE LA CLASE)
     class Factory(
         private val useCase: FestivosUseCase,
-        private val utils: Utils
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(FestivosViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return FestivosViewModel(useCase, utils) as T
+                return FestivosViewModel(useCase) as T
             }
             throw IllegalArgumentException("Clase ViewModel desconocida")
         }
