@@ -142,7 +142,7 @@ class VacacionesActivity : AppCompatActivity() {
         }
     }
 
-    fun mostrarCalendario(indice: Int, strTitulo: String, onFechaSeleccionada: (Int, Int, Int) -> Unit) {
+    private fun mostrarCalendario(indice: Int, strTitulo: String, onFechaSeleccionada: (Int, Int, Int) -> Unit) {
         val anoActual = LocalDate.now().year
         val mesActual = LocalDate.now().monthValue
         val diaActual = LocalDate.now().dayOfMonth

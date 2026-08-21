@@ -10,7 +10,7 @@ import com.example.calendariolaboral_v30.R
 import com.example.calendariolaboral_v30.core.utils.Utils
 import com.example.calendariolaboral_v30.databinding.ItemFestivosBinding
 import com.example.calendariolaboral_v30.modulos.festivos.domain.model.DatosFestivos
-import com.example.calendariolaboral_v30.modulos.festivos.domain.model.TipoFestivo
+import com.example.calendariolaboral_v30.modulos.festivos.domain.model.TipoFestivos
 import com.example.calendariolaboral_v30.modulos.festivos.ui.extensions.toImagen
 import com.example.calendariolaboral_v30.modulos.festivos.ui.extensions.toStringRes
 
@@ -52,11 +52,11 @@ class FestivosAdapter(
                 ivItemIcono.setImageResource(festivo.tipo.toImagen())
 
                 val colorRes = when(festivo.tipo){
-                    TipoFestivo.NACIONAL -> R.color.nacionel
-                    TipoFestivo.EXCESO_JORNADA -> R.color.exceso_jornada
-                    TipoFestivo.AUTONOMICO -> R.color.autonomico
-                    TipoFestivo.LOCAL -> R.color.local
-                    TipoFestivo.CONVENIO -> R.color.convenio
+                    TipoFestivos.NACIONAL -> R.color.nacionel
+                    TipoFestivos.EXCESO_JORNADA -> R.color.exceso_jornada
+                    TipoFestivos.AUTONOMICO -> R.color.autonomico
+                    TipoFestivos.LOCAL -> R.color.local
+                    TipoFestivos.CONVENIO -> R.color.convenio
                 }
                 cardItem.setCardBackgroundColor(ContextCompat.getColor(contexto, colorRes))
 

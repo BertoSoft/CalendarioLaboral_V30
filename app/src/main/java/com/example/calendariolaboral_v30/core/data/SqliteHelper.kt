@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.example.calendariolaboral_v30.core.utils.Utils
 import com.example.calendariolaboral_v30.modulos.festivos.domain.model.DatosFestivos
-import com.example.calendariolaboral_v30.modulos.festivos.domain.model.TipoFestivo
+import com.example.calendariolaboral_v30.modulos.festivos.domain.model.TipoFestivos
 import com.example.calendariolaboral_v30.modulos.vacaciones.domain.model.DatosVacaciones
 
 class miSqliteHelper(miContexto: Context): SQLiteOpenHelper(
@@ -89,7 +89,7 @@ class miSqliteHelper(miContexto: Context): SQLiteOpenHelper(
                 val _id = cursor.getInt(colId)
 
                 val fecha = utils.fromFechaCortaToLocalDate(strFecha)
-                val tipo = TipoFestivo.valueOf(strTipo)
+                val tipo = TipoFestivos.valueOf(strTipo)
 
                 lista.add(DatosFestivos(
                     _id,

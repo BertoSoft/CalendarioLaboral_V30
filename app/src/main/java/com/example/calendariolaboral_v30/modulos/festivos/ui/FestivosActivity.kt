@@ -14,10 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.calendariolaboral_v30.R
 import com.example.calendariolaboral_v30.core.utils.Utils
 import com.example.calendariolaboral_v30.databinding.ActivityFestivosBinding
-import com.example.calendariolaboral_v30.modulos.festivos.domain.model.DatosFestivos
-import com.example.calendariolaboral_v30.modulos.festivos.domain.model.TipoFestivo
+import com.example.calendariolaboral_v30.modulos.festivos.domain.model.TipoFestivos
 import com.example.calendariolaboral_v30.modulos.festivos.ui.adapter.FestivosAdapter
 import com.example.calendariolaboral_v30.modulos.festivos.ui.extensions.toStringRes
+import com.example.calendariolaboral_v30.modulos.festivos.ui.viewmodel.FestivosUiEstado
 import com.example.calendariolaboral_v30.modulos.festivos.ui.viewmodel.FestivosViewModel
 import java.time.LocalDate
 
@@ -77,6 +77,9 @@ class FestivosActivity : AppCompatActivity() {
                 p2: Int,
                 p3: Long
             ) {
+                val tipos = TipoFestivos.entries
+                val tipoFestivo = tipos[p2]
+                viewModel.spFestivosClick(tipoFestivo.toString())
 
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -85,19 +88,11 @@ class FestivosActivity : AppCompatActivity() {
         }
         tvFecha.setOnClickListener {
             mostrarCalendario("Selecciona una fecha festiva...") { ano, mes, dia ->
-                viewModel.onFechaSeleccionada(ano, mes, dia)
+                viewModel.tvFechaClick(ano, mes, dia)
             }
         }
         btnGuardar.setOnClickListener {
-            val tipo = TipoFestivo.entries[spFestivo.selectedItemPosition]
-            val fecha = fechaSeleccionada
-            if(fecha != null){
-                viewModel.setFestivo(DatosFestivos(
-                    -1,
-                    fecha,
-                    tipo
-                ))
-            }
+
 
         }
     }
@@ -118,6 +113,15 @@ class FestivosActivity : AppCompatActivity() {
     private fun initSp() {
         initSpAno()
         initSpFestivos()
+        initObserves()
+    }
+
+    private fun initObserves() {
+        viewModel.estado.observe(this){ estado ->
+            if(estado != null){
+                dibujaUi(estado)
+            }
+        }
     }
 
     private fun initSpAno() {
@@ -139,7 +143,7 @@ class FestivosActivity : AppCompatActivity() {
     }
 
     private fun initSpFestivos() {
-        val listaStrFestivos = TipoFestivo.entries.map { tipoFestivo ->
+        val listaStrFestivos = TipoFestivos.entries.map { tipoFestivo ->
             getString(tipoFestivo.toStringRes())
         }
 
@@ -154,57 +158,31 @@ class FestivosActivity : AppCompatActivity() {
     }
 
     private fun initObservers() {
-        viewModel.listaFestivos.observe(this){ lista ->
-            miAdapter.submitList(lista)
-        }
 
-        viewModel.msgError.observe(this){ msg ->
-            msg?.let {
-                showMensaje(it)
-            }
-        }
-
-        viewModel.isCargando.observe(this){ isCargando ->
-            if(isCargando){
-                // Aqui un progress de carga visible
-            }
-            else{
-                // aqui invisible
-            }
-        }
-
-        viewModel.isEdicionEstadoUi.observe(this){ isEdicion ->
-        }
-
-        viewModel.itemPulsadoEstadoUi.observe(this){ estadoFestivo ->
-            with(binding){
-                if(estadoFestivo != null) {
-                    // Aqui ira el codigo que selecciona un registro
-                    val strFechaLarga = utils.fromLocalDateToFechaLarga(estadoFestivo.festivo.fecha)
-                    val indice = estadoFestivo.festivo.tipo.ordinal
-
-                    tvFecha.text = strFechaLarga
-                    spFestivo.setSelection(indice)
-                    fechaSeleccionada = estadoFestivo.festivo.fecha
-                }
-                else{
-                    binding.tvFecha.text = getString(R.string.texto_elegir_fecha)
-                    fechaSeleccionada = null
-                }
-            }
-        }
-
-        viewModel.itemDeletePulsadoEstadoUi.observe(this){ festivo ->
-            festivo?.let {
-                if(it.isDelete){
-                    showMensaje("Registro borrado con exito")
-                    viewModel.clearDeleteObsever()
-                }
-            }
-        }
     }
 
+    private fun dibujaUi(estado: FestivosUiEstado) = with(binding){
+        //1.- Texto Fecha y color
+        tvFecha.text = estado.strFechaLarga.ifBlank { "Seleccionar Fecha 📅" }
 
+        //2.- SpFestivos
+        spFestivo.isEnabled = (estado.isSpTipoActivo)
+
+        //3.- Boton Guardar
+        setBtnGuardarHabilitado(estado.isBtnGuardarActivo)
+
+    }
+
+    private fun setBtnGuardarHabilitado(isBtnHabilitado: Boolean){
+        binding.btnGuardar.isEnabled = isBtnHabilitado
+
+        if(isBtnHabilitado){
+            binding.btnGuardar.setBackgroundColor(getColor(R.color.bg_fecha_active))
+        }
+        else{
+            binding.btnGuardar.setBackgroundColor(getColor(R.color.bg_fecha_disabled))
+        }
+    }
 
     private fun mostrarCalendario(strTitulo: String, onFechaSeleccionada: (Int, Int, Int) -> Unit ){
         val anoActual = Calendar.getInstance().get(Calendar.YEAR)
