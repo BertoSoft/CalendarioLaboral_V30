@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="10dp">
 
         <!-- Botón Atrás Estilizado -->
         <TextView
@@ -112,14 +112,14 @@
             android:id="@+id/spFestivo"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="15dp"
             android:background="@android:drawable/btn_dropdown" />
 
         <!-- BOTÓN FINAL DE GUARDAR -->
         <Button
             android:id="@+id/btnGuardar"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="65dp"
             android:text="Añadir Registro"
             android:backgroundTint="@color/app_primary"
             android:textColor="@color/text_main"

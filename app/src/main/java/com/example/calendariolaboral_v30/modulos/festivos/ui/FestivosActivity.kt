@@ -14,34 +14,26 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.calendariolaboral_v30.R
 import com.example.calendariolaboral_v30.core.utils.Utils
 import com.example.calendariolaboral_v30.databinding.ActivityFestivosBinding
+import com.example.calendariolaboral_v30.modulos.festivos.domain.model.DatosFestivos
 import com.example.calendariolaboral_v30.modulos.festivos.domain.model.TipoFestivos
 import com.example.calendariolaboral_v30.modulos.festivos.ui.adapter.FestivosAdapter
 import com.example.calendariolaboral_v30.modulos.festivos.ui.extensions.toStringRes
+import com.example.calendariolaboral_v30.modulos.festivos.ui.extensions.toTipoFestivo
 import com.example.calendariolaboral_v30.modulos.festivos.ui.viewmodel.FestivosUiEstado
 import com.example.calendariolaboral_v30.modulos.festivos.ui.viewmodel.FestivosViewModel
 import java.time.LocalDate
 
 class FestivosActivity : AppCompatActivity() {
 
-    private val utils = Utils()
     private lateinit var binding: ActivityFestivosBinding
-    private var fechaSeleccionada: LocalDate? = null
-    private val miAdapter = FestivosAdapter(
-        onItemPulsado = { festivo ->
-            viewModel.onItemPulsado(festivo)
-        },
-        onItemDeletePulsado = { festivo ->
-            viewModel.onItemDeletePulsado(festivo)
-        }
-    )
-
-    // 🟢 POR ESTA NUEVA LÍNEA CONECTADA AL APPCONTAINER:
+    private val miAdapter = FestivosAdapter()
     private val viewModel: FestivosViewModel by viewModels {
         val app = application as com.example.calendariolaboral_v30.MiAplicacion
         FestivosViewModel.Factory(
             useCase = app.appContainer.festivosUseCase,
         )
     }
+    private val utils = Utils()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +54,7 @@ class FestivosActivity : AppCompatActivity() {
                 p3: Long
             ) {
                 val ano = p0?.getItemAtPosition(p2).toString()
-
+                viewModel.spAnoClick(ano)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -78,7 +70,7 @@ class FestivosActivity : AppCompatActivity() {
             ) {
                 val tipos = TipoFestivos.entries
                 val tipoFestivo = tipos[p2]
-                viewModel.spFestivosClick(tipoFestivo.toString())
+                viewModel.spFestivosClick(tipoFestivo.name)
 
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -91,8 +83,10 @@ class FestivosActivity : AppCompatActivity() {
             }
         }
         btnGuardar.setOnClickListener {
-
-
+            viewModel.btnGuardarClick()
+        }
+        btnAtrasFestivos.setOnClickListener {
+            finish()
         }
     }
 
@@ -106,6 +100,12 @@ class FestivosActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@FestivosActivity)
             adapter = miAdapter
             setHasFixedSize(true)
+        }
+        miAdapter.onItemPulsado = { festivo ->
+            viewModel.itemClick(festivo)
+        }
+        miAdapter.onItemDeletePulsado = { festivo ->
+            viewModel.itemDeleteClick(festivo)
         }
     }
 
@@ -156,6 +156,9 @@ class FestivosActivity : AppCompatActivity() {
     }
 
     private fun dibujaUi(estado: FestivosUiEstado) = with(binding){
+        //0 RecyclerView
+        miAdapter.submitList(estado.listaFestivos)
+
         //1.- Texto Fecha y color
         var strFechaLarga: String = ""
         if(estado.fecha != null){
@@ -165,10 +168,18 @@ class FestivosActivity : AppCompatActivity() {
 
         //2.- SpFestivos
         spFestivo.isEnabled = (estado.isSpTipoActivo)
+        val indice = TipoFestivos.entries.find { it.name == estado.strTipo }?.ordinal
+        if(spFestivo.isEnabled){
+            if(indice != null && spFestivo.selectedItemPosition != indice){
+                spFestivo.setSelection(indice)
+            }
+        }
+        else if(spFestivo.selectedItemPosition != indice){
+                spFestivo.setSelection(0)
+        }
 
         //3.- Boton Guardar
         setBtnGuardarHabilitado(estado.isBtnGuardarActivo)
-
     }
 
     private fun setBtnGuardarHabilitado(isBtnHabilitado: Boolean){
@@ -190,7 +201,7 @@ class FestivosActivity : AppCompatActivity() {
         val datePicker = DatePickerDialog(
             this,
             {_, anoSeleccion, mesSeleccion, diaSeleccion ->
-                onFechaSeleccionada(anoSeleccion, mesSeleccion, diaSeleccion
+                onFechaSeleccionada(anoSeleccion, mesSeleccion + 1, diaSeleccion
                 )
             },
             anoActual,

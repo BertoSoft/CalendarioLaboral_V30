@@ -4,9 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.calendariolaboral_v30.core.utils.Utils
+import androidx.lifecycle.viewModelScope
 import com.example.calendariolaboral_v30.modulos.festivos.domain.model.DatosFestivos
+import com.example.calendariolaboral_v30.modulos.festivos.domain.model.TipoFestivos
 import com.example.calendariolaboral_v30.modulos.festivos.domain.usecase.FestivosUseCase
+import com.example.calendariolaboral_v30.modulos.festivos.ui.extensions.toTipoFestivo
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 data class FestivosUiEstado(
@@ -14,7 +17,9 @@ data class FestivosUiEstado(
     val strTipo: String = "",
     val isSpTipoActivo: Boolean = false,
     val isBtnGuardarActivo: Boolean = false,
-    val msgError: String? = null
+    val msgError: String? = null,
+    val listaFestivos: List<DatosFestivos> = emptyList(),
+    val isCargando: Boolean = false
     )
 
 class FestivosViewModel (
@@ -28,11 +33,43 @@ class FestivosViewModel (
     // Funciones
     //################################################################3333
 
-    fun onItemPulsado(festivo: DatosFestivos){
-
+    fun itemClick(festivo: DatosFestivos){
+        _estado.value = (_estado.value ?: FestivosUiEstado()).copy(
+            fecha = festivo.fecha,
+            strTipo = festivo.tipo.toString(),
+            isSpTipoActivo = true,
+            isBtnGuardarActivo = true
+        )
     }
 
-    fun onItemDeletePulsado(festivo: DatosFestivos){
+    fun itemDeleteClick(festivo: DatosFestivos){
+        _estado.value = (_estado.value ?: FestivosUiEstado()).copy(
+            isCargando = true,
+        )
+        viewModelScope.launch {
+            try {
+                if(festivosUseCase.delFestivoUseCase(festivo)){
+                    val strAno = festivo.fecha.year.toString()
+                        val lista = festivosUseCase.getAllFestivosUseCase(strAno)
+                    _estado.value = (_estado.value ?: FestivosUiEstado()).copy(
+                        listaFestivos = lista,
+                        msgError = null,
+                        isCargando = false,
+                        isSpTipoActivo = false,
+                        isBtnGuardarActivo = false
+                    )
+                }
+            }
+            catch (e: Exception){
+                _estado.value = (_estado.value ?: FestivosUiEstado()).copy(
+                    listaFestivos = emptyList(), // O null, según cómo lo tengas definido
+                    msgError = "Error al cargar los datos: ${e.message}",
+                    isCargando = false,
+                    isSpTipoActivo = false,
+                    isBtnGuardarActivo = false
+                )
+            }
+        }
 
     }
 
@@ -51,6 +88,72 @@ class FestivosViewModel (
             isBtnGuardarActivo = isSPAndBtnActivo
         )
 
+    }
+
+    fun btnGuardarClick() {
+
+        _estado.value = (_estado.value ?: FestivosUiEstado()).copy(
+           isCargando = true
+        )
+
+        viewModelScope.launch {
+            try {
+                val estadoOld = _estado.value ?: return@launch
+                val fecha = estadoOld.fecha ?: return@launch
+
+                val tipo = TipoFestivos.entries.find { it.name == estadoOld.strTipo }
+                    ?: estadoOld.strTipo.toTipoFestivo()
+                    ?: TipoFestivos.NACIONAL
+                val id = festivosUseCase.existeFestivoUseCase(DatosFestivos(-1, fecha, tipo))
+                val dato = DatosFestivos(id, fecha, tipo)
+                if(festivosUseCase.setFestivoUseCase(dato)){
+                    val strAno = fecha.year.toString()
+                    val lista = festivosUseCase.getAllFestivosUseCase(strAno)
+                    _estado.value = (_estado.value ?: FestivosUiEstado()).copy(
+                        listaFestivos = lista,
+                        msgError =  null,
+                        isCargando = false,
+                        isSpTipoActivo = false,
+                        isBtnGuardarActivo = false
+                    )
+                }
+
+            }
+            catch (e: Exception){
+                _estado.value = (_estado.value ?: FestivosUiEstado()).copy(
+                    msgError = "Error al guardar los datos: ${e.message}",
+                    isCargando = false,
+                    isSpTipoActivo = false,
+                    isBtnGuardarActivo = false
+                )
+            }
+        }
+    }
+
+    fun spAnoClick(strAno: String) {
+        if(strAno.isBlank())return
+        _estado.value = (_estado.value ?: FestivosUiEstado()).copy(isCargando = true)
+        viewModelScope.launch {
+            try {
+                val listaFestivos = festivosUseCase.getAllFestivosUseCase(strAno)
+                _estado.value = (_estado.value ?: FestivosUiEstado()).copy(
+                    listaFestivos = listaFestivos,
+                    msgError = if(listaFestivos.isEmpty()) "Lista Vacía..." else null,
+                    isCargando = false,
+                    isSpTipoActivo = false,
+                    isBtnGuardarActivo = false
+                )
+            }
+            catch (e: Exception){
+                _estado.value = (_estado.value ?: FestivosUiEstado()).copy(
+                    listaFestivos = emptyList(), // O null, según cómo lo tengas definido
+                    msgError = "Error al cargar los datos: ${e.message}",
+                    isCargando = false,
+                    isSpTipoActivo = false,
+                    isBtnGuardarActivo = false
+                )
+            }
+        }
     }
 
     fun spFestivosClick(tipoFestivo: String){

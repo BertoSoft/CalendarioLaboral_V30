@@ -14,12 +14,13 @@ import com.example.calendariolaboral_v30.modulos.festivos.domain.model.TipoFesti
 import com.example.calendariolaboral_v30.modulos.festivos.ui.extensions.toImagen
 import com.example.calendariolaboral_v30.modulos.festivos.ui.extensions.toStringRes
 
-class FestivosAdapter(
-    private val onItemDeletePulsado: (DatosFestivos) -> Unit,
-    private val onItemPulsado: (DatosFestivos) -> Unit
-): ListAdapter<DatosFestivos, FestivosAdapter.FestivoViewHolder> (FestivoDiffCallBack) {
+class FestivosAdapter(): ListAdapter<DatosFestivos, FestivosAdapter.FestivoViewHolder> (FestivoDiffCallBack) {
 
     private val utils = Utils()
+
+    // Declaras las funciones como variables nullables fuera del constructor
+    var onItemPulsado: ((DatosFestivos) -> Unit)? = null
+    var onItemDeletePulsado: ((DatosFestivos) -> Unit)? = null
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -61,10 +62,10 @@ class FestivosAdapter(
                 cardItem.setCardBackgroundColor(ContextCompat.getColor(contexto, colorRes))
 
                 cardItem.setOnClickListener {
-                    onItemPulsado(festivo)
+                    onItemPulsado?.invoke(festivo)
                 }
                 ivDelete.setOnClickListener {
-                    onItemDeletePulsado(festivo)
+                    onItemDeletePulsado?.invoke(festivo)
                 }
             }
         }
