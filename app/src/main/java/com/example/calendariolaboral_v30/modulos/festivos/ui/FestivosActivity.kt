@@ -70,8 +70,9 @@ class FestivosActivity : AppCompatActivity() {
             ) {
                 val tipos = TipoFestivos.entries
                 val tipoFestivo = tipos[p2]
-                viewModel.spFestivosClick(tipoFestivo.name)
-
+                if(tipoFestivo.name != viewModel.estado.value?.strTipo){
+                    viewModel.spFestivosClick(tipoFestivo.name)
+                }
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {
 
@@ -84,9 +85,6 @@ class FestivosActivity : AppCompatActivity() {
         }
         btnGuardar.setOnClickListener {
             viewModel.btnGuardarClick()
-        }
-        btnAtrasFestivos.setOnClickListener {
-            finish()
         }
     }
 

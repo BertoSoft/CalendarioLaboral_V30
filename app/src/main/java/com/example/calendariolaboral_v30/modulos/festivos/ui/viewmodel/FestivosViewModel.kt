@@ -27,7 +27,7 @@ class FestivosViewModel (
 ) : ViewModel() {
 
     private val _estado = MutableLiveData<FestivosUiEstado>(FestivosUiEstado())
-    val estado: LiveData<FestivosUiEstado?> get() = _estado
+    val estado: LiveData<FestivosUiEstado> get() = _estado
 
     //####################################################################
     // Funciones
@@ -36,7 +36,7 @@ class FestivosViewModel (
     fun itemClick(festivo: DatosFestivos){
         _estado.value = (_estado.value ?: FestivosUiEstado()).copy(
             fecha = festivo.fecha,
-            strTipo = festivo.tipo.toString(),
+            strTipo = festivo.tipo.name,
             isSpTipoActivo = true,
             isBtnGuardarActivo = true
         )
@@ -103,7 +103,7 @@ class FestivosViewModel (
 
                 val tipo = TipoFestivos.entries.find { it.name == estadoOld.strTipo }
                     ?: estadoOld.strTipo.toTipoFestivo()
-                    ?: TipoFestivos.NACIONAL
+
                 val id = festivosUseCase.existeFestivoUseCase(DatosFestivos(-1, fecha, tipo))
                 val dato = DatosFestivos(id, fecha, tipo)
                 if(festivosUseCase.setFestivoUseCase(dato)){

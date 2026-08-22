@@ -74,10 +74,6 @@ class VacacionesActivity : AppCompatActivity() {
                     viewModel.onFechaFinalSeleccionada(ano, mes, dia)
                 }
             }
-            btnAtras.setOnClickListener {
-                finish()
-            }
-
         }
 
     private fun initSp() {
