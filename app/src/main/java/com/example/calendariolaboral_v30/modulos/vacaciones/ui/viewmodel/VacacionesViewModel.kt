@@ -14,11 +14,13 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 data class VacacionesUiState(
-    val strFechaInicio: String = "",
-    val strFechaFinal: String = "",
+    val fecha_inicio: LocalDate? = null,
+    val fecha_final: LocalDate? = null,
+    val lista: List<DatosVacaciones> = emptyList(),
     val isFechaFinHabilitada: Boolean = false,
     val isBtnGuardarHabilitado: Boolean = false,
     val isMostrarCalendario: Boolean = false,
+    val isCargando: Boolean = true,
     val msgError: String? = null
 )
 
@@ -36,26 +38,25 @@ class VacacionesViewModel(
     //######################################################################3
     // Funciones
     //######################################################################3
-    fun onFechaInicioSeleccionada(ano: Int, mes: Int, dia: Int){
+    fun tvFechaInicialClick(ano: Int, mes: Int, dia: Int){
         if(ano < 0) return
 
         val fecha: LocalDate? = LocalDate.of(ano, mes + 1, dia)
-        var strFechaInicio = ""
-        if(fecha != null)strFechaInicio = utils.fromLocalDateToFechaCorta(fecha)
         val estadoOld = _estado.value ?: VacacionesUiState()
 
-        if(strFechaInicio.isBlank()){
+        if(fecha == null){
             _estado.value = estadoOld.copy(
+                fecha_inicio = null,
                 isFechaFinHabilitada = false,
                 isBtnGuardarHabilitado = false,
                 isMostrarCalendario = false,
                 msgError = "Debes de seleccionar una fecha de inicio..."
             )
         }
-        else if(estadoOld.strFechaFinal.isBlank()){
+        else if(estadoOld.fecha_final == null){
 
             _estado.value = estadoOld.copy(
-                strFechaInicio = strFechaInicio,
+                fecha_inicio = fecha,
                 isFechaFinHabilitada = true,
                 isMostrarCalendario = true,
                 msgError = null
@@ -63,33 +64,47 @@ class VacacionesViewModel(
         }
         else{
             _estado.value = estadoOld.copy(
-                strFechaInicio = strFechaInicio,
-                isFechaFinHabilitada = true,
-                isMostrarCalendario = false,
-                msgError = null
+                isCargando = true
             )
+            viewModelScope.launch {
+                //Las dos estan cubiertas
+                val todoOk = vacacionesUsecase.isFechasValidas(DatosVacaciones(
+                    -1,
+                    fecha,
+                    estadoOld.fecha_final
+                ))
+                if(todoOk){
+                    _estado.value = estadoOld.copy(
+                        fecha_inicio = fecha,
+                        isFechaFinHabilitada = true,
+                        isMostrarCalendario = false,
+                        isCargando = false,
+                        msgError = null
+                    )
+                }
+                else{
+                    _estado.value = estadoOld.copy(
+                        fecha_inicio = null,
+                        isFechaFinHabilitada = true,
+                        isMostrarCalendario = false,
+                        isCargando = false,
+                        msgError = "La fecha inicial debe ser anterior a la final..."
+                    )
+                }
+            }
         }
     }
 
-    fun onFechaFinalSeleccionada(ano: Int, mes: Int, dia: Int){
+    fun tvFechaFinalClick(ano: Int, mes: Int, dia: Int){
         val estadoOld = _estado.value ?: VacacionesUiState()
-
-        // ⚡ CLÁUSULA DE ESCAPE ANTI-DUPLICADOS:
-        // Si la vista ya apagó el calendario, ignoramos llamadas fantasma del sistema
-        //if (!estadoOld.isMostrarCalendario && estadoOld.strFechaFinal.isNotBlank()) {
-         //   return
-       // }
-
 
         if(ano < 0){
             _estado.value = estadoOld.copy(isMostrarCalendario = false)
             return
         }
         val fecha: LocalDate? = LocalDate.of(ano, mes + 1, dia)
-        var strFechaFinal = ""
-        if(fecha != null)strFechaFinal = utils.fromLocalDateToFechaCorta(fecha)
 
-        if(strFechaFinal.isBlank()){
+        if(fecha == null){
             _estado.value = estadoOld.copy(
                 isBtnGuardarHabilitado = false,
                 isMostrarCalendario = false,
@@ -100,12 +115,12 @@ class VacacionesViewModel(
             viewModelScope.launch {
                 val todoOk = vacacionesUsecase.isFechasValidas(DatosVacaciones(
                     -1,
-                    estadoOld.strFechaInicio,
-                    strFechaFinal
+                    estadoOld.fecha_inicio!!,
+                    fecha
                 ))
                 if(todoOk){
                     _estado.value = estadoOld.copy(
-                        strFechaFinal = strFechaFinal,
+                        fecha_final = fecha,
                         isBtnGuardarHabilitado = true,
                         isMostrarCalendario = false,
                         msgError = null
@@ -113,17 +128,79 @@ class VacacionesViewModel(
                 }
                 else{
                     _estado.value = estadoOld.copy(
-                        strFechaFinal = "",
+                        fecha_final = null,
                         isBtnGuardarHabilitado = false,
                         isMostrarCalendario = false,
                         msgError = "La fecha final debe ser posterior a la de inicio..."
                     )
                 }
             }
+        }
+    }
 
+    fun btnGuardarClick(){
+        val estadoOld = _estado.value ?: VacacionesUiState().copy(isCargando = true)
+        viewModelScope.launch {
+            try {
+                val estadoOld = _estado.value ?: return@launch
+                val fecha_inicio = _estado.value?.fecha_inicio ?: return@launch
+                val fecha_final = _estado.value?.fecha_final ?: return@launch
+                val id = vacacionesUsecase.existeVacacionesUseCase(DatosVacaciones(
+                    -1,
+                    fecha_inicio,
+                    fecha_final
+                ))
+                val dato = DatosVacaciones(
+                    id,
+                    fecha_inicio,
+                    fecha_final
+                )
+                if(vacacionesUsecase.setVacacionesUseCase(dato)){
+                    val strAno = dato.FechaInicio.year.toString()
+                    val lista = vacacionesUsecase.getAllVacacionesUseCase(strAno)
+                    _estado.value = _estado.value ?: VacacionesUiState().copy(
+                        lista = lista,
+                        msgError = null,
+                        isCargando = false,
+                        isBtnGuardarHabilitado = false,
+                        isMostrarCalendario = false,
+                        isFechaFinHabilitada = false
+                    )
+                }
+            }
+            catch (e: Exception){
+                _estado.value = _estado.value ?: VacacionesUiState().copy(
+                    msgError = "se produjo un errror: ${e.message}",
+                    isBtnGuardarHabilitado = false,
+                    isCargando = false,
+                    isMostrarCalendario = false,
+                    isFechaFinHabilitada = false
+                )
+            }
         }
 
 
+    }
+
+    fun spAnoClick(strAno: String){
+        val estadoOld =  _estado.value ?: VacacionesUiState().copy(isCargando = true)
+        viewModelScope.launch {
+            try {
+                val lista = vacacionesUsecase.getAllVacacionesUseCase(strAno) ?: emptyList()
+                _estado.value = _estado.value ?: VacacionesUiState().copy(
+                    lista = lista,
+                    isCargando = false,
+                    msgError = if(lista.isEmpty())" Lista de Vacaciones Vacía" else null
+                )
+            }
+            catch (e: Exception){
+                _estado.value = _estado.value ?: VacacionesUiState().copy(
+                    lista = emptyList(),
+                    isCargando = false,
+                    msgError = "Se produjo un errro al cargar la lista: ${e.message}"
+                )
+            }
+        }
     }
 
     fun onItemPulsado(registro: DatosVacaciones){
@@ -137,8 +214,6 @@ class VacacionesViewModel(
         }
     }
 
-
-    // 🛠️ AGREGA ESTE BLOQUE AL FINAL DEL ARCHIVO (DENTRO DE LA CLASE)
     class Factory(
         private val vacacionesUseCase: VacacionesUseCase,
         private val utils: Utils

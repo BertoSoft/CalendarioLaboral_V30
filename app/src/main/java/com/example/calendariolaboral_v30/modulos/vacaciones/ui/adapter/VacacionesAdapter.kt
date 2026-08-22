@@ -30,6 +30,7 @@ class VacacionesAdapter(
 
         fun render(){
 
+
         }
     }
 

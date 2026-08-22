@@ -117,7 +117,6 @@ class FestivosViewModel (
                         isBtnGuardarActivo = false
                     )
                 }
-
             }
             catch (e: Exception){
                 _estado.value = (_estado.value ?: FestivosUiEstado()).copy(

@@ -9,7 +9,7 @@ import com.example.calendariolaboral_v30.modulos.festivos.domain.model.DatosFest
 import com.example.calendariolaboral_v30.modulos.festivos.domain.model.TipoFestivos
 import com.example.calendariolaboral_v30.modulos.vacaciones.domain.model.DatosVacaciones
 
-class miSqliteHelper(miContexto: Context): SQLiteOpenHelper(
+class MiSqliteHelper(miContexto: Context): SQLiteOpenHelper(
     miContexto,
     DATABASE_NAME,
     null,
@@ -144,10 +144,88 @@ class miSqliteHelper(miContexto: Context): SQLiteOpenHelper(
         }
     }
 
-    fun getAllVacaciones(): List<DatosVacaciones>{
+    fun getAllVacaciones(strAno: String): List<DatosVacaciones>{
         val lista = mutableListOf<DatosVacaciones>()
+        val utils = Utils()
+        val db: SQLiteDatabase = readableDatabase
+        val cursor = db.rawQuery("SELECT *FROM vacaciones", null)
+        if(cursor.moveToFirst()){
+            val colId = cursor.getColumnIndex("_id")
+            val colFecha1 = cursor.getColumnIndex("fecha_inicio")
+            val colFecha2 = cursor.getColumnIndex("fecha_final")
+            while (!cursor.isAfterLast){
+                val id = cursor.getInt(colId)
+                val strFecha1 = cursor.getString(colFecha1)
+                val strFecha2 = cursor.getString(colFecha2)
+                val fecha_inicio = utils.fromFechaCortaToLocalDate(strFecha1)
+                val fecha_final = utils.fromFechaCortaToLocalDate(strFecha2)
 
-        return lista
+                lista.add(DatosVacaciones(
+                    id,
+                    fecha_inicio,
+                    fecha_final
+                ))
+
+                cursor.moveToNext()
+            }
+            cursor.close()
+        }
+
+        return lista.filter { vacaciones ->
+            vacaciones.FechaInicio.year.toString() == strAno
+        }
+    }
+
+    fun existeVacaciones(dato: DatosVacaciones): Int{
+        var id = -1
+        val db: SQLiteDatabase = readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM vacaciones", null)
+        val utils = Utils();
+
+        if(cursor.moveToFirst()){
+            val colId = cursor.getColumnIndex("_id")
+            val colFecha1 = cursor.getColumnIndex("fecha_inicio")
+            val colFecha2 = cursor.getColumnIndex("fecha_final")
+            while (!cursor.isAfterLast){
+                val _id = cursor.getInt(colId)
+                val strFecha1 = cursor.getString(colFecha1)
+                val strFecha2 = cursor.getString(colFecha2)
+                val fecha_inicio = utils.fromFechaCortaToLocalDate(strFecha1)
+                val fecha_final = utils.fromFechaCortaToLocalDate(strFecha2)
+                // si la fecha inicial esta en el intervalo
+                if(dato.FechaInicio in fecha_inicio .. fecha_final ||
+                    dato.FechaFinal in fecha_inicio .. fecha_final
+                    ){
+                    id = cursor.getInt(colId)
+                    break
+                }
+                cursor.moveToNext()
+            }
+            cursor.close()
+        }
+        return id
+    }
+
+    fun setVacaciones(dato: DatosVacaciones): Boolean{
+        val db: SQLiteDatabase = writableDatabase
+        val strFechaInicio = Utils().fromLocalDateToFechaCorta(dato.FechaInicio) ?: ""
+        val strFechaFinal = Utils().fromLocalDateToFechaCorta(dato.FechaFinal) ?: ""
+
+        val valores = ContentValues().apply {
+            put("fecha_inicio", strFechaInicio)
+            put("fecha_final", strFechaFinal)
+        }
+        return try {
+            if(dato.id < 0){
+                db.insert("vacaciones", null, valores) != -1L
+            }
+            else{
+                db.update("vacaciones", valores, "_id = ?", arrayOf(dato.id.toString())) > 0
+            }
+        }
+        catch (e: Exception){
+            false
+        }
     }
 
     //######################################################################

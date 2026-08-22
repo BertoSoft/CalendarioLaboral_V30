@@ -6,20 +6,25 @@ import com.example.calendariolaboral_v30.modulos.vacaciones.domain.repository.Va
 
 class VacacionesUseCase(private val repository: VacacionesRepository) {
 
-    suspend fun getAllVacacionesUseCase(): List<DatosVacaciones>{
-        val lista = repository.getAllVacaciones()
-        return lista.sortedBy { it.strFechaInicio }
+    suspend fun getAllVacacionesUseCase(strAno: String): List<DatosVacaciones>{
+        val lista = repository.getAllVacaciones(strAno)
+        return lista.sortedBy { it.FechaInicio }
     }
 
     suspend fun isFechasValidas(dato: DatosVacaciones): Boolean {
-        if(dato.strFechaInicio == "" || dato.strFechaFinal == "" ) return false
-
         val utils = Utils()
-        val fechaInicio = utils.fromFechaCortaToLocalDate(dato.strFechaInicio)
-        val fechaFinal = utils.fromFechaCortaToLocalDate(dato.strFechaFinal)
-        if(fechaFinal.isBefore(fechaInicio)){
+
+        if(dato.FechaFinal.isBefore(dato.FechaInicio)){
             return false
         }
         return true
+    }
+
+    suspend fun existeVacacionesUseCase(dato: DatosVacaciones): Int{
+        return repository.existeVacaciones(dato)
+    }
+
+    suspend  fun setVacacionesUseCase(dato: DatosVacaciones): Boolean {
+        return repository.setVacaciones(dato)
     }
 }

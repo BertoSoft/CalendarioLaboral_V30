@@ -178,6 +178,16 @@ class FestivosActivity : AppCompatActivity() {
 
         //3.- Boton Guardar
         setBtnGuardarHabilitado(estado.isBtnGuardarActivo)
+
+        // 4. Gestionar los mensajes de error de negocio si existen
+        estado.msgError?.let { mensaje ->
+            android.widget.Toast.makeText(
+                this@FestivosActivity,
+                mensaje,
+                android.widget.Toast.LENGTH_SHORT
+            ).show()
+            viewModel.clearError()
+        }
     }
 
     private fun setBtnGuardarHabilitado(isBtnHabilitado: Boolean){

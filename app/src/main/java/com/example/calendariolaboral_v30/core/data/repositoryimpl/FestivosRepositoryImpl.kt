@@ -1,11 +1,11 @@
 package com.example.calendariolaboral_v30.core.data.repositoryimpl
 
-import com.example.calendariolaboral_v30.core.data.miSqliteHelper
+import com.example.calendariolaboral_v30.core.data.MiSqliteHelper
 import com.example.calendariolaboral_v30.modulos.festivos.domain.model.DatosFestivos
 import com.example.calendariolaboral_v30.modulos.festivos.domain.repository.FestivosRepository
 
 class FestivosRepositoryImpl (
-    private val dbHelper: miSqliteHelper
+    private val dbHelper: MiSqliteHelper
 ): FestivosRepository {
 
     override suspend fun getAllFestivos(strAno: String): List<DatosFestivos> {
