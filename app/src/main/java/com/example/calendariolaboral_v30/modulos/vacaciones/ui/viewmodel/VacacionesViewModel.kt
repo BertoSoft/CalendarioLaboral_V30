@@ -212,11 +212,50 @@ class VacacionesViewModel(
     }
 
     fun itemClick(vacaciones: DatosVacaciones){
-
+        val estadoOld = _estado.value ?: VacacionesUiState()
+        _estado.value = estadoOld.copy(
+            fecha_inicio = vacaciones.fecha_inicio,
+            fecha_final = vacaciones.fecha_final,
+            isMostrarCalendario = false,
+            isFechaFinHabilitada = true,
+            isBtnGuardarHabilitado = true,
+        )
     }
 
     fun itemDeleteClick(vacaciones: DatosVacaciones){
+        val estadoOld = _estado.value ?: VacacionesUiState()
+        _estado.value = estadoOld.copy(isCargando = true)
 
+        viewModelScope.launch {
+            try {
+                if (vacacionesUsecase.delVacaciones(vacaciones)){
+                    val str_ano = vacaciones.fecha_inicio.year.toString()
+                    val lista = vacacionesUsecase.getAllVacacionesUseCase(str_ano)
+                    _estado.value = estadoOld.copy(
+                        fecha_inicio = null,
+                        fecha_final = null,
+                        lista = lista,
+                        isCargando = false,
+                        isMostrarCalendario = false,
+                        isFechaFinHabilitada = false,
+                        isBtnGuardarHabilitado = false,
+                        msgError = null
+                    )
+                }
+            }
+            catch (e: Exception){
+                _estado.value = estadoOld.copy(
+                    fecha_inicio = null,
+                    fecha_final = null,
+                    lista = emptyList(),
+                    isCargando = false,
+                    isMostrarCalendario = false,
+                    isFechaFinHabilitada = false,
+                    isBtnGuardarHabilitado = false,
+                    msgError = "Se produjo un error: ${e.message} "
+                )
+            }
+        }
     }
 
     fun clearError(){

@@ -19,4 +19,8 @@ class VacacionesRepositoryImpl (
     override suspend fun setVacaciones(dato: DatosVacaciones): Boolean {
         return dbHelper.setVacaciones(dato)
     }
+
+    override suspend fun delVacaciones(dato: DatosVacaciones): Boolean {
+        return dbHelper.delVacaciones(dato)
+    }
 }

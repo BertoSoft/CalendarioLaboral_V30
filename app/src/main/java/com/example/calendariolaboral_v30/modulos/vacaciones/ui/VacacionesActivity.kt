@@ -52,7 +52,7 @@ class VacacionesActivity : AppCompatActivity() {
             adapter = miAdapter
             setHasFixedSize(true)
         }
-        miAdapter.onItemDeletePulsado = { vacaciones ->
+        miAdapter.onItemPulsado = { vacaciones ->
             viewModel.itemClick(vacaciones)
         }
         miAdapter.onItemDeletePulsado = { vacaciones ->

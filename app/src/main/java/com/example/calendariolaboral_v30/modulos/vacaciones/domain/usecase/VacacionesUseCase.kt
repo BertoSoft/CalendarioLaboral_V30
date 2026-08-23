@@ -61,4 +61,8 @@ class VacacionesUseCase(
     suspend  fun setVacacionesUseCase(dato: DatosVacaciones): Boolean {
         return vacacionesRepository.setVacaciones(dato)
     }
+
+    suspend fun delVacaciones(dato: DatosVacaciones): Boolean{
+        return vacacionesRepository.delVacaciones(dato)
+    }
 }

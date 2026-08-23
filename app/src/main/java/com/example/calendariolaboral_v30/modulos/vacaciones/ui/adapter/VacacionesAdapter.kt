@@ -15,7 +15,6 @@ class VacacionesAdapter() : ListAdapter<DatosVacaciones, VacacionesAdapter.Vacac
     var onItemPulsado: ((DatosVacaciones) -> Unit)? = null
     var onItemDeletePulsado: ((DatosVacaciones) -> Unit)? = null
 
-
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -41,7 +40,13 @@ class VacacionesAdapter() : ListAdapter<DatosVacaciones, VacacionesAdapter.Vacac
         val miContexto = binding.root.context
         fun render(vacaciones: DatosVacaciones){
             with(binding){
-                val str_vacaciones = "Dias laborables: (${vacaciones.total_dias} días)"
+                var str_vacaciones = ""
+                if(vacaciones.total_dias == 1){
+                    str_vacaciones = "Dias laborables: (${vacaciones.total_dias} día)"
+                }
+                else{
+                    str_vacaciones = "Dias laborables: (${vacaciones.total_dias} días)"
+                }
                 val str_fecha_inicio = utils.fromLocalDateToFechaCorta(vacaciones.fecha_inicio)
                 val str_fecha_final = utils.fromLocalDateToFechaCorta(vacaciones.fecha_final)
                 val str_fechas = "Del ${str_fecha_inicio} al ${str_fecha_final}"

@@ -7,4 +7,5 @@ interface VacacionesRepository {
     suspend fun getAllVacaciones(strAno: String): List<DatosVacaciones>
     suspend fun existeVacaciones(dato: DatosVacaciones): Int
     suspend fun setVacaciones(dato: DatosVacaciones): Boolean
+    suspend fun delVacaciones(dato: DatosVacaciones): Boolean
 }

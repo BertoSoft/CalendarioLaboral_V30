@@ -230,6 +230,24 @@ class MiSqliteHelper(miContexto: Context): SQLiteOpenHelper(
         }
     }
 
+    fun delVacaciones(dato: DatosVacaciones): Boolean{
+        val db = writableDatabase
+        val where = "_id = ?"
+        val arg = arrayOf(dato.id.toString())
+
+        return try {
+            val filasAfectadas = db.delete("vacaciones", where, arg)
+            filasAfectadas > 0
+        }
+        catch (e: Exception){
+            e.printStackTrace()
+            false
+        }
+        finally {
+            db.close()
+        }
+    }
+
     //######################################################################
     // Nombre de la Base De Datos y Version
     //###################################################################3
