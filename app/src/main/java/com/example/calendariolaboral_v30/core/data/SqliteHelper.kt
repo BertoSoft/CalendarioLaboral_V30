@@ -8,6 +8,7 @@ import com.example.calendariolaboral_v30.core.utils.Utils
 import com.example.calendariolaboral_v30.modulos.festivos.domain.model.DatosFestivos
 import com.example.calendariolaboral_v30.modulos.festivos.domain.model.TipoFestivos
 import com.example.calendariolaboral_v30.modulos.vacaciones.domain.model.DatosVacaciones
+import java.time.LocalDate
 
 class MiSqliteHelper(miContexto: Context): SQLiteOpenHelper(
     miContexto,
@@ -163,7 +164,8 @@ class MiSqliteHelper(miContexto: Context): SQLiteOpenHelper(
                 lista.add(DatosVacaciones(
                     id,
                     fecha_inicio,
-                    fecha_final
+                    fecha_final,
+                    -1
                 ))
 
                 cursor.moveToNext()
@@ -172,7 +174,7 @@ class MiSqliteHelper(miContexto: Context): SQLiteOpenHelper(
         }
 
         return lista.filter { vacaciones ->
-            vacaciones.FechaInicio.year.toString() == strAno
+            vacaciones.fecha_inicio.year.toString() == strAno
         }
     }
 
@@ -193,8 +195,8 @@ class MiSqliteHelper(miContexto: Context): SQLiteOpenHelper(
                 val fecha_inicio = utils.fromFechaCortaToLocalDate(strFecha1)
                 val fecha_final = utils.fromFechaCortaToLocalDate(strFecha2)
                 // si la fecha inicial esta en el intervalo
-                if(dato.FechaInicio in fecha_inicio .. fecha_final ||
-                    dato.FechaFinal in fecha_inicio .. fecha_final
+                if(dato.fecha_inicio in fecha_inicio .. fecha_final ||
+                    dato.fecha_final in fecha_inicio .. fecha_final
                     ){
                     id = cursor.getInt(colId)
                     break
@@ -208,8 +210,8 @@ class MiSqliteHelper(miContexto: Context): SQLiteOpenHelper(
 
     fun setVacaciones(dato: DatosVacaciones): Boolean{
         val db: SQLiteDatabase = writableDatabase
-        val strFechaInicio = Utils().fromLocalDateToFechaCorta(dato.FechaInicio) ?: ""
-        val strFechaFinal = Utils().fromLocalDateToFechaCorta(dato.FechaFinal) ?: ""
+        val strFechaInicio = Utils().fromLocalDateToFechaCorta(dato.fecha_inicio) ?: ""
+        val strFechaFinal = Utils().fromLocalDateToFechaCorta(dato.fecha_final) ?: ""
 
         val valores = ContentValues().apply {
             put("fecha_inicio", strFechaInicio)

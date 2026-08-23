@@ -4,6 +4,7 @@ import java.time.LocalDate
 
 data class DatosVacaciones(
     val id: Int,
-    val FechaInicio: LocalDate,
-    val FechaFinal: LocalDate,
+    val fecha_inicio: LocalDate,
+    val fecha_final: LocalDate,
+    val total_dias: Int
 )

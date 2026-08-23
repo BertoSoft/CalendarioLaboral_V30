@@ -15,10 +15,7 @@ import com.example.calendariolaboral_v30.modulos.festivos.ui.extensions.toImagen
 import com.example.calendariolaboral_v30.modulos.festivos.ui.extensions.toStringRes
 
 class FestivosAdapter(): ListAdapter<DatosFestivos, FestivosAdapter.FestivoViewHolder> (FestivoDiffCallBack) {
-
     private val utils = Utils()
-
-    // Declaras las funciones como variables nullables fuera del constructor
     var onItemPulsado: ((DatosFestivos) -> Unit)? = null
     var onItemDeletePulsado: ((DatosFestivos) -> Unit)? = null
 

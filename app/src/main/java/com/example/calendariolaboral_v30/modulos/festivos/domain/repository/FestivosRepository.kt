@@ -2,6 +2,7 @@ package com.example.calendariolaboral_v30.modulos.festivos.domain.repository
 
 import android.database.sqlite.SQLiteBindOrColumnIndexOutOfRangeException
 import com.example.calendariolaboral_v30.modulos.festivos.domain.model.DatosFestivos
+import java.time.LocalDate
 
 interface FestivosRepository {
     suspend fun getAllFestivos(strAno: String): List<DatosFestivos>

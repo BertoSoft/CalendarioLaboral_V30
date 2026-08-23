@@ -19,11 +19,7 @@ import java.time.LocalDate
 class VacacionesActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityVacacionesBinding
-    private val miAdapter = VacacionesAdapter(
-        onItemPulsado = { registro ->
-            viewModel.onItemPulsado(registro)
-        }
-    )
+    private val miAdapter = VacacionesAdapter()
     private val utils = Utils()
 
     private val viewModel: VacacionesViewModel by viewModels {
@@ -55,6 +51,12 @@ class VacacionesActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@VacacionesActivity)
             adapter = miAdapter
             setHasFixedSize(true)
+        }
+        miAdapter.onItemDeletePulsado = { vacaciones ->
+            viewModel.itemClick(vacaciones)
+        }
+        miAdapter.onItemDeletePulsado = { vacaciones ->
+            viewModel.itemDeleteClick(vacaciones)
         }
     }
 

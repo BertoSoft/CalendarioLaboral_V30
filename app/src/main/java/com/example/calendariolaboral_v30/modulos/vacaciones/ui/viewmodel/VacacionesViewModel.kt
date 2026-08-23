@@ -71,7 +71,8 @@ class VacacionesViewModel(
                 val todoOk = vacacionesUsecase.isFechasValidas(DatosVacaciones(
                     -1,
                     fecha,
-                    estadoOld.fecha_final
+                    estadoOld.fecha_final,
+                    -1
                 ))
                 if(todoOk){
                     _estado.value = estadoOld.copy(
@@ -116,7 +117,8 @@ class VacacionesViewModel(
                 val todoOk = vacacionesUsecase.isFechasValidas(DatosVacaciones(
                     -1,
                     estadoOld.fecha_inicio!!,
-                    fecha
+                    fecha,
+                    -1
                 ))
                 if(todoOk){
                     _estado.value = estadoOld.copy(
@@ -139,7 +141,8 @@ class VacacionesViewModel(
     }
 
     fun btnGuardarClick(){
-        val estadoOld = _estado.value ?: VacacionesUiState().copy(isCargando = true)
+        val estadoOld = _estado.value ?: VacacionesUiState()
+        _estado.value = estadoOld.copy(isCargando = true)
         viewModelScope.launch {
             try {
                 val estadoOld = _estado.value ?: return@launch
@@ -148,17 +151,21 @@ class VacacionesViewModel(
                 val id = vacacionesUsecase.existeVacacionesUseCase(DatosVacaciones(
                     -1,
                     fecha_inicio,
-                    fecha_final
+                    fecha_final,
+                    -1
                 ))
                 val dato = DatosVacaciones(
                     id,
                     fecha_inicio,
-                    fecha_final
+                    fecha_final,
+                    -1
                 )
                 if(vacacionesUsecase.setVacacionesUseCase(dato)){
-                    val strAno = dato.FechaInicio.year.toString()
+                    val strAno = dato.fecha_inicio.year.toString()
                     val lista = vacacionesUsecase.getAllVacacionesUseCase(strAno)
-                    _estado.value = _estado.value ?: VacacionesUiState().copy(
+                    _estado.value = estadoOld.copy(
+                        fecha_inicio = null,
+                        fecha_final = null,
                         lista = lista,
                         msgError = null,
                         isCargando = false,
@@ -169,7 +176,7 @@ class VacacionesViewModel(
                 }
             }
             catch (e: Exception){
-                _estado.value = _estado.value ?: VacacionesUiState().copy(
+                _estado.value = estadoOld.copy(
                     msgError = "se produjo un errror: ${e.message}",
                     isBtnGuardarHabilitado = false,
                     isCargando = false,
@@ -183,18 +190,19 @@ class VacacionesViewModel(
     }
 
     fun spAnoClick(strAno: String){
-        val estadoOld =  _estado.value ?: VacacionesUiState().copy(isCargando = true)
+        val estadoOld =  _estado.value ?: VacacionesUiState()
+            _estado.value = estadoOld.copy(isCargando = true)
         viewModelScope.launch {
             try {
                 val lista = vacacionesUsecase.getAllVacacionesUseCase(strAno) ?: emptyList()
-                _estado.value = _estado.value ?: VacacionesUiState().copy(
+                _estado.value = estadoOld.copy(
                     lista = lista,
                     isCargando = false,
                     msgError = if(lista.isEmpty())" Lista de Vacaciones Vacía" else null
                 )
             }
             catch (e: Exception){
-                _estado.value = _estado.value ?: VacacionesUiState().copy(
+                _estado.value = estadoOld.copy(
                     lista = emptyList(),
                     isCargando = false,
                     msgError = "Se produjo un errro al cargar la lista: ${e.message}"
@@ -203,7 +211,11 @@ class VacacionesViewModel(
         }
     }
 
-    fun onItemPulsado(registro: DatosVacaciones){
+    fun itemClick(vacaciones: DatosVacaciones){
+
+    }
+
+    fun itemDeleteClick(vacaciones: DatosVacaciones){
 
     }
 

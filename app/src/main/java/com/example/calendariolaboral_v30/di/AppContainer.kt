@@ -28,7 +28,7 @@ class AppContainer(private val context: Context) {
         VacacionesRepositoryImpl(sqliteHelper)
     }
     val vacacionesUseCase: VacacionesUseCase by lazy {
-        VacacionesUseCase(vacacionesRepository)
+        VacacionesUseCase(vacacionesRepository, festivosRepository)
     }
 
     val utils: Utils by lazy {
