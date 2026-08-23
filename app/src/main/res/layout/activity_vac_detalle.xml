@@ -2,9 +2,10 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/scrollVacaciones"
+    android:id="@+id/scrollVacDetalle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:importantForAccessibility="no"
     android:background="@color/bg_app">
 
     <LinearLayout
@@ -30,13 +31,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="GESTIÓN DE AUSENCIAS"
+                    android:text="RESUMEN VACACIONES"
                     android:textColor="@color/app_accent"
                     android:textSize="12sp"
                     android:textStyle="bold"
                     android:letterSpacing="0.15" />
                 <TextView
-                    android:id="@+id/tvTituloVacaciones"
+                    android:id="@+id/tvTituloResumen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Mis Vacaciones"
@@ -46,8 +47,8 @@
                     android:layout_marginTop="4dp" />
             </LinearLayout>
 
-           <Spinner
-                android:id="@+id/spAnioVacaciones"
+            <Spinner
+                android:id="@+id/spAnioDetalle"
                 android:layout_width="125dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="10dp"
@@ -55,11 +56,57 @@
                 android:spinnerMode="dropdown" />
         </LinearLayout>
 
-        <!-- TARJETA CONTENEDORA PARA EL LISTADO DE PERIODOS -->
+        <!-- INDICADOR DESTACADO: VACACIONES PENDIENTES -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardPendientesDestacado"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_marginBottom="24dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/bg_card_surface">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="20dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="⏳"
+                    android:textSize="28sp"
+                    android:layout_marginEnd="16dp"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Vacaciones pendientes años anteriores"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/tvDiasPendientesCabecera"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-- días"
+                        android:textColor="@color/text_main"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="2dp" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- LISTADO DE DETALLES -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="PERIODOS SOLICITADOS ESTE AÑO"
+            android:text="DESGLOSE DE PERIODOS DISFRUTADOS"
             android:textColor="@color/text_secondary"
             android:textSize="11sp"
             android:textStyle="bold"
@@ -68,21 +115,18 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="320dp"
+            android:layout_height="260dp"
             android:layout_marginBottom="24dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp"
             app:cardBackgroundColor="@color/bg_app">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvVacaciones"
+                android:id="@+id/rvVacacionesDetalle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="8dp" />
         </androidx.cardview.widget.CardView>
-
-
-
         <!-- DIVISOR ESTILIZADO -->
         <View
             android:layout_width="match_parent"
@@ -90,124 +134,98 @@
             android:background="@color/bg_fecha_disabled"
             android:layout_marginBottom="20dp" />
 
-        <!-- SECCIÓN NUEVO PERIODO -->
+        <!-- SECCIÓN DE CONTADORES FINALES -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="PULSA LOS CUADROS PARA CONFIGURAR FECHAS"
+            android:text="BALANCE DE JORNADAS ANUALES"
             android:textColor="@color/text_secondary"
             android:textSize="11sp"
             android:textStyle="bold"
             android:layout_marginBottom="12dp"
             android:letterSpacing="0.05" />
 
-        <!-- Campos de Selección de Fecha (Lado a Lado) -->
+        <!-- Fila Lado a Lado para los Totales -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="24dp">
+            android:baselineAligned="false">
 
-            <!-- Fecha Inicial -->
+            <!-- Card 1: Vacaciones Disfrutadas -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardFechaInicioContenedor"
+                android:id="@+id/cardVacacionesDisfrutadas"
                 android:layout_width="0dp"
-                android:layout_height="72dp"
+                android:layout_height="100dp"
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
-                app:cardBackgroundColor="@color/bg_fecha_active">
+                app:cardBackgroundColor="#059669">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:gravity="center">
+                    android:padding="14dp">
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tvLabelDisfrutadas"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Fecha Inicio 📅"
-                        android:textColor="@color/app_accent"
-                        android:textSize="12sp"
+                        android:text="Disfrutadas"
+                        android:textColor="@color/text_main"
+                        android:textSize="16sp"
+                        android:alpha="0.8"
                         android:textStyle="bold" />
                     <TextView
-                        android:id="@+id/tvFechaInicio"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="-- / -- / ----"
+                        android:id="@+id/tvTotalDisfrutadas"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAlignment="center"
+                        android:text="-- días"
                         android:textColor="@color/text_main"
-                        android:textSize="14sp"
-                        android:layout_marginTop="4dp" />
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:gravity="start|bottom" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Fecha Final -->
+            <!-- Card 2: Vacaciones Pendientes -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardFechaFinContenedor"
+                android:id="@+id/cardVacacionesPendientes"
                 android:layout_width="0dp"
-                android:layout_height="72dp"
+                android:layout_height="100dp"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
-                app:cardBackgroundColor="@color/bg_fecha_disabled">
+                app:cardBackgroundColor="@color/color_accent_orange">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:gravity="center">
+                    android:padding="14dp">
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tvLabelPendientes"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Fecha Fin 📅"
-                        android:textColor="@color/app_accent"
-                        android:textSize="12sp"
+                        android:text="Pendientes"
+                        android:textColor="@color/text_main"
+                        android:textSize="16sp"
+                        android:alpha="0.8"
                         android:textStyle="bold" />
                     <TextView
-                        android:id="@+id/tvFechaFin"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="-- / -- / ----"
+                        android:id="@+id/tvTotalPendientes"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAlignment="center"
+                        android:text="-- días"
                         android:textColor="@color/text_main"
-                        android:textSize="14sp"
-                        android:layout_marginTop="4dp" />
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:gravity="start|bottom" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
-
-        <!-- BOTÓN DE CONFIRMACIÓN -->
-        <Button
-            android:id="@+id/btnGuardarVacaciones"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:text="Guardar Registro"
-            android:backgroundTint="@color/bg_btn_disabled"
-            android:textColor="@color/text_main"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp"
-            android:textSize="16sp"
-            app:cornerRadius="16dp" />
-
-
-        <!-- DIVISOR ESTILIZADO -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/bg_fecha_disabled"
-            android:layout_marginBottom="16dp" />
-
-        <!-- BOTÓN DE CONFIRMACIÓN -->
-        <Button
-            android:id="@+id/btnDetalleVacaciones"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:text="Detalle de Vacaciones"
-            android:backgroundTint="@color/bg_btn_active"
-            android:textColor="@color/text_main"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp"
-            android:textSize="16sp"
-            app:cornerRadius="16dp" />
 
     </LinearLayout>
 </ScrollView>

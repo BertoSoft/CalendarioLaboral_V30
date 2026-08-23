@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardItemVacDetalle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
+    app:cardCornerRadius="14dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="@color/bg_fecha_active">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="12dp">
+
+        <!-- Icono de Calendario unificado con tu diseño anterior -->
+        <ImageView
+            android:id="@+id/ivDetalleIcono"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="16dp"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:src="@drawable/calendar_svgrepo_com"
+            android:importantForAccessibility="no" />
+
+        <!-- Rango de Fechas (Ocupa el espacio izquierdo) -->
+        <TextView
+            android:id="@+id/tvDetalleFechas"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Del 00/00/0000 al 00/00/0000"
+            android:textColor="@color/text_main"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <!-- Contador de Días (Alineado a la derecha en formato destacado) -->
+        <TextView
+            android:id="@+id/tvDetalleTotalDias"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="21 Días"
+            android:textColor="@color/app_accent"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_marginStart="8dp" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

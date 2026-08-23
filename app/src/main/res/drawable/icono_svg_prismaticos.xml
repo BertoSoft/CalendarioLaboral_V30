@@ -1,0 +1,98 @@
+<vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="512dp"
+    android:height="512dp"
+    android:viewportWidth="512"
+    android:viewportHeight="512">
+
+    <!-- Fondo Solicitado (#6366F1) -->
+    <path
+        android:fillColor="#6366F1"
+        android:pathData="M64,0h384c35.3,0 64,28.7 64,64v384c0,35.3 -28.7,64 -64,64H64c-35.3,0 -64,-28.7 -64,-64V64C0,28.7 28.7,0 64,0z" />
+
+    <!-- Grupo con escala y traslación para centrar el icono -->
+    <!-- Cuerpo Izquierdo -->
+    <path
+        android:fillColor="#4B4F58"
+        android:strokeColor="#000000"
+        android:strokeWidth="17.2"
+        android:strokeLineJoin="round"
+        android:pathData="M143.5,122L104.8,276.8h86L177.9,122Z" />
+    <path
+        android:fillColor="#3A3D44"
+        android:pathData="M143.5,122L104.8,276.8h38.7l12.9,-154.8Z" />
+    <path
+        android:fillColor="#2D3037"
+        android:strokeColor="#000000"
+        android:strokeWidth="17.2"
+        android:strokeLineJoin="round"
+        android:pathData="M143.5,79a38.7,38.7 0,0 1,38.7 38.7v25.8a38.7,38.7 0,0 1,-38.7 38.7h-17.2a38.7,38.7 0,0 1,-38.7 -38.7v-25.8a38.7,38.7 0,0 1,38.7 -38.7z" />
+
+    <!-- Cuerpo Derecho -->
+    <path
+        android:fillColor="#4B4F58"
+        android:strokeColor="#000000"
+        android:strokeWidth="17.2"
+        android:strokeLineJoin="round"
+        android:pathData="M368.8,122l38.7,154.8h-86l12.9,-154.8Z" />
+    <path
+        android:fillColor="#5D626E"
+        android:pathData="M368.8,122l12.9,154.8h38.7l-38.7,-154.8Z" />
+    <path
+        android:fillColor="#2D3037"
+        android:strokeColor="#000000"
+        android:strokeWidth="17.2"
+        android:strokeLineJoin="round"
+        android:pathData="M351.6,79a38.7,38.7 0,0 1,38.7 38.7v25.8a38.7,38.7 0,0 1,-38.7 38.7h-17.2a38.7,38.7 0,0 1,-38.7 -38.7v-25.8a38.7,38.7 0,0 1,38.7 -38.7z" />
+
+    <!-- Eje Central de Unión -->
+    <path
+        android:fillColor="#2D3037"
+        android:strokeColor="#000000"
+        android:strokeWidth="17.2"
+        android:strokeLineJoin="round"
+        android:pathData="M216.6,173.6h79.1v111.8h-79.1z" />
+    <path
+        android:fillColor="#1E2024"
+        android:pathData="M216.6,216.6h79.1v25.8h-79.1z" />
+
+    <!-- Lente Grande Izquierdo -->
+    <path
+        android:fillColor="#E6E8EE"
+        android:strokeColor="#000000"
+        android:strokeWidth="17.2"
+        android:pathData="M156.4,319.8m-81.7,0a81.7,81.7 0,1 1,163.4 0a81.7,81.7 0,1 1,-163.4 0" />
+    <path
+        android:fillColor="#428AD4"
+        android:strokeColor="#000000"
+        android:strokeWidth="17.2"
+        android:pathData="M156.4,319.8m-60.2,0a60.2,60.2 0,1 1,120.4 0a60.2,60.2 0,1 1,-120.4 0" />
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="10.3"
+        android:strokeLineCap="round"
+        android:pathData="M113.4,294a55.9,55.9 0,0 1,86 0" />
+
+    <!-- Lente Grande Derecho -->
+    <path
+        android:fillColor="#E6E8EE"
+        android:strokeColor="#000000"
+        android:strokeWidth="17.2"
+        android:pathData="M355.9,319.8m-81.7,0a81.7,81.7 0,1 1,163.4 0a81.7,81.7 0,1 1,-163.4 0" />
+    <path
+        android:fillColor="#428AD4"
+        android:strokeColor="#000000"
+        android:strokeWidth="17.2"
+        android:pathData="M355.9,319.8m-60.2,0a60.2,60.2 0,1 1,120.4 0a60.2,60.2 0,1 1,-120.4 0" />
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="10.3"
+        android:strokeLineCap="round"
+        android:pathData="M312.9,294a55.9,55.9 0,0 1,86 0" />
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="10.3"
+        android:strokeLineCap="round"
+        android:pathData="M388.6,302.6a55.9,55.9 0,0 1,17.2 43" />
+
+</vector>

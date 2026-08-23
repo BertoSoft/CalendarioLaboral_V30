@@ -30,6 +30,10 @@
             android:name=".modulos.vacaciones.ui.VacacionesActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".modulos.vacacionesdetalle.ui.VacacionesDetalle"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>
