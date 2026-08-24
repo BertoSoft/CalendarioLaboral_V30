@@ -26,7 +26,7 @@ data class VacacionesUiState(
 
 class VacacionesViewModel(
     private val vacacionesUsecase: VacacionesUseCase,
-    private val utils: Utils
+    private val utils: Utils,
 ): ViewModel() {
 
     private val _estado = MutableLiveData<VacacionesUiState>(VacacionesUiState())
@@ -267,12 +267,12 @@ class VacacionesViewModel(
 
     class Factory(
         private val vacacionesUseCase: VacacionesUseCase,
-        private val utils: Utils
+        private val utils: Utils,
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(VacacionesViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return VacacionesViewModel(vacacionesUseCase, utils) as T
+                return VacacionesViewModel( vacacionesUseCase, utils) as T
             }
             throw IllegalArgumentException("Clase ViewModel desconocida")
         }

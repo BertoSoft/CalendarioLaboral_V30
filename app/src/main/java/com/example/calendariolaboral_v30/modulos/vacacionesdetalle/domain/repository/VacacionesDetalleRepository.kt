@@ -5,7 +5,7 @@ import com.example.calendariolaboral_v30.modulos.vacacionesdetalle.domain.model.
 
 interface VacacionesDetalleRepository {
 
-    suspend fun getVacacionesPendientes(): List<DatosVacasPendientes>
+    suspend fun getDiasVacasPendientes(): List<DatosVacasPendientes>
 
     suspend fun initVacasPendientes(lista: List<DatosVacasPendientes>): Boolean
 }

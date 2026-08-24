@@ -8,8 +8,8 @@ class VacacionesDetalleUseCase(
     private val vacacionesDetalleRepository: VacacionesDetalleRepository
 ) {
 
-    suspend fun getVacacionesPendientesUseCase(): List<DatosVacasPendientes>{
-        return vacacionesDetalleRepository.getVacacionesPendientes()
+    suspend fun getDiasVacasPendientesUseCasse(): List<DatosVacasPendientes>{
+        return vacacionesDetalleRepository.getDiasVacasPendientes()
     }
 
     suspend fun initVacasPendientesUseCase(lista: List<DatosVacasPendientes>): Boolean{

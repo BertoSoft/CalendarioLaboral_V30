@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="8dp">
 
         <!-- CABECERA: TÍTULO Y FILTRO DE AÑO -->
         <LinearLayout
@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="24dp">
 
             <LinearLayout
@@ -68,7 +68,7 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="320dp"
+            android:layout_height="300dp"
             android:layout_marginBottom="24dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp"
@@ -202,7 +202,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:text="Detalle de Vacaciones"
-            android:backgroundTint="@color/bg_btn_active"
+            android:backgroundTint="@color/color_accent_orange"
             android:textColor="@color/text_main"
             android:textStyle="bold"
             android:layout_marginBottom="16dp"

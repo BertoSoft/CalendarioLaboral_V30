@@ -27,6 +27,7 @@ class VacacionesAdapter() : ListAdapter<DatosVacaciones, VacacionesAdapter.Vacac
         return VacacionesViewHolder(binding)
     }
 
+
     override fun onBindViewHolder(
         holder: VacacionesViewHolder,
         position: Int

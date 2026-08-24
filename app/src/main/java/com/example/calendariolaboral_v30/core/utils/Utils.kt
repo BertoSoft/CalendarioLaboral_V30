@@ -15,7 +15,11 @@ class Utils {
         .parseCaseInsensitive()
         .appendPattern("EEEE, d 'de' MMMM 'de' yyyy")
         .toFormatter(localeEspanol)
-    private val formateadorCorto = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    //private val formateadorCorto = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    private val formateadorCorto = DateTimeFormatterBuilder()
+        .parseCaseInsensitive()
+        .appendPattern("dd/MM/yyyy")
+        .toFormatter(localeEspanol)
 
     fun fromLocalDateToCalendar(localDate: LocalDate): Calendar {
         return Calendar.getInstance().apply {

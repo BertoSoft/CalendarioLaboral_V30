@@ -28,7 +28,7 @@ class VacacionesActivity : AppCompatActivity() {
         val app = application as com.example.calendariolaboral_v30.MiAplicacion
         VacacionesViewModel.Factory(
             vacacionesUseCase = app.appContainer.vacacionesUseCase,
-            utils = app.appContainer.utils
+            utils = app.appContainer.utils,
         )
     }
 

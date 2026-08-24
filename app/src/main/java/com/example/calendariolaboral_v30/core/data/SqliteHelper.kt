@@ -259,7 +259,7 @@ class MiSqliteHelper(miContexto: Context): SQLiteOpenHelper(
         }
     }
 
-    fun getVacacionesPendientes(): List<DatosVacasPendientes>{
+    fun getDiasVacasPendientes(): List<DatosVacasPendientes>{
         val lista = mutableListOf<DatosVacasPendientes>()
         val db: SQLiteDatabase = readableDatabase
         val cursor = db.rawQuery("SELECT *FROM vacaciones_pendientes", null)

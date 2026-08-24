@@ -9,8 +9,8 @@ class VacacionesDetalleRepositoryImpl(
     private val dbHelper: MiSqliteHelper
 ): VacacionesDetalleRepository {
 
-    override suspend fun getVacacionesPendientes(): List<DatosVacasPendientes>{
-        return dbHelper.getVacacionesPendientes()
+    override suspend fun getDiasVacasPendientes(): List<DatosVacasPendientes>{
+        return dbHelper.getDiasVacasPendientes()
     }
 
     override suspend fun initVacasPendientes(lista: List<DatosVacasPendientes>): Boolean {

@@ -11,7 +11,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.pruebahilt"
+        applicationId = "com.example.calendariolaboral_v30"
         minSdk = 26
         targetSdk = 37
         versionCode = 1
