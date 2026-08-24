@@ -8,7 +8,7 @@ import com.example.calendariolaboral_v30.core.utils.Utils
 import com.example.calendariolaboral_v30.modulos.festivos.domain.model.DatosFestivos
 import com.example.calendariolaboral_v30.modulos.festivos.domain.model.TipoFestivos
 import com.example.calendariolaboral_v30.modulos.vacaciones.domain.model.DatosVacaciones
-import java.time.LocalDate
+import com.example.calendariolaboral_v30.modulos.vacacionesdetalle.domain.model.DatosVacasPendientes
 
 class MiSqliteHelper(miContexto: Context): SQLiteOpenHelper(
     miContexto,
@@ -34,6 +34,15 @@ class MiSqliteHelper(miContexto: Context): SQLiteOpenHelper(
                 fecha_final TEXT NOT NULL
             )
         """.trimIndent())
+
+        // Tabla de vacacionesPendientes
+        p0?.execSQL("""
+            CREATE TABLE vacaciones_pendientes (
+                _id INTEGER PRIMARY KEY AUTOINCREMENT,
+                ano TEXT NOT NULL,
+                dias TEXT NOT NULL
+            )
+        """.trimIndent())
     }
 
     override fun onUpgrade(
@@ -43,6 +52,8 @@ class MiSqliteHelper(miContexto: Context): SQLiteOpenHelper(
     ) {
         p0?.execSQL("DROP TABLE IF EXISTS festivos")
         p0?.execSQL("DROP TABLE IF EXISTS vacaciones")
+        p0?.execSQL("DROP TABLE IF EXISTS vacaciones_pendientes")
+
         onCreate(p0)
     }
 
@@ -246,6 +257,54 @@ class MiSqliteHelper(miContexto: Context): SQLiteOpenHelper(
         finally {
             db.close()
         }
+    }
+
+    fun getVacacionesPendientes(): List<DatosVacasPendientes>{
+        val lista = mutableListOf<DatosVacasPendientes>()
+        val db: SQLiteDatabase = readableDatabase
+        val cursor = db.rawQuery("SELECT *FROM vacaciones_pendientes", null)
+        if(cursor.moveToFirst()){
+            val colId =cursor.getColumnIndex("_id")
+            val colAno = cursor.getColumnIndex("ano")
+            val colDias = cursor.getColumnIndex("dias")
+            while (!cursor.isAfterLast){
+                val id = cursor.getInt(colId)
+                val str_ano = cursor.getString(colAno)
+                val str_dias = cursor.getString((colDias))
+
+                if(!str_ano.isEmpty() && !str_dias.isEmpty()){
+                    lista.add(DatosVacasPendientes(
+                        id,
+                        str_ano,
+                        str_dias.toInt()
+                    ))
+                }
+                cursor.moveToNext()
+            }
+        }
+        return lista
+    }
+
+    fun initVacasPendientes(lista: List<DatosVacasPendientes>): Boolean{
+        val db: SQLiteDatabase = writableDatabase
+        try {
+            for (lista in lista){
+                val str_ano = lista.str_ano
+                val str_dias = lista.dias.toString()
+                val valores = ContentValues().apply {
+                    put("ano", str_ano)
+                    put("dias", str_dias)
+                }
+                val id = db.insert("vacaciones_pendientes", null, valores)
+                if(id < 0){
+                    return false
+                }
+            }
+        }
+        catch (e: Exception){
+            return false
+        }
+        return true
     }
 
     //######################################################################
