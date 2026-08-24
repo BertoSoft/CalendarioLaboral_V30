@@ -53,7 +53,8 @@ class VacacionesDetalle : AppCompatActivity() {
     }
 
     private fun initVacacionesPendientes() {
-        val listaVacacionesPendientes = viewModel.getVacacionesPendientes()
+        val dias = viewModel.getVacacionesPendientes(binding.spAnioDetalle.selectedItem.toString())
+        binding.tvDiasPendientesCabecera.text = "${dias.toString()} días."
     }
 
     private fun initSp() {

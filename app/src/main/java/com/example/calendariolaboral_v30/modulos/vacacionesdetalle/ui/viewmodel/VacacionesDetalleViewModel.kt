@@ -25,13 +25,14 @@ class VacacionesDetalleViewModel(
     private val _estado = MutableLiveData<VacasPendientesUiEstado>(VacasPendientesUiEstado())
     val estado: LiveData<VacasPendientesUiEstado> get() = _estado
 
-    fun getVacacionesPendientes(): List<DatosVacasPendientes>{
+    fun getVacacionesPendientes(strAno: String): Int{
         val estadoOld = _estado.value ?: VacasPendientesUiEstado()
+        var lista: List<DatosVacasPendientes> = emptyList()
         viewModelScope.launch {
             try {
                 _estado.value = estadoOld.copy(isCargando = true)
 
-                var lista = vacacionesDetalleUseCase.getVacacionesPendientesUseCase()
+                lista = vacacionesDetalleUseCase.getVacacionesPendientesUseCase()
                 if(lista.isEmpty()){
                     // Creamos la lista inicial en lista_tmp
                     val ano_actual = LocalDate.now().year
@@ -50,19 +51,29 @@ class VacacionesDetalleViewModel(
                     if(vacacionesDetalleUseCase.initVacasPendientesUseCase(listatmp)){
                         lista = vacacionesDetalleUseCase.getVacacionesPendientesUseCase()
                     }
+                    _estado.value = estadoOld.copy(
+                        msg_error = null,
+                        lista = lista,
+                        isCargando = false
+                    )
                 }
-
             }
             catch (e: Exception){
                 _estado.value = estadoOld.copy(
                     msg_error = "Se produjo un errror: ${e.message}",
-                    lista = emptyList()
+                    lista = emptyList(),
+                    isCargando = false
                 )
             }
         }
-
-
-        return emptyList()
+        var dias = -1
+        for(lista in lista){
+            if(lista.str_ano == strAno){
+                dias = lista.dias
+                break
+            }
+        }
+        return dias
     }
 
 
