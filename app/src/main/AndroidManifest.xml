@@ -34,6 +34,10 @@
             android:name=".modulos.vacacionesdetalle.ui.VacacionesDetalle"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".modulos.backup.ui.Backup"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

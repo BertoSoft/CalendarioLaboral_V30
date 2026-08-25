@@ -4,14 +4,12 @@ package com.example.calendariolaboral_v30.di
 import android.content.Context
 import com.example.calendariolaboral_v30.core.data.MiSqliteHelper
 import com.example.calendariolaboral_v30.core.data.repositoryimpl.FestivosRepositoryImpl
-import com.example.calendariolaboral_v30.core.data.repositoryimpl.VacacionesDetalleRepositoryImpl
 import com.example.calendariolaboral_v30.core.data.repositoryimpl.VacacionesRepositoryImpl
 import com.example.calendariolaboral_v30.core.utils.Utils
 import com.example.calendariolaboral_v30.modulos.festivos.domain.repository.FestivosRepository
 import com.example.calendariolaboral_v30.modulos.festivos.domain.usecase.FestivosUseCase
 import com.example.calendariolaboral_v30.modulos.vacaciones.domain.repository.VacacionesRepository
 import com.example.calendariolaboral_v30.modulos.vacaciones.domain.usecase.VacacionesUseCase
-import com.example.calendariolaboral_v30.modulos.vacacionesdetalle.domain.repository.VacacionesDetalleRepository
 import com.example.calendariolaboral_v30.modulos.vacacionesdetalle.domain.usecase.VacacionesDetalleUseCase
 
 class AppContainer(private val context: Context) {
@@ -30,15 +28,13 @@ class AppContainer(private val context: Context) {
     val vacacionesRepository: VacacionesRepository by lazy {
         VacacionesRepositoryImpl(sqliteHelper)
     }
+
     val vacacionesUseCase: VacacionesUseCase by lazy {
         VacacionesUseCase(vacacionesRepository, festivosRepository)
     }
 
-    val vacacionesDetalleRepository: VacacionesDetalleRepository by lazy {
-        VacacionesDetalleRepositoryImpl(sqliteHelper)
-    }
     val vacacionesDetalleUseCase: VacacionesDetalleUseCase by lazy {
-        VacacionesDetalleUseCase(vacacionesDetalleRepository)
+        VacacionesDetalleUseCase(vacacionesUseCase)
     }
 
     val utils: Utils by lazy {

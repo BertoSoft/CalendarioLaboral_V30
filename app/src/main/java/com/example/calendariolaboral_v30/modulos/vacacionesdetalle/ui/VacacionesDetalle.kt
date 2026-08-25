@@ -15,6 +15,7 @@ import com.example.calendariolaboral_v30.databinding.ActivityVacDetalleBinding
 import com.example.calendariolaboral_v30.modulos.vacaciones.domain.usecase.VacacionesUseCase
 import com.example.calendariolaboral_v30.modulos.vacaciones.ui.adapter.VacacionesAdapter
 import com.example.calendariolaboral_v30.modulos.vacacionesdetalle.ui.adapter.VacasPendientesAdapter
+import com.example.calendariolaboral_v30.modulos.vacacionesdetalle.ui.extensions.toDias
 import com.example.calendariolaboral_v30.modulos.vacacionesdetalle.ui.viewmodel.VacacionesDetalleViewModel
 import com.example.calendariolaboral_v30.modulos.vacacionesdetalle.ui.viewmodel.VacasPendientesUiEstado
 import java.time.LocalDate
@@ -43,11 +44,15 @@ class VacacionesDetalle : AppCompatActivity() {
 
     private fun initUi() {
         initSp()
-        initVacacionesPendientes()
         initRv()
+        initDatos()
         initListeners()
         initObserves()
 
+    }
+
+    private fun initDatos() {
+        viewModel.getDatos(binding.spAnioDetalle.selectedItem.toString())
     }
 
     private fun initObserves() {
@@ -58,48 +63,19 @@ class VacacionesDetalle : AppCompatActivity() {
         }
     }
 
-    fun dibujaUi(estado: VacasPendientesUiEstado) = with(binding){
+    private fun dibujaUi(estado: VacasPendientesUiEstado) = with(binding){
+
         //1.- Recycler View
         miAdapter.submitList(estado.lista_vacaciones)
 
         // 2.- Texto de Vacas Atrasadas
-        var ano = spAnioDetalle.selectedItem.toString().toInt()
-        ano --
-        val strAno = ano.toString()
-        val dato = estado.lista_vacas_pendientes.find { it.str_ano == strAno }
-        var strTexto = "-- Días."
-        var dias = 0
-        if(dato != null && dato.dias > 0){
-            dias = dato.dias
-            strTexto = "$dias Días."
-        }
-        tvDiasPendientesCabecera.text = strTexto
-        tvDiasPendientesCabecera.tag = dias
+        tvDiasPendientesCabecera.text = estado.vacas_atrasadas.toDias()
 
-        //3.- Dias Consumidos este año
-        val lista = estado.lista_vacaciones
-        var diasConsumidos = 0
-        for(lista in lista){
-            diasConsumidos += lista.total_dias
-        }
-        strTexto = "-- Días."
-        if(diasConsumidos > 0){
-            strTexto = "$diasConsumidos Días"
-        }
-        tvTotalDisfrutadas.text = strTexto
-        tvTotalDisfrutadas.tag = diasConsumidos
+        //3.- Texto Vacas Disfrutadas
+        tvTotalDisfrutadas.text = estado.vacas_disfrutadas.toDias()
 
-        //4.- Dias No Consumidos
-        val diasAtrasados = tvDiasPendientesCabecera.tag as Int
-        val diasDisfrutados = tvTotalDisfrutadas.tag as Int
-        dias = 0
-        strTexto = "-- Días"
-        dias = (22 + diasAtrasados ) - diasDisfrutados
-        if(dias > 0){
-            strTexto = "$dias Días"
-        }
-        tvTotalPendientes.text = strTexto
-        tvTotalPendientes.tag = dias
+        //4.- Texto Vacas Pendientes
+        tvTotalPendientes.text = estado.vacas_pendientes.toDias()
 
         // 5.- Mensajes de error
         if(estado.msg_error != null){
@@ -121,12 +97,11 @@ class VacacionesDetalle : AppCompatActivity() {
                 p3: Long
             ) {
                 val strAno = p0?.getItemAtPosition(p2).toString()
-                viewModel.getAllVacaciones(strAno)
+                viewModel.getDatos(strAno)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
-
         }
     }
 
@@ -137,12 +112,6 @@ class VacacionesDetalle : AppCompatActivity() {
                 setHasFixedSize(true)
             }
         val strAno = binding.spAnioDetalle.selectedItem.toString()
-        viewModel.getAllVacaciones(strAno)
-    }
-
-    private fun initVacacionesPendientes() {
-        val strAno = binding.spAnioDetalle.selectedItem.toString()
-        viewModel.getDiasVacasPendientes()
     }
 
     private fun initSp() {
