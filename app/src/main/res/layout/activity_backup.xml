@@ -102,10 +102,10 @@
 
         <!-- BOTÓN ACCIÓN EXPORTAR -->
         <Button
-            android:id="@+id/btnHacerCopia"
+            android:id="@+id/btnGuardarCopia"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:text="Guardar Copia"
+            android:text="Guardar Copia de Datos"
             android:backgroundTint="#7C3AED"
             android:textColor="@color/text_main"
             android:textStyle="bold"
@@ -183,7 +183,7 @@
             android:id="@+id/btnAbrirCopia"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:text="Abrir Archivo de Calendario"
+            android:text="Abrir Archivo de Datos"
             android:backgroundTint="@color/color_accent_orange"
             android:textColor="@color/text_main"
             android:textStyle="bold"

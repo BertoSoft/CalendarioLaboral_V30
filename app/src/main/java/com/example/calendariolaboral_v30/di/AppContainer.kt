@@ -1,11 +1,13 @@
 package com.example.calendariolaboral_v30.di
 
 // Importaciones cruzadas perfectas desde la raíz hacia abajo:
+import android.app.Application
 import android.content.Context
 import com.example.calendariolaboral_v30.core.data.MiSqliteHelper
 import com.example.calendariolaboral_v30.core.data.repositoryimpl.FestivosRepositoryImpl
 import com.example.calendariolaboral_v30.core.data.repositoryimpl.VacacionesRepositoryImpl
 import com.example.calendariolaboral_v30.core.utils.Utils
+import com.example.calendariolaboral_v30.modulos.backup.ui.viewmodel.BackupViewModel
 import com.example.calendariolaboral_v30.modulos.festivos.domain.repository.FestivosRepository
 import com.example.calendariolaboral_v30.modulos.festivos.domain.usecase.FestivosUseCase
 import com.example.calendariolaboral_v30.modulos.vacaciones.domain.repository.VacacionesRepository
@@ -35,6 +37,10 @@ class AppContainer(private val context: Context) {
 
     val vacacionesDetalleUseCase: VacacionesDetalleUseCase by lazy {
         VacacionesDetalleUseCase(vacacionesUseCase)
+    }
+
+    val aplicacion: Application by lazy {
+        context.applicationContext as Application
     }
 
     val utils: Utils by lazy {
