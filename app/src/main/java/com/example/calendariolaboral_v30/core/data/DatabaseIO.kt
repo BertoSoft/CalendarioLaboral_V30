@@ -16,11 +16,13 @@ class DatabaseIO(
         if(!fileOrigen.exists())return false
         // Coorrutina que grabara los datos de Calendario.db en el archivo Backup
         return try {
-            val outputStream = miContexto.contentResolver.openOutputStream(uri)
-                ?: throw IOException("No se pudo abrir el stream de destino para la URI proporcionada")
-            withContext(Dispatchers.IO){
-                fileOrigen.inputStream().copyTo(outputStream)
-            }
+           withContext(Dispatchers.IO){
+               // Dentro de tu bloque withContext(Dispatchers.IO):
+               miContexto.contentResolver.openOutputStream(uri)?.use { outputStream ->
+                   fileOrigen.inputStream().use { inputStream ->
+                       inputStream.copyTo(outputStream)
+                   }
+               } ?: throw IOException("No se pudo abrir el stream...")            }
 
             true
         }
