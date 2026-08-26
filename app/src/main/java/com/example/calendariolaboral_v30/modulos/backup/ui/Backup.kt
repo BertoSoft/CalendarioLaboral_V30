@@ -15,11 +15,9 @@ import com.example.calendariolaboral_v30.modulos.backup.ui.viewmodel.BackupViewM
 class Backup : AppCompatActivity() {
 
     private lateinit var binding: ActivityBackupBinding
-    private lateinit var dbHelper: MiSqliteHelper
     private val viewModel: BackupViewModel by viewModels{
         val app = application as com.example.calendariolaboral_v30.MiAplicacion
         BackupViewModel.Factory(
-            aplicacion = app.appContainer.aplicacion,
             backupUseCase = app.appContainer.backupUseCase
         )
     }
@@ -45,7 +43,6 @@ class Backup : AppCompatActivity() {
         binding = ActivityBackupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        dbHelper = MiSqliteHelper(this)
         initListeners()
         initObservers()
 
@@ -83,10 +80,10 @@ class Backup : AppCompatActivity() {
 
     private fun initListeners() = with(binding){
         btnGuardarCopia.setOnClickListener {
-            viewModel.getExportar()
+            viewModel.setExportar()
         }
         btnAbrirCopia.setOnClickListener {
-            viewModel.getImportar()
+            viewModel.setImportar()
         }
     }
 

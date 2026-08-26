@@ -19,19 +19,18 @@ data class BackupUiEstado(
 )
 
 class BackupViewModel(
-    private val aplicacion: Application,
     private val backupUseCase: BackupUseCase
 ): ViewModel() {
 
     private val _estado = MutableLiveData<BackupUiEstado>(BackupUiEstado())
     val estado: LiveData<BackupUiEstado> get() = _estado
 
-    fun getExportar(){
+    fun setExportar(){
         val estadoOld = _estado.value ?: BackupUiEstado()
         _estado.value = estadoOld.copy(isExportar = true)
     }
 
-    fun getImportar(){
+    fun setImportar(){
         val estadoOld = _estado.value ?: BackupUiEstado()
         _estado.value = estadoOld.copy(isImportar =  true)
     }
@@ -119,13 +118,12 @@ class BackupViewModel(
     }
 
     class Factory(
-        private val aplicacion: Application,
         private val backupUseCase: BackupUseCase
     ): ViewModelProvider.Factory{
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(BackupViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return BackupViewModel(aplicacion, backupUseCase) as T
+                return BackupViewModel(backupUseCase) as T
             }
             throw IllegalArgumentException("Clase ViewModel desconocida")
         }

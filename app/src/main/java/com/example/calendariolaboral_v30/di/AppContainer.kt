@@ -3,6 +3,7 @@ package com.example.calendariolaboral_v30.di
 // Importaciones cruzadas perfectas desde la raíz hacia abajo:
 import android.app.Application
 import android.content.Context
+import com.example.calendariolaboral_v30.core.data.DatabaseIO
 import com.example.calendariolaboral_v30.core.data.MiSqliteHelper
 import com.example.calendariolaboral_v30.core.data.repositoryimpl.BackupRepositoryImpl
 import com.example.calendariolaboral_v30.core.data.repositoryimpl.FestivosRepositoryImpl
@@ -43,15 +44,19 @@ class AppContainer(private val miContexto: Context) {
     }
 
     val backupRepository: BackupRepository by lazy {
-        BackupRepositoryImpl(miContexto)
+        BackupRepositoryImpl(sqliteHelper, databaseIO)
     }
 
     val backupUseCase: BackupUseCase by lazy {
         BackupUseCase(backupRepository)
     }
 
-    val aplicacion: Application by lazy {
-        miContexto.applicationContext as Application
+    val backupRepositoryImpl: BackupRepositoryImpl by lazy {
+        BackupRepositoryImpl(sqliteHelper, databaseIO)
+    }
+
+    val databaseIO: DatabaseIO by lazy {
+        DatabaseIO(miContexto)
     }
 
     val utils: Utils by lazy {
