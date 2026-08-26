@@ -18,12 +18,12 @@ class DatabaseIO(
         return try {
            withContext(Dispatchers.IO){
                // Dentro de tu bloque withContext(Dispatchers.IO):
-               miContexto.contentResolver.openOutputStream(uri)?.use { outputStream ->
+               miContexto.contentResolver.openOutputStream(uri, "wt")?.use { outputStream ->
                    fileOrigen.inputStream().use { inputStream ->
                        inputStream.copyTo(outputStream)
                    }
+                   outputStream.flush()
                } ?: throw IOException("No se pudo abrir el stream...")            }
-
             true
         }
         catch (e: Exception){
@@ -32,8 +32,20 @@ class DatabaseIO(
     }
 
     suspend fun readBackup(uri: Uri): Boolean{
-
-        return true
+        val fileDestino: File = miContexto.getDatabasePath("calendario.db")
+        return try {
+            withContext(Dispatchers.IO){
+                miContexto.contentResolver.openInputStream(uri)?.use { inputStream ->
+                    fileDestino.outputStream().use { outputStream ->
+                        inputStream.copyTo(outputStream)
+                    }
+                } ?: throw IOException("Error al copiar el archivo...")
+                true
+            }
+        }
+        catch (e: Exception){
+            false
+        }
     }
 
 

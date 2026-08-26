@@ -38,6 +38,10 @@
             android:name=".modulos.backup.ui.Backup"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".modulos.excesos.Excesos"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>
