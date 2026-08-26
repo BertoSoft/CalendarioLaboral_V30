@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.calendariolaboral_v30.databinding.ActivityMainBinding
+import com.example.calendariolaboral_v30.modulos.backup.ui.Backup
 import com.example.calendariolaboral_v30.modulos.festivos.ui.FestivosActivity
 import com.example.calendariolaboral_v30.modulos.home.domain.model.DatosMenu
 import com.example.calendariolaboral_v30.modulos.home.ui.viewmodel.MainViewModel
@@ -63,6 +64,11 @@ class MainActivity : AppCompatActivity() {
 
                     DatosMenu.VACACIONES ->{
                         val intent = Intent(this, VacacionesActivity::class.java)
+                        startActivity(intent)
+                    }
+
+                    DatosMenu.BACKUP ->{
+                        val intent = Intent(this, Backup::class.java)
                         startActivity(intent)
                     }
                     else -> {

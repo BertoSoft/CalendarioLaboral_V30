@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -18,7 +19,8 @@ class Backup : AppCompatActivity() {
     private val viewModel: BackupViewModel by viewModels{
         val app = application as com.example.calendariolaboral_v30.MiAplicacion
         BackupViewModel.Factory(
-            aplicacion = app.appContainer.aplicacion
+            aplicacion = app.appContainer.aplicacion,
+            backupUseCase = app.appContainer.backupUseCase
         )
     }
 
@@ -26,7 +28,7 @@ class Backup : AppCompatActivity() {
         ActivityResultContracts.StartActivityForResult()
     ){ result ->
         if(result.resultCode == Activity.RESULT_OK){
-            result.data?.data?.let { uri -> guardarCopia(uri) }
+            result.data?.data?.let { uri -> viewModel.guardarCopia(uri) }
         }
     }
 
@@ -34,7 +36,7 @@ class Backup : AppCompatActivity() {
             ActivityResultContracts.StartActivityForResult()
     ){ result ->
         if(result.resultCode == Activity.RESULT_OK){
-            result.data?.data?.let { uri -> abrirCopia(uri) }
+            result.data?.data?.let { uri -> viewModel.abrirCopia(uri) }
         }
     }
 
@@ -70,6 +72,12 @@ class Backup : AppCompatActivity() {
                 dialogoAbrir.launch(intent)
                 viewModel.clearImportar()
             }
+
+            // Mensaje de error
+            if(estado.msgError != null){
+                Toast.makeText(this, estado.msgError, Toast.LENGTH_SHORT).show()
+                viewModel.clearError()
+            }
         }
     }
 
@@ -80,15 +88,6 @@ class Backup : AppCompatActivity() {
         btnAbrirCopia.setOnClickListener {
             viewModel.getImportar()
         }
-    }
-
-    // Logica de copia con subrrutinas
-    private fun guardarCopia(uri: Uri){
-
-    }
-
-    private fun abrirCopia(uri: Uri){
-
     }
 
 

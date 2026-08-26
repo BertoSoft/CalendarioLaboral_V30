@@ -4,9 +4,12 @@ package com.example.calendariolaboral_v30.di
 import android.app.Application
 import android.content.Context
 import com.example.calendariolaboral_v30.core.data.MiSqliteHelper
+import com.example.calendariolaboral_v30.core.data.repositoryimpl.BackupRepositoryImpl
 import com.example.calendariolaboral_v30.core.data.repositoryimpl.FestivosRepositoryImpl
 import com.example.calendariolaboral_v30.core.data.repositoryimpl.VacacionesRepositoryImpl
 import com.example.calendariolaboral_v30.core.utils.Utils
+import com.example.calendariolaboral_v30.modulos.backup.domain.repository.BackupRepository
+import com.example.calendariolaboral_v30.modulos.backup.domain.usecase.BackupUseCase
 import com.example.calendariolaboral_v30.modulos.backup.ui.viewmodel.BackupViewModel
 import com.example.calendariolaboral_v30.modulos.festivos.domain.repository.FestivosRepository
 import com.example.calendariolaboral_v30.modulos.festivos.domain.usecase.FestivosUseCase
@@ -14,10 +17,10 @@ import com.example.calendariolaboral_v30.modulos.vacaciones.domain.repository.Va
 import com.example.calendariolaboral_v30.modulos.vacaciones.domain.usecase.VacacionesUseCase
 import com.example.calendariolaboral_v30.modulos.vacacionesdetalle.domain.usecase.VacacionesDetalleUseCase
 
-class AppContainer(private val context: Context) {
+class AppContainer(private val miContexto: Context) {
 
     private val sqliteHelper: MiSqliteHelper by lazy {
-        MiSqliteHelper(context)
+        MiSqliteHelper(miContexto)
     }
 
     val festivosRepository: FestivosRepository by lazy {
@@ -39,8 +42,16 @@ class AppContainer(private val context: Context) {
         VacacionesDetalleUseCase(vacacionesUseCase)
     }
 
+    val backupRepository: BackupRepository by lazy {
+        BackupRepositoryImpl(miContexto)
+    }
+
+    val backupUseCase: BackupUseCase by lazy {
+        BackupUseCase(backupRepository)
+    }
+
     val aplicacion: Application by lazy {
-        context.applicationContext as Application
+        miContexto.applicationContext as Application
     }
 
     val utils: Utils by lazy {
