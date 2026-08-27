@@ -75,7 +75,7 @@ class AppContainer(private val miContexto: Context) {
         ExcesosRepositoryImpl(sqliteHelper, coroutine)
     }
     val excesosUseCase: ExcesosUseCase by lazy {
-        ExcesosUseCase(excesosRepository)
+        ExcesosUseCase(festivosRepository)
     }
 
 

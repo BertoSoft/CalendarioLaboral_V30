@@ -31,7 +31,17 @@ class ExcesosViewModel(
         _estado.value = estadoOld.copy(isCargando = true)
         viewModelScope.launch {
             try {
-                val datos = excesosUseCase.getDatosUseCase(strAno)
+                val datos = excesosUseCase.getDatosUseCase(strAno.toInt())
+                _estado.value = estadoOld.copy(
+                    sabados = datos.sabados,
+                    domingos = datos.domingos,
+                    nacionales = datos.nacionales,
+                    autonomicos = datos.autonomicos,
+                    locales = datos.locales,
+                    convenio = datos.convenio,
+                    isCargando = false,
+                    msgError = null
+                )
 
             }
             catch (e: Exception){
