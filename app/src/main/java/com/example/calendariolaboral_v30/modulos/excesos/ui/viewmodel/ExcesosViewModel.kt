@@ -9,6 +9,7 @@ import com.example.calendariolaboral_v30.modulos.excesos.domain.usecase.ExcesosU
 import kotlinx.coroutines.launch
 
 data class ExcesosUiEstado(
+    val ano: Int = 0,
     val sabados: Int = 0,
     val domingos: Int = 0,
     val nacionales: Int = 0,
@@ -17,7 +18,16 @@ data class ExcesosUiEstado(
     val convenio: Int = 0,
     val isCargando: Boolean = false,
     val msgError: String? = null
-        )
+        ){
+    val diasAno: Int get() = if(ano > 0) java.time.Year.of(ano).length() else 365
+    val diasTotales: Int
+        get() = diasAno-sabados-domingos-nacionales-autonomicos-locales-convenio
+
+    val horasTotales: Int get() = diasTotales * 8
+    val horasTrabajo: Int get() = horasTotales - 176
+    val horasSobrantes: Int get() = horasTrabajo - 1752
+    val diasSobrantes: Int get() = horasSobrantes / 8
+}
 
 class ExcesosViewModel(
     private val excesosUseCase: ExcesosUseCase
@@ -26,13 +36,14 @@ class ExcesosViewModel(
     val _estado = MutableLiveData<ExcesosUiEstado>(ExcesosUiEstado())
     val estado: LiveData<ExcesosUiEstado> get() = _estado
 
-    fun spAnoClick(strAno: String) {
+    fun spAnoClick(ano: Int) {
         val estadoOld = _estado.value ?: ExcesosUiEstado()
         _estado.value = estadoOld.copy(isCargando = true)
         viewModelScope.launch {
             try {
-                val datos = excesosUseCase.getDatosUseCase(strAno.toInt())
+                val datos = excesosUseCase.getDatosUseCase(ano)
                 _estado.value = estadoOld.copy(
+                    ano = ano,
                     sabados = datos.sabados,
                     domingos = datos.domingos,
                     nacionales = datos.nacionales,

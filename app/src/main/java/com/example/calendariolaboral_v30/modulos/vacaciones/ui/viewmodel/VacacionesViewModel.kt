@@ -185,8 +185,6 @@ class VacacionesViewModel(
                 )
             }
         }
-
-
     }
 
     fun spAnoClick(strAno: String){
@@ -262,6 +260,13 @@ class VacacionesViewModel(
         val estadoOld = _estado.value ?: return
         if(estadoOld.msgError != null){
             _estado.value = estadoOld.copy(msgError = null)
+        }
+    }
+
+    fun clearMostrarCalendario(){
+        val estadoOld = _estado.value ?: return
+        if(estadoOld.isMostrarCalendario){
+            _estado.value = estadoOld.copy(isMostrarCalendario = false)
         }
     }
 

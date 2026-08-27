@@ -158,6 +158,7 @@ class VacacionesActivity : AppCompatActivity() {
         if(estado.isMostrarCalendario){
             mostrarCalendario(2, "Selecciona una fecha para el final ..."){ ano, mes, dia ->
                 viewModel.tvFechaFinalClick(ano, mes, dia)
+                viewModel.clearMostrarCalendario()
             }
         }
 
@@ -190,7 +191,7 @@ class VacacionesActivity : AppCompatActivity() {
             this,
             { _, anoSeleccion, mesSeleccion, diaSeleccion ->
 
-                onFechaSeleccionada(anoSeleccion, mesSeleccion, diaSeleccion)
+                onFechaSeleccionada(anoSeleccion, mesSeleccion + 1, diaSeleccion)
             },
             anoActual,
             mesActual,

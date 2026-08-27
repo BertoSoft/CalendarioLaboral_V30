@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="8dp">
 
         <!-- CABECERA: TÍTULO Y FILTRO DE AÑO (Estilo unificado) -->
         <LinearLayout
@@ -21,8 +21,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="12dp">
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -70,7 +70,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="8dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp"
             app:cardBackgroundColor="@color/bg_card_surface">
@@ -79,7 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="12dp">
 
                 <!-- Sábados -->
                 <LinearLayout
@@ -251,9 +251,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="12dp">
 
-                <!-- Horas -->
+                <!-- Horas laborables -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -263,7 +263,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Horas acumuladas"
+                        android:text="Totales"
                         android:textColor="@color/text_main"
                         android:textSize="15sp" />
                     <TextView
@@ -271,6 +271,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/text_main"
+                        android:textAlignment="center"
                         android:textSize="15sp"
                         android:textStyle="bold"
                         tools:text="0.0 h" />
@@ -282,11 +283,12 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginBottom="12dp">
+
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="288dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Vacaciones disfrutadas"
+                        android:text="Vacaciones"
                         android:textColor="@color/text_main"
                         android:textSize="15sp" />
                     <TextView
@@ -295,21 +297,23 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/text_main"
                         android:textSize="15sp"
+                        android:textAlignment="center"
                         android:textStyle="bold"
                         tools:text="0 días" />
                 </LinearLayout>
 
-                <!-- Totales -->
+                <!-- Horas Trabajo -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginBottom="12dp">
+
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="Total acumulado"
+                        android:text="Laborables"
                         android:textColor="@color/text_main"
                         android:textSize="15sp" />
                     <TextView
@@ -318,9 +322,38 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/text_main"
                         android:textSize="15sp"
+                        android:textAlignment="center"
                         android:textStyle="bold"
                         tools:text="0" />
                 </LinearLayout>
+
+
+                <!-- Horas Exceso -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="Total Exceso"
+                        android:textColor="@color/text_main"
+                        android:textSize="15sp" />
+                    <TextView
+                        android:id="@+id/tvValorTotales1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_main"
+                        android:textSize="15sp"
+                        android:textAlignment="center"
+                        android:textStyle="bold"
+                        tools:text="0" />
+                </LinearLayout>
+
+
 
                 <!-- Resumen -->
                 <LinearLayout
@@ -330,18 +363,18 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Resumen"
+                        android:text="Nota:"
                         android:textColor="@color/text_secondary"
                         android:textSize="12sp"
                         android:textStyle="bold"
-                        android:layout_marginBottom="4dp" />
+                        android:layout_marginBottom="8dp" />
                     <TextView
                         android:id="@+id/tvValorResumen"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/text_secondary"
                         android:textSize="13sp"
-                        tools:text="Todos los cómputos están actualizados según los registros locales introducidos." />
+                        android:text="Todos los cómputos están actualizados según los registros locales introducidos." />
                 </LinearLayout>
 
             </LinearLayout>
@@ -361,7 +394,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="20dp">
+                android:padding="8dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
