@@ -39,7 +39,7 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".modulos.excesos.Excesos"
+            android:name=".modulos.excesos.ui.ExcesosActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>
