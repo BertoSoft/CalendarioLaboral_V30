@@ -79,7 +79,13 @@ class MiSqliteHelper(miContexto: Context): SQLiteOpenHelper(
     fun getALlFestivos(strAno: String): List<DatosFestivos>{
         val lista = mutableListOf<DatosFestivos>()
         val db: SQLiteDatabase = readableDatabase
-        val cursor = db.rawQuery("SELECT * FROM festivos", null)
+
+
+        val query = "SELECT * FROM festivos WHERE fecha LIKE ?"
+        val args = arrayOf("%$strAno") // Buscará cualquier texto que termine en /strAno
+        val cursor = db.rawQuery(query, args)
+
+
         val utils = Utils()
 
         if(cursor.moveToFirst()){
@@ -101,11 +107,9 @@ class MiSqliteHelper(miContexto: Context): SQLiteOpenHelper(
                 ))
                 cursor.moveToNext()
             }
-            cursor.close()
         }
-        return  lista.filter { festivo ->
-            festivo.fecha.year.toString() == strAno
-        }
+        cursor.close()
+        return  lista
     }
 
     fun setFestivo(dato: DatosFestivos): Boolean {
@@ -151,7 +155,11 @@ class MiSqliteHelper(miContexto: Context): SQLiteOpenHelper(
         val lista = mutableListOf<DatosVacaciones>()
         val utils = Utils()
         val db: SQLiteDatabase = readableDatabase
-        val cursor = db.rawQuery("SELECT *FROM vacaciones", null)
+
+        val query = "SELECT * FROM vacaciones WHERE fecha_inicio LIKE ?"
+        val args = arrayOf("%$strAno")
+        val cursor = db.rawQuery(query, args)
+
         if(cursor.moveToFirst()){
             val colId = cursor.getColumnIndex("_id")
             val colFecha1 = cursor.getColumnIndex("fecha_inicio")
@@ -172,12 +180,9 @@ class MiSqliteHelper(miContexto: Context): SQLiteOpenHelper(
 
                 cursor.moveToNext()
             }
-            cursor.close()
         }
-
-        return lista.filter { vacaciones ->
-            vacaciones.fecha_inicio.year.toString() == strAno
-        }
+        cursor.close()
+        return lista
     }
 
     fun existeVacaciones(dato: DatosVacaciones): Int{
