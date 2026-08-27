@@ -1,7 +1,5 @@
 package com.example.calendariolaboral_v30.modulos.vacacionesdetalle.ui
 
-import android.R
-import android.app.Application
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -10,10 +8,9 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.calendariolaboral_v30.databinding.ActivityVacDetalleBinding
-import com.example.calendariolaboral_v30.modulos.vacaciones.domain.usecase.VacacionesUseCase
-import com.example.calendariolaboral_v30.modulos.vacaciones.ui.adapter.VacacionesAdapter
+import com.example.calendariolaboral_v30.MiAplicacion
+import com.example.calendariolaboral_v30.R
 import com.example.calendariolaboral_v30.modulos.vacacionesdetalle.ui.adapter.VacasPendientesAdapter
 import com.example.calendariolaboral_v30.modulos.vacacionesdetalle.ui.extensions.toDias
 import com.example.calendariolaboral_v30.modulos.vacacionesdetalle.ui.viewmodel.VacacionesDetalleViewModel
@@ -25,7 +22,7 @@ class VacacionesDetalle : AppCompatActivity() {
     private lateinit var binding: ActivityVacDetalleBinding
     private val miAdapter = VacasPendientesAdapter()
     private val viewModel: VacacionesDetalleViewModel by viewModels {
-        val app = application as com.example.calendariolaboral_v30.MiAplicacion
+        val app = application as MiAplicacion
         VacacionesDetalleViewModel.Factory(
             vacacionesDetalleUseCase = app.appContainer.vacacionesDetalleUseCase,
             utils = app.appContainer.utils,
@@ -45,21 +42,14 @@ class VacacionesDetalle : AppCompatActivity() {
     private fun initUi() {
         initSp()
         initRv()
-        initDatos()
         initListeners()
         initObserves()
 
     }
 
-    private fun initDatos() {
-        viewModel.getDatos(binding.spAnioDetalle.selectedItem.toString())
-    }
-
     private fun initObserves() {
         viewModel.estado.observe(this){ estado ->
-            if(estado != null){
-                dibujaUi(estado)
-            }
+            estado?.let{ dibujaUi(it)}
         }
     }
 
@@ -78,18 +68,18 @@ class VacacionesDetalle : AppCompatActivity() {
         tvTotalPendientes.text = estado.vacas_pendientes.toDias()
 
         // 5.- Mensajes de error
-        if(estado.msg_error != null){
+        estado.msg_error?.let{
             Toast.makeText(
                 this@VacacionesDetalle,
-                estado.msg_error,
+                it,
                 Toast.LENGTH_SHORT
             ).show()
             viewModel.clearError()
         }
     }
 
-    private fun initListeners() = with(binding){
-        spAnioDetalle.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+    private fun initListeners() {
+        binding.spAnioDetalle.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
             override fun onItemSelected(
                 p0: AdapterView<*>?,
                 p1: View?,
@@ -111,7 +101,6 @@ class VacacionesDetalle : AppCompatActivity() {
                 adapter = miAdapter
                 setHasFixedSize(true)
             }
-        val strAno = binding.spAnioDetalle.selectedItem.toString()
     }
 
     private fun initSp() {
@@ -119,14 +108,15 @@ class VacacionesDetalle : AppCompatActivity() {
         val listaAnos = (ano +1).downTo(2022).map { it.toString() }
         val miAdapter = ArrayAdapter(
             this,
-            R.layout.simple_spinner_item,
+            android.R.layout.simple_spinner_item,
             listaAnos
-        )
-        miAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        with(binding){
-            spAnioDetalle.adapter = miAdapter
-            if(spAnioDetalle.selectedItemPosition != 1){
-                spAnioDetalle.setSelection(1)
+        ).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+        with(binding.spAnioDetalle){
+            adapter = miAdapter
+            if(selectedItemPosition != 1){
+                setSelection(1)
             }
         }
     }
