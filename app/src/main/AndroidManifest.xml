@@ -42,6 +42,10 @@
             android:name=".modulos.excesos.ui.ExcesosActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".modulos.calendario.ui.CalendarioActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

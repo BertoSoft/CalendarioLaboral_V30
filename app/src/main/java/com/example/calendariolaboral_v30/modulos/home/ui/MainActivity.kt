@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.calendariolaboral_v30.databinding.ActivityMainBinding
 import com.example.calendariolaboral_v30.modulos.backup.ui.Backup
+import com.example.calendariolaboral_v30.modulos.calendario.ui.CalendarioActivity
 import com.example.calendariolaboral_v30.modulos.excesos.ui.ExcesosActivity
 import com.example.calendariolaboral_v30.modulos.festivos.ui.FestivosActivity
 import com.example.calendariolaboral_v30.modulos.home.domain.model.DatosMenu
@@ -77,8 +78,10 @@ class MainActivity : AppCompatActivity() {
                         val intent = Intent(this, Backup::class.java)
                         startActivity(intent)
                     }
-                    else -> {
-                        showMensaje("Módulo ${it.name} en desarrollo")
+
+                    DatosMenu.CALENDARIO ->{
+                        val intent = Intent(this, CalendarioActivity::class.java)
+                        startActivity(intent)
                     }
                 }
                 // Crucial en MVVM: Le confirmamos al ViewModel que la navegación se ha completado
