@@ -41,7 +41,6 @@ class CalendarioActivity : AppCompatActivity() {
     }
 
     private fun initRv() {
-        TODO("Not yet implemented")
     }
 
     private fun initObserves() {

@@ -146,9 +146,6 @@ class MiSqliteHelper(miContexto: Context): SQLiteOpenHelper(
             e.printStackTrace()
             false
         }
-        finally {
-            db.close()
-        }
     }
 
     fun getAllVacaciones(strAno: String): List<DatosVacaciones>{
@@ -249,9 +246,6 @@ class MiSqliteHelper(miContexto: Context): SQLiteOpenHelper(
         catch (e: Exception){
             e.printStackTrace()
             false
-        }
-        finally {
-            db.close()
         }
     }
 
