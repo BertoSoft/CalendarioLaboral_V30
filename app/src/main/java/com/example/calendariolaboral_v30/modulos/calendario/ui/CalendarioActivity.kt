@@ -6,9 +6,12 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.calendariolaboral_v30.R
 import com.example.calendariolaboral_v30.databinding.ActivityCalendarioBinding
 import com.example.calendariolaboral_v30.modulos.calendario.domain.model.Meses
+import com.example.calendariolaboral_v30.modulos.calendario.ui.adapter.CalendarioAdapter
 import com.example.calendariolaboral_v30.modulos.calendario.ui.viewmodel.CalendarioUiEstado
 import com.example.calendariolaboral_v30.modulos.calendario.ui.viewmodel.CalendarioViewModel
 import java.time.LocalDate
@@ -16,6 +19,7 @@ import java.time.LocalDate
 class CalendarioActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCalendarioBinding
+    private val miAdapter = CalendarioAdapter()
     private val viewModel: CalendarioViewModel by viewModels {
         val app = application as com.example.calendariolaboral_v30.MiAplicacion
         CalendarioViewModel.Factory(
@@ -41,6 +45,11 @@ class CalendarioActivity : AppCompatActivity() {
     }
 
     private fun initRv() {
+        with(binding.rvCalendarioDias){
+            layoutManager = GridLayoutManager(this@CalendarioActivity, 7)
+            adapter = miAdapter
+            setHasFixedSize(true)
+        }
     }
 
     private fun initObserves() {
@@ -53,7 +62,7 @@ class CalendarioActivity : AppCompatActivity() {
 
     private fun dibujaUi(estado: CalendarioUiEstado) {
         // RecyclerView
-        //miAdapter.submitList(estado.listaMes)
+        miAdapter.submitList(estado.listaMes)
 
     }
 

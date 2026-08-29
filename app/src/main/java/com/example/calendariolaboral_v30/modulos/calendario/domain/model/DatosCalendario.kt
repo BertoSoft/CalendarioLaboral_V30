@@ -11,7 +11,8 @@ data class DatosCalendario(
     val isConvenio: Boolean,
     val isVacaciones: Boolean,
     val isSabado: Boolean,
-    val isDomingo: Boolean
+    val isDomingo: Boolean,
+    val isVisible: Boolean = false
 )
 
 enum class Meses{

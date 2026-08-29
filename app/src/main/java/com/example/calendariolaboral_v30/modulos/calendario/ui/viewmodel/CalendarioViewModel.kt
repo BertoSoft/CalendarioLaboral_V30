@@ -8,9 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.calendariolaboral_v30.core.utils.Utils
 import com.example.calendariolaboral_v30.modulos.calendario.domain.model.DatosCalendario
 import com.example.calendariolaboral_v30.modulos.calendario.domain.model.Meses
-import com.example.calendariolaboral_v30.modulos.calendario.domain.model.usecase.CalendarioUseCase
+import com.example.calendariolaboral_v30.modulos.calendario.domain.usecase.CalendarioUseCase
 import kotlinx.coroutines.launch
-import java.security.PrivateKey
+import java.time.DayOfWeek
 import java.time.LocalDate
 
 data class CalendarioUiEstado(
@@ -57,18 +57,21 @@ class CalendarioViewModel(
         getListaDatosMes(mes, ano)
     }
 
-
-    private fun getListaDatosMes(mes: Int, ano: Int){
+    private fun getListaDatosMes(mes: Int, ano: Int){ // Devuelve los dias del mes con festivos y vacaciones
 
         viewModelScope.launch {
             val estadoOld = _estado.value ?: CalendarioUiEstado()
             _estado.value = estadoOld.copy(isCarganado = true)
             try {
-                val lista = calendarioUseCase.getListaMesUseCase(mes, ano)
+                val listaDatos = calendarioUseCase.getListaMesUseCase(mes, ano)
+                val listaDias = getListaRecyclerView(listaDatos)
+
+
+
                 val estadoActualizado = _estado.value ?: CalendarioUiEstado()
                 _estado.value = estadoActualizado.copy(
                     isCarganado = false,
-                    listaMes = lista,
+                    listaMes = listaDias,
                     msgError = null
                 )
             }
@@ -81,6 +84,66 @@ class CalendarioViewModel(
                 )
             }
         }
+    }
+
+    private fun getListaRecyclerView(datos: List<DatosCalendario>): List<DatosCalendario>{ // Devuelve 42 Dias para RecyclerView
+        val listaDiasMes = mutableListOf<DatosCalendario>()
+
+        if(datos.isEmpty()) return emptyList()
+        val primerDiaSemana = datos.first().fecha?.dayOfWeek ?: return emptyList()
+        var diasVaciosInicio = when(primerDiaSemana){
+            DayOfWeek.MONDAY -> 0
+            DayOfWeek.TUESDAY -> 1
+            DayOfWeek.WEDNESDAY -> 2
+            DayOfWeek.THURSDAY -> 3
+            DayOfWeek.FRIDAY -> 4
+            DayOfWeek.SATURDAY -> 5
+            DayOfWeek.SUNDAY -> 6
+        }
+
+        for(i in 0 until diasVaciosInicio){
+            listaDiasMes.add(DatosCalendario(
+                null,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false
+            ))
+        }
+
+        for(dato in datos){
+            listaDiasMes.add(DatosCalendario(
+                dato.fecha,
+                dato.isNacional,
+                dato.isAutonomico,
+                dato.isLocal,
+                dato.isConvenio,
+                dato.isVacaciones,
+                dato.isSabado,
+                dato.isDomingo,
+                true
+            ))
+        }
+        val diasVaciosFinal = 42 - listaDiasMes.size
+
+        for(i in 0 until  diasVaciosFinal){
+            listaDiasMes.add(DatosCalendario(
+                null,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false
+            ))
+        }
+        return listaDiasMes
     }
 
     class Factory(

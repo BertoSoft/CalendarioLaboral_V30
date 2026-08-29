@@ -1,4 +1,4 @@
-package com.example.calendariolaboral_v30.modulos.calendario.domain.model.usecase
+package com.example.calendariolaboral_v30.modulos.calendario.domain.usecase
 
 import com.example.calendariolaboral_v30.modulos.calendario.domain.model.DatosCalendario
 import com.example.calendariolaboral_v30.modulos.festivos.domain.model.TipoFestivos
@@ -38,16 +38,18 @@ class CalendarioUseCase(
 
             val isVacaciones = listaVacacionesMes.any { it.fecha_inicio == fecha }
 
-            listaDias.add(DatosCalendario(
-                fecha,
-                isNacional,
-                isAutonomico,
-                isLocal,
-                isConvenio,
-                isVacaciones,
-                isSabado,
-                isDomingo
-            ))
+            listaDias.add(
+                DatosCalendario(
+                    fecha,
+                    isNacional,
+                    isAutonomico,
+                    isLocal,
+                    isConvenio,
+                    isVacaciones,
+                    isSabado,
+                    isDomingo,
+                )
+            )
         }
         return listaDias
     }

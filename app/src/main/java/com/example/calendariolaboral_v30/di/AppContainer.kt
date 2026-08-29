@@ -1,7 +1,6 @@
 package com.example.calendariolaboral_v30.di
 
 // Importaciones cruzadas perfectas desde la raíz hacia abajo:
-import android.app.Application
 import android.content.Context
 import com.example.calendariolaboral_v30.core.data.DatabaseIO
 import com.example.calendariolaboral_v30.core.data.MiSqliteHelper
@@ -12,8 +11,7 @@ import com.example.calendariolaboral_v30.core.data.repositoryimpl.VacacionesRepo
 import com.example.calendariolaboral_v30.core.utils.Utils
 import com.example.calendariolaboral_v30.modulos.backup.domain.repository.BackupRepository
 import com.example.calendariolaboral_v30.modulos.backup.domain.usecase.BackupUseCase
-import com.example.calendariolaboral_v30.modulos.backup.ui.viewmodel.BackupViewModel
-import com.example.calendariolaboral_v30.modulos.calendario.domain.model.usecase.CalendarioUseCase
+import com.example.calendariolaboral_v30.modulos.calendario.domain.usecase.CalendarioUseCase
 import com.example.calendariolaboral_v30.modulos.excesos.domain.repository.ExcesosRepository
 import com.example.calendariolaboral_v30.modulos.excesos.domain.usecase.ExcesosUseCase
 import com.example.calendariolaboral_v30.modulos.festivos.domain.repository.FestivosRepository

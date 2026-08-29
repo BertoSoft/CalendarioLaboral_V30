@@ -1,0 +1,83 @@
+package com.example.calendariolaboral_v30.modulos.calendario.ui.adapter
+
+import android.graphics.Color
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.example.calendariolaboral_v30.R
+import com.example.calendariolaboral_v30.databinding.ItemCalendarioDiaBinding
+import com.example.calendariolaboral_v30.modulos.calendario.domain.model.DatosCalendario
+
+class CalendarioAdapter():
+    ListAdapter<DatosCalendario, CalendarioAdapter.CalendarioViewHolder>(CalendarioDiffCallBack){
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): CalendarioAdapter.CalendarioViewHolder {
+        val binding = ItemCalendarioDiaBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return CalendarioViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(
+        holder: CalendarioAdapter.CalendarioViewHolder,
+        position: Int
+    ) {
+        holder.render(getItem(position))
+    }
+
+
+    inner class CalendarioViewHolder(private val binding: ItemCalendarioDiaBinding):
+        RecyclerView.ViewHolder(binding.root){
+
+        fun render (dia: DatosCalendario){
+            with(binding) {
+                // 1. CONTROL DE VISIBILIDAD DE DÍAS VACÍOS
+                // Comprobamos si la fecha no es nula (el último parámetro true/false del constructor)
+                if (dia.fecha != null) {
+                    root.isVisible = true // Muestra la celda completa
+                    tvNumeroDia.text = dia.fecha.dayOfMonth.toString()
+
+                    // 2. CONTROL DE COLORES (Siempre debe llevar un else obligatorio)
+                    if (dia.isSabado || dia.isDomingo) {
+                        tvNumeroDia.setTextColor(Color.RED)
+                    } else {
+                        tvNumeroDia.setTextColor(itemView.context.getColor(R.color.text_main)) // Restablece color base para días de semana
+                    }
+
+                    // Aquí puedes añadir tus otras validaciones visuales en el futuro:
+                    // if (dia.isVacaciones) { ... } else { ... }
+
+                } else {
+                    // Si el día es vacío (huecos de inicio o fin), ocultamos la celda por completo
+                    root.isVisible = false
+                }
+            }
+        }
+
+    }
+
+
+    object CalendarioDiffCallBack: DiffUtil.ItemCallback<DatosCalendario>(){
+        override fun areItemsTheSame(
+            oldItem: DatosCalendario,
+            newItem: DatosCalendario
+        ): Boolean {
+            return oldItem.fecha == newItem.fecha
+        }
+
+        override fun areContentsTheSame(
+            oldItem: DatosCalendario,
+            newItem: DatosCalendario
+        ): Boolean {
+            return oldItem == newItem
+        }
+
+    }
+}
