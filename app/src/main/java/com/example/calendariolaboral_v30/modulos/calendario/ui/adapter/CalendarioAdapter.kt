@@ -41,7 +41,6 @@ class CalendarioAdapter():
                 // 1. CONTROL DE VISIBILIDAD DE DÍAS VACÍOS
                 // Comprobamos si la fecha no es nula (el último parámetro true/false del constructor)
                 if (dia.fecha != null) {
-                    root.isVisible = true // Muestra la celda completa
                     tvNumeroDia.text = dia.fecha.dayOfMonth.toString()
 
                     // 2. CONTROL DE COLORES (Siempre debe llevar un else obligatorio)
@@ -49,6 +48,24 @@ class CalendarioAdapter():
                         tvNumeroDia.setTextColor(Color.RED)
                     } else {
                         tvNumeroDia.setTextColor(itemView.context.getColor(R.color.text_main)) // Restablece color base para días de semana
+                        if(dia.isVacaciones){
+                            cardContenedorDia.setCardBackgroundColor(itemView.context.getColor(R.color.vacaciones))
+                        }
+                        else if(dia.isNacional){
+                            cardContenedorDia.setCardBackgroundColor(itemView.context.getColor(R.color.nacionel))
+                        }
+                        else if(dia.isAutonomico){
+                            cardContenedorDia.setCardBackgroundColor(itemView.context.getColor(R.color.autonomico))
+                        }
+                        else if(dia.isLocal){
+                            cardContenedorDia.setCardBackgroundColor(itemView.context.getColor(R.color.local))
+                        }
+                        else if(dia.isConvenio){
+                            cardContenedorDia.setCardBackgroundColor(itemView.context.getColor(R.color.convenio))
+                        }
+                        else{
+                            cardContenedorDia.setCardBackgroundColor(itemView.context.getColor(R.color.bg_card_surface))
+                        }
                     }
 
                     // Aquí puedes añadir tus otras validaciones visuales en el futuro:
@@ -56,7 +73,7 @@ class CalendarioAdapter():
 
                 } else {
                     // Si el día es vacío (huecos de inicio o fin), ocultamos la celda por completo
-                    root.isVisible = false
+                    cardContenedorDia.setCardBackgroundColor(itemView.context.getColor(R.color.bg_card_surface))
                 }
             }
         }

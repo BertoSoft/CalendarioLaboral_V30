@@ -29,6 +29,7 @@
     <color name="local">#E09B35</color>      <!-- local -->
     <color name="exceso_jornada">#43EB4A</color> <!-- exceso de jornada -->
     <color name="convenio">#C238D9</color>   <!-- convenio -->
+    <color name="vacaciones">#797779</color>   <!-- vacaciones -->
 
 
 </resources>

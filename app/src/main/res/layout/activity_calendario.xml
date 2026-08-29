@@ -76,7 +76,7 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="320dp"
+            android:layout_height="300dp"
             android:layout_marginBottom="24dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp"
@@ -87,7 +87,7 @@
                 android:id="@+id/rvCalendarioDias"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="12dp"
+                android:layout_marginTop="16dp"
                 android:clipToPadding="false"/>
 
         </androidx.cardview.widget.CardView>
@@ -141,7 +141,7 @@
                         <View
                             android:layout_width="16dp"
                             android:layout_height="16dp"
-                            android:background="#2563EB"
+                            android:background="@color/exceso_jornada"
                             android:layout_marginEnd="8dp"/>
                         <TextView
                             android:layout_width="wrap_content"
@@ -160,7 +160,7 @@
                         <View
                             android:layout_width="16dp"
                             android:layout_height="16dp"
-                            android:background="#059669"
+                            android:background="@color/vacaciones"
                             android:layout_marginEnd="8dp"/>
                         <TextView
                             android:layout_width="wrap_content"
@@ -188,7 +188,7 @@
                         <View
                             android:layout_width="16dp"
                             android:layout_height="16dp"
-                            android:background="@color/color_accent_orange"
+                            android:background="@color/nacionel"
                             android:layout_marginEnd="8dp"/>
                         <TextView
                             android:layout_width="wrap_content"
@@ -207,7 +207,7 @@
                         <View
                             android:layout_width="16dp"
                             android:layout_height="16dp"
-                            android:background="#EF4444"
+                            android:background="@color/autonomico"
                             android:layout_marginEnd="8dp"/>
                         <TextView
                             android:layout_width="wrap_content"
@@ -241,7 +241,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Festivo Local"
-                            android:textColor="@color/text_main"
+                            android:textColor="@color/local"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -254,7 +254,7 @@
                         <View
                             android:layout_width="16dp"
                             android:layout_height="16dp"
-                            android:background="#7C3AED"
+                            android:background="@color/convenio"
                             android:layout_marginEnd="8dp"/>
                         <TextView
                             android:layout_width="wrap_content"
