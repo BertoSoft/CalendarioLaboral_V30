@@ -25,7 +25,7 @@ class VacacionesUseCase(
         val lista_con_dias_totales = lista_sin_dias_totales.map { vacaciones ->
             fecha = vacaciones.fecha_inicio
             dias_totales = 0
-            while (fecha <= vacaciones.fecha_final) {
+            while (fecha.isBefore(vacaciones.fecha_final)) {
                 is_sabado = false
                 is_domingo = false
                 if(fecha.dayOfWeek == DayOfWeek.SATURDAY) is_sabado = true

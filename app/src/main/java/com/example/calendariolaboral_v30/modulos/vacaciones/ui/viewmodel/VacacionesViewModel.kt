@@ -41,7 +41,7 @@ class VacacionesViewModel(
     fun tvFechaInicialClick(ano: Int, mes: Int, dia: Int){
         if(ano < 0) return
 
-        val fecha: LocalDate? = LocalDate.of(ano, mes + 1, dia)
+        val fecha: LocalDate? = LocalDate.of(ano, mes, dia)
         val estadoOld = _estado.value ?: VacacionesUiState()
 
         if(fecha == null){
@@ -103,7 +103,7 @@ class VacacionesViewModel(
             _estado.value = estadoOld.copy(isMostrarCalendario = false)
             return
         }
-        val fecha: LocalDate? = LocalDate.of(ano, mes + 1, dia)
+        val fecha: LocalDate? = LocalDate.of(ano, mes, dia)
 
         if(fecha == null){
             _estado.value = estadoOld.copy(

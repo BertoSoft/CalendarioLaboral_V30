@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="16sp">
 
         <!-- CABECERA OPTIMIZADA: TÍTULO Y SELECTORES A ANCHO COMPLETO -->
         <LinearLayout
@@ -71,12 +71,12 @@
             android:textColor="@color/text_secondary"
             android:textSize="11sp"
             android:textStyle="bold"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16sp"
             android:letterSpacing="0.05" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="290dp"
             android:layout_marginBottom="24dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp"
@@ -87,7 +87,7 @@
                 android:id="@+id/rvCalendarioDias"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="16dp"
+                android:padding="8dp"
                 android:clipToPadding="false"/>
 
         </androidx.cardview.widget.CardView>
@@ -107,7 +107,7 @@
             android:textColor="@color/text_secondary"
             android:textSize="11sp"
             android:textStyle="bold"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="36sp"
             android:letterSpacing="0.05" />
 
         <androidx.cardview.widget.CardView

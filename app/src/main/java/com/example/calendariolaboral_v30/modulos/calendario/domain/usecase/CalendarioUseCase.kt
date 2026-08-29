@@ -36,7 +36,7 @@ class CalendarioUseCase(
             val isLocal = festivoDia?.tipo == TipoFestivos.LOCAL
             val isConvenio = festivoDia?.tipo == TipoFestivos.CONVENIO
 
-            val isVacaciones = listaVacacionesMes.any { it.fecha_inicio == fecha }
+            val isVacaciones = listaVacacionesMes.any { !fecha.isBefore(it.fecha_inicio) && !fecha.isAfter(it.fecha_final) }
 
             listaDias.add(
                 DatosCalendario(

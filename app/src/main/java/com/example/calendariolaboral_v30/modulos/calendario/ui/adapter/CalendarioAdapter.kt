@@ -46,26 +46,11 @@ class CalendarioAdapter():
                     // 2. CONTROL DE COLORES (Siempre debe llevar un else obligatorio)
                     if (dia.isSabado || dia.isDomingo) {
                         tvNumeroDia.setTextColor(Color.RED)
+                        cardContenedorDia.setCardBackgroundColor(itemView.context.getColor(R.color.bg_card_surface))
                     } else {
                         tvNumeroDia.setTextColor(itemView.context.getColor(R.color.text_main)) // Restablece color base para días de semana
-                        if(dia.isVacaciones){
-                            cardContenedorDia.setCardBackgroundColor(itemView.context.getColor(R.color.vacaciones))
-                        }
-                        else if(dia.isNacional){
-                            cardContenedorDia.setCardBackgroundColor(itemView.context.getColor(R.color.nacionel))
-                        }
-                        else if(dia.isAutonomico){
-                            cardContenedorDia.setCardBackgroundColor(itemView.context.getColor(R.color.autonomico))
-                        }
-                        else if(dia.isLocal){
-                            cardContenedorDia.setCardBackgroundColor(itemView.context.getColor(R.color.local))
-                        }
-                        else if(dia.isConvenio){
-                            cardContenedorDia.setCardBackgroundColor(itemView.context.getColor(R.color.convenio))
-                        }
-                        else{
-                            cardContenedorDia.setCardBackgroundColor(itemView.context.getColor(R.color.bg_card_surface))
-                        }
+                        val colorFondo = getColorFondo(dia)
+                        cardContenedorDia.setCardBackgroundColor(colorFondo)
                     }
 
                     // Aquí puedes añadir tus otras validaciones visuales en el futuro:
@@ -78,6 +63,28 @@ class CalendarioAdapter():
             }
         }
 
+        fun getColorFondo(dia: DatosCalendario): Int{
+            var color: Int = itemView.context.getColor(R.color.bg_card_surface)
+            if(dia.isVacaciones){
+                color = itemView.context.getColor(R.color.vacaciones)
+            }
+            else if(dia.isNacional){
+                color = itemView.context.getColor(R.color.nacionel)
+            }
+            else if(dia.isAutonomico){
+                color = itemView.context.getColor(R.color.autonomico)
+            }
+            else if(dia.isLocal){
+                color = itemView.context.getColor(R.color.local)
+            }
+            else if(dia.isConvenio){
+                color = itemView.context.getColor(R.color.convenio)
+            }
+            else{
+                color = itemView.context.getColor(R.color.bg_card_surface)
+            }
+            return color
+        }
     }
 
 
